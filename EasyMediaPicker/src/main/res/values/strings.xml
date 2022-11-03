@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Easy Picker</string>
+
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="other_permission" translatable="false">Permission</string>
+    <string name="want_to_access_files_video_image">Want to access your Photos/Videos to send Image/Video to complete your request, sending to Chat and set your profile image</string>
+    <string name="not_now">Not now</string>
+    <string name="take_permission">Take Permissions</string>
+    <string name="settings">Settings</string>
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
+
+</resources>

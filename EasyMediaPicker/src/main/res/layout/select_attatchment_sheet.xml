@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_10dp"
+    android:id="@+id/sheetContainer"
+    card_view:contentPadding="4dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_15dp"
+        android:layout_marginBottom="@dimen/margin_15dp"
+        android:gravity="center"
+        android:weightSum="2"
+        card_view:layout_constraintTop_toTopOf="parent"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_80dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/margin_20dp"
+            android:background="@drawable/bg_et_silver"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCamera"
+                android:layout_width="@dimen/margin_28dp"
+                android:layout_height="@dimen/margin_28dp"
+                android:src="@drawable/ic_camera"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/camera"
+                android:layout_marginTop="@dimen/margin_4dp"
+                android:textSize="@dimen/text_size_12sp"
+                android:textColor="@color/black"
+                />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llSendImage"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_80dp"
+            android:layout_marginStart="@dimen/margin_2dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/margin_20dp"
+            android:background="@drawable/bg_et_silver"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivGallery"
+                android:layout_width="@dimen/margin_24dp"
+                android:layout_height="@dimen/margin_24dp"
+                android:src="@drawable/ic_galery"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvGallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gallery"
+                android:layout_marginTop="@dimen/margin_4dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12sp"/>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

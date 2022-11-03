@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Easy Picker</string>
+
+    <string name="gallery">المعرض</string>
+    <string name="camera">التقاط صورة</string>
+    <string name="want_to_access_files_video_image">تريد الوصول إلى الصور / مقاطع الفيديو الخاصة بك لإرسال صورة / فيديو لإكمال طلبك، وإرسالها إلى الدردشة وتعيين صورة ملفك الشخصي</string>
+    <string name="not_now">ليس الآن</string>
+    <string name="take_permission">أخذ الأذونات</string>
+    <string name="settings">الإعدادات</string>
+    <string name="next">التالي</string>
+    <string name="cancel">إلغاء</string>
+
+</resources>
