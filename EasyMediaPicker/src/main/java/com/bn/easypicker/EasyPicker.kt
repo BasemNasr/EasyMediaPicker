@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
 import com.bn.easypicker.listeners.OnCaptureMedia
-import com.bn.easypicker.mutils.Constants
 import com.bn.easypicker.mutils.FilesVersionUtil
 import com.bn.easypicker.mutils.PermissionUtils
 import com.bn.easypicker.mutils.UploadImages
@@ -42,7 +41,7 @@ class EasyPicker(
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackgroundColor: Int = builder.btnBackgroundColor
 
-    private val mSelectImageSheet:SelectAttachmentsTypeSheet by lazy {
+    private val mSelectImageSheet: SelectAttachmentsTypeSheet by lazy {
         SelectAttachmentsTypeSheet(
             mContext,
             this,
@@ -106,9 +105,7 @@ class EasyPicker(
         act.lifecycleScope.launch {
             resultLauncher =
                 act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                    if (result.resultCode == Constants.MEDIA_PERMISSION_DONE) {
-                        // There are no request codes
-                        val data: Intent? = result.data
+                    if (result.resultCode == -1) {
                         chooseImage()
                     }
                 }

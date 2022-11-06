@@ -1,5 +1,6 @@
 package com.bn.easypicker.mutils.request_permission
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import com.bn.easypicker.R
 import com.bn.easypicker.listeners.OnPermissionDialogListener
+import com.bn.easypicker.mutils.Constants
 import com.bn.easypicker.mutils.PermissionUtils
 import com.bn.easypicker.ui.StoragePermissionDialog
 
@@ -49,7 +51,12 @@ class RequestStoragePermissionActivity : AppCompatActivity(), OnPermissionDialog
                 )
             ) {
                 if (!mPermission.isAdded) mPermission.show(supportFragmentManager, "tag")
-            } else finish()
+            } else{
+                val returnIntent = Intent()
+                returnIntent.putExtra("result", Constants.MEDIA_PERMISSION_DONE);
+                setResult(Activity.RESULT_OK,returnIntent)
+                finish()
+            }
         }
     }
 
