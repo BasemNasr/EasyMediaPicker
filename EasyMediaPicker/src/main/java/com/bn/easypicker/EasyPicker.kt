@@ -274,7 +274,7 @@ class EasyPicker(
         }
     }
 
-    fun chooseHighQualityImage() {
+    fun chooseAndCompressImage() {
         if (checkPermission()) {
             val intent = Intent(
                 Intent.ACTION_PICK,
@@ -315,7 +315,7 @@ class EasyPicker(
         }
     }
 
-    fun chooseHighQualityCapture() {
+    fun captureHighQualityImage() {
         CoroutineScope(Main).launch {
             mPath = async { MediaStoreUtils.createImageUri(act)!! }.await()
             if (checkPermission()) {
@@ -344,7 +344,7 @@ class EasyPicker(
         }
         when (selectedAttatchType) {
             0 -> {
-                chooseHighQualityCapture()
+                captureHighQualityImage()
             }
             1 -> {
                 val intent = Intent(

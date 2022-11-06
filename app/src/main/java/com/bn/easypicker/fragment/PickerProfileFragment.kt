@@ -13,11 +13,8 @@ import com.bn.easypicker.FileResource
 import com.bn.easypicker.MainActivity
 import com.bn.easypicker.R
 import com.bn.easypicker.listeners.OnCaptureMedia
-import com.bn.easypicker.mutils.Constants
-import com.bn.easypicker.mutils.UploadImages
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
-import java.io.File
 
 
 class PickerProfileFragment : Fragment(), OnCaptureMedia {
@@ -52,18 +49,12 @@ class PickerProfileFragment : Fragment(), OnCaptureMedia {
     override fun onCaptureMedia(request: Int, file: FileResource) {
         when (request) {
             MainActivity.PICK_PROFILE_IMAGE -> {
-                val imagePath = if (file.path!!.isNotEmpty()) {
-                    UploadImages.resizeAndCompressImageBeforeSend(
-                        requireActivity(), file.path, File(file.path).name
-                    )
-                } else file.path
+                file.let {
+                    mProfileImagePath = file.path?:""
+                    Glide.with(requireActivity()).load(mProfileImagePath)
+                        .into(view!!.findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+                }
 
-                mProfileImagePath = imagePath!!
-                Glide.with(requireActivity()).load(mProfileImagePath)
-                    .into(view!!.findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
-            }
-            Constants.MEDIA_PERMISSION_DONE -> {
-                easyPicker.chooseImage()
             }
         }
     }

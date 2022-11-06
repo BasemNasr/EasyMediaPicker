@@ -66,9 +66,6 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
                 Glide.with(this@MainActivity).load(mProfileImagePath)
                     .into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
             }
-            MEDIA_PERMISSION_DONE -> {
-                easyPicker.chooseImage()
-            }
         }
     }
 }
