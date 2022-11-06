@@ -1,14 +1,22 @@
 # EasyMediaPicker
 Anroid library handling media picker from camera and gallery
 
-<img src="[https://github.com/favicon.ico](https://github.com/BasemNasr/EasyMediaPicker/blob/master/screen1.png)" width="48">
-
-
 - Select Image From Gallery
 - Capture Image From Gallery
 - Select Video From Gallery
 - We can using this library for compressing images in android (befor upload it to server)
 - Compressing Image in small sizes witout losing image quality 
+
+
+From Activity             |  From Fragment           |  Take Permissions           
+:-------------------------:|:-------------------------: |:-------------------------:
+<img src="screen1.png" width="300">  |  <img src="screen2.png" width="300">  |  <img src="screen3.png" width="300"> 
+
+ Customize Your Component      |  Capture Image      |  Easy Getting Media Path
+|:-------------------------:|:-------------------------: |:-------------------------:
+ <img src="screen4.png" width="300">  |  <img src="screen5.png" width="300">  |  <img src="screen6.png" width="300">
+
+
 
 # Download
 --------
@@ -20,7 +28,10 @@ repositories {
 }
 
 dependencies {
-   implementation 'com.github.BasemNasr:EasyMediaPicker:0.0.2'
+      implementation('com.github.BasemNasr:EasyMediaPicker:0.0.2') {
+        exclude group: 'androidx', module: 'lifecycle-runtime-ktx'
+        exclude group: 'androidx', module: 'fragment-ktx'
+    }
 }
 ```
 
@@ -28,12 +39,66 @@ dependencies {
 
 # Easy Way To Using Library
 ```kotlin
-val originalImagePath = "/originalImagePath"
+class MainActivity : AppCompatActivity(), OnCaptureMedia {
+    private lateinit var easyPicker: EasyPicker
+    var mProfileImagePath = ""
+    .
+    .
+    .
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+       .
+       setUpImagePicker()
+       btn.setOnClickListener {
+            easyPicker.chooseImage()
+       }
+    }
+    
+    private fun setUpImagePicker() {
+      easyPicker = EasyPicker.Builder(this@MainActivity)
+                .setRequestCode(PICK_PROFILE_IMAGE)
+                .setIconsAndTextColor(R.drawable.camera,R.drawable.gallery,R.color.black)
+                .setSheetBackgroundColor(R.color.white)
+                .setListener(this@MainActivity)
+                .build()
+    }
+    
+   override fun onCaptureMedia(request: Int, file: FileResource) {
+        when (request) {
+            PICK_PROFILE_IMAGE -> {
+               // getting file path (file.path)
+          
+                val imagePath = if (file.path!!.isNotEmpty()) {
+                    UploadImages.resizeAndCompressImageBeforeSend(
+                        this@MainActivity, file.path, File(file.path).name
+                    )
+                } else file.path
 
-val compressedImagePath = BeforeUploadImages()
-           .resizeAndCompressImageBeforeSend(this, originalImagePath, File(originalImagePath).name)
+                mProfileImagePath = imagePath!!
+                Glide.with(this@MainActivity).load(mProfileImagePath)
+                    .into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+            }
+        }
+    }
+    
+}
 
 ```
+ 
+# Other Features
+```kotlin
+  
+  // choose image
+  easyPicker.chooseImage()
+  
+ // choose And Compress Image
+  easyPicker.chooseAndCompressImage()
+  
+   // choose Video From Gallery
+  easyPicker.chooseVideo()
+
+```
+
 
 
 
@@ -47,7 +112,7 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 6. Issue that pull request!
 7. Always add a `README` and/or `requirements.txt` to your added code.
 
-## Report bugs using Github's [issues](https://github.com/BasemNasr/CompressingImage/issues)
+## Report bugs using Github's [issues](https://github.com/BasemNasr/EasyMediaPicker/issues)
 We use GitHub issues to track public bugs. Report a bug by opening a new issue it's that easy!
 
 *Great Bug Reports* tend to have:
@@ -61,9 +126,6 @@ We use GitHub issues to track public bugs. Report a bug by opening a new issue i
 - Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
 
 People love thorough bug reports. I'm not even kidding.
-
-## References
-This document was adapted from the our contribution guidelines for [Facebook](https://www.facebook.com/AlalmiyaAlhura)
 
 
 
