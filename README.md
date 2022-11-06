@@ -1,8 +1,8 @@
 # EasyMediaPicker
 Anroid library handling media picker from camera and gallery
 
-![alt text](https://i.ibb.co/2cBzgBH/repository-open-graph-template2.png)
-![alt text](https://github.com/BasemNasr/EasyMediaPicker/blob/master/screen1.png?raw=true&width=200&heghit=200)
+<img src="[https://github.com/favicon.ico](https://github.com/BasemNasr/EasyMediaPicker/blob/master/screen1.png)" width="48">
+
 
 - Select Image From Gallery
 - Capture Image From Gallery
