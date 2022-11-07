@@ -5,7 +5,7 @@ Anroid library handling media picker from camera and gallery
 - Capture Image From Gallery
 - Select Video From Gallery
 - We can using this library for compressing images in android (befor upload it to server)
-- Compressing Image in small sizes witout losing image quality 
+- Compressing Image in small sizes without losing image quality 
 
 
 From Activity             |  From Fragment           |  Take Permissions           
