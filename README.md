@@ -35,6 +35,7 @@ build.gradle (app)
    .
    .
 
+    // for solving Duplicate class error
     configurations {
          all {
                exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
