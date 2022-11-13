@@ -27,11 +27,22 @@ repositories {
    maven { url 'https://jitpack.io' }
 }
 
-dependencies {
-      implementation('com.github.BasemNasr:EasyMediaPicker:0.0.2') {
-        exclude group: 'androidx', module: 'lifecycle-runtime-ktx'
-        exclude group: 'androidx', module: 'fragment-ktx'
+build.gradle (app)
+android {
+ .
+ .
+ .
+ .
+ 
+ configurations {
+      all {
+            exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
+        }
     }
+ }
+
+dependencies {
+      implementation('com.github.BasemNasr:EasyMediaPicker:0.0.2')
 }
 ```
 
