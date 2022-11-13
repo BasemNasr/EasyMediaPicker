@@ -28,18 +28,19 @@ repositories {
 }
 
 build.gradle (app)
-android {
- .
- .
- .
- .
- 
- configurations {
-      all {
-            exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
-        }
+
+  android {
+   .
+   .
+   .
+   .
+
+    configurations {
+         all {
+               exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
+           }
+       }
     }
- }
 
 dependencies {
       implementation('com.github.BasemNasr:EasyMediaPicker:0.0.2')
