@@ -39,7 +39,7 @@ class EasyPicker(
     private val galleryIcon: Int = builder.galleryIcon
     private val textColor: Int = builder.textColor
     private val backgroundColor: Int = builder.sheetBackgroundColor
-    private val btnBackgroundColor: Int = builder.btnBackgroundColor
+    private val btnBackground: Int = builder.btnBackground
 
     private val mSelectImageSheet: SelectAttachmentsTypeSheet by lazy {
         SelectAttachmentsTypeSheet(
@@ -48,7 +48,7 @@ class EasyPicker(
             cameraIcon,
             galleryIcon,
             backgroundColor,
-            btnBackgroundColor,
+            btnBackground,
             textColor
         )
     }
@@ -60,7 +60,7 @@ class EasyPicker(
         var cameraIcon: Int = R.drawable.ic_camera
         var galleryIcon: Int = R.drawable.ic_galery
         var sheetBackgroundColor: Int = R.color.white
-        var btnBackgroundColor: Int = R.drawable.bg_et_silver
+        var btnBackground: Int = R.drawable.bg_et_silver
         var textColor: Int = R.color.black
         var mListener = object : OnCaptureMedia {
             override fun onCaptureMedia(request: Int, file: FileResource) {
@@ -80,13 +80,15 @@ class EasyPicker(
         }
 
         fun setIconsAndTextColor(
-            cameraIcon: Int,
-            galleryIcon: Int,
-            textColor: Int
+            cameraIcon: Int?=null,
+            galleryIcon: Int?=null,
+            textColor: Int?=null,
+            btnBackground:Int?=null
         ): Builder {
-            this.cameraIcon = cameraIcon
-            this.galleryIcon = galleryIcon
-            this.textColor = textColor
+            cameraIcon?.let { this.cameraIcon = cameraIcon }
+            galleryIcon?.let { this.galleryIcon = galleryIcon }
+            textColor?.let { this.textColor = textColor }
+            btnBackground?.let { this.btnBackground = btnBackground }
             return this
         }
 

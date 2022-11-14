@@ -23,7 +23,7 @@ class SelectAttachmentsTypeSheet(
     private val cameraIcon: Int,
     private val galleryIcon: Int,
     private var backgroundColor: Int,
-    private val btnBackgroundColor: Int,
+    private val btnBackground: Int,
     private val textColor: Int,
 ) : BottomSheetDialog(mContext) {
 
@@ -50,7 +50,8 @@ class SelectAttachmentsTypeSheet(
             itemClicked.onAttachSelected(0)
             dismiss()
         }
-        findViewById<LinearLayoutCompat>(R.id.llCamera)?.background = ContextCompat.getDrawable(mContext,btnBackgroundColor)
+        findViewById<LinearLayoutCompat>(R.id.llCamera)?.background = ContextCompat.getDrawable(mContext,btnBackground)
+        findViewById<LinearLayoutCompat>(R.id.llSendImage)?.background = ContextCompat.getDrawable(mContext,btnBackground)
         findViewById<AppCompatImageView>(R.id.ivCamera)?.setImageResource(cameraIcon)
         findViewById<AppCompatImageView>(R.id.ivGallery)?.setImageResource(galleryIcon)
         findViewById<LinearLayoutCompat>(R.id.sheetContainer)?.setBackgroundColor(ContextCompat.getColor(mContext,backgroundColor))

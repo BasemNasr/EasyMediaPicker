@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
         lifecycleScope.launch {
             easyPicker = EasyPicker.Builder(this@MainActivity)
                 .setRequestCode(PICK_PROFILE_IMAGE)
-                .setIconsAndTextColor(R.drawable.camera,R.drawable.gallery,R.color.black)
+                .setIconsAndTextColor(R.drawable.camera,R.drawable.gallery,R.color.black,R.drawable.bg_et_red)
                 .setSheetBackgroundColor(R.color.white)
                 .setListener(this@MainActivity)
                 .build()
