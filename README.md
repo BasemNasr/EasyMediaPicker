@@ -35,7 +35,7 @@ build.gradle (app)
    .
    .
 
-    // for solving Duplicate class error
+    // for solving Problem duplicate class androidx.lifecycle.viewmodel found in modules add this 
     configurations {
          all {
                exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
