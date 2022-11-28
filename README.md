@@ -36,6 +36,7 @@ build.gradle (app)
    .
 
     // for solving Problem duplicate class androidx.lifecycle.viewmodel found in modules add this 
+    // add this only if you import the same version of lifecycle viewmodel in easypicker
     configurations {
          all {
                exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
