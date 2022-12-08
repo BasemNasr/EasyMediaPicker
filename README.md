@@ -110,6 +110,10 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
   
    // choose Video From Gallery
   easyPicker.chooseVideo()
+  
+  //choose file and getting file path
+    easyPicker.chooseFile()
+
 
 ```
 
