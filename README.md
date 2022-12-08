@@ -35,7 +35,8 @@ build.gradle (app)
    .
    .
 
-    // for solving Duplicate class error
+    // for solving Problem duplicate class androidx.lifecycle.viewmodel found in modules add this 
+    // add this only if you import the same version of lifecycle viewmodel in easypicker
     configurations {
          all {
                exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
@@ -44,7 +45,7 @@ build.gradle (app)
     }
 
 dependencies {
-      implementation('com.github.BasemNasr:EasyMediaPicker:0.0.2')
+      implementation('com.github.BasemNasr:EasyMediaPicker:v0.0.3')
 }
 ```
 
