@@ -264,6 +264,33 @@ class EasyPicker(
         }
 
 
+    private var fileLauncher =
+        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val imageUri: Uri = data?.data!!
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    var resulting: FileResource? = null
+                    async {
+                        try {
+                            resulting = MediaStoreUtils.getResourceByUri(mContext, imageUri)
+                        } catch (e: Exception) {
+                            try {
+                                Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
+                                resulting = FileResource(
+                                    uri = imageUri,
+                                    path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
+                                )
+                            } catch (e: Exception) { Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}") }
+                        }
+                    }.await()
+                    mListener.onCaptureMedia(request, resulting!!)
+                }
+            }
+        }
+
+
     private fun checkPermission(): Boolean {
         return PermissionUtils.hasPermissions(act, PermissionUtils.IMAGE_PERMISSIONS)
     }
@@ -308,6 +335,24 @@ class EasyPicker(
         } else {
             PickActions.openStorageRequest(act, resultLauncher)
         }
+    }
+
+    fun chooseFile() {
+        if (checkPermission()) {
+            val mRequestFileIntent = Intent(Intent.ACTION_GET_CONTENT)
+            mRequestFileIntent.type = "*/*"
+
+
+            val intent = Intent(
+                Intent.ACTION_GET_CONTENT,
+            ).apply {
+                type = "*/*"
+            }
+            if (intent.resolveActivity(act.packageManager) != null) {
+                fileLauncher.launch(intent)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) fileLauncher.launch(intent)
+        } else  PickActions.openStorageRequest(act, resultLauncher)
+
     }
 
     object PickActions {
