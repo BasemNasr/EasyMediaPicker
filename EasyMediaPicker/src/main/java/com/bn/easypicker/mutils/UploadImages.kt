@@ -1,23 +1,22 @@
 package com.bn.easypicker.mutils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
+import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
+import java.io.*
 
 object UploadImages {
     fun start(): String {
@@ -88,46 +87,118 @@ object UploadImages {
         }
     }
 
-    fun resizeAndCompressImageBeforeSend(
-        context: Context,
-        filePath: String?,
-        fileName: String
-    ): String {
-        val MAX_IMAGE_SIZE = 700 * 1024 // max final file size in kilobytes
-        // First decode with inJustDecodeBounds=true to check dimensions of image
+    @RequiresApi(Build.VERSION_CODES.DONUT)
+    fun resizeAndCompressImageBeforeSend(context: Context,
+                                         filePath: String?,
+                                         fileName: String): String {
+        var scaledBitmap: Bitmap? = null
         val options = BitmapFactory.Options()
+
+//      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
+//      you try the use the bitmap here, you will get null.
         options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(filePath, options)
-        // Calculate inSampleSize(First we are going to resize the image to 800x800 image, in order to not have a big but very low quality image.
-        //resizing the image will already reduce the file size, but after resizing we will check the file size and start to compress image
-        options.inSampleSize = calculateInSampleSize(options, 800, 800)
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888
-        val bmpPic = BitmapFactory.decodeFile(filePath, options)
-        var compressQuality = 100 // quality decreasing by 5 every loop.
-        var streamLength: Int
-        do {
-            val bmpStream = ByteArrayOutputStream()
-            Log.d("compressBitmap", "Quality: $compressQuality")
-            bmpPic.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
-            val bmpPicByteArray = bmpStream.toByteArray()
-            streamLength = bmpPicByteArray.size
-            compressQuality -= 5
-            Log.d("compressBitmap", "Size: " + streamLength / 1024 + " kb")
-        } while (streamLength >= MAX_IMAGE_SIZE)
-        try {
-            //save the resized and compressed file to disk cache
-            Log.d("compressBitmap", "cacheDir: " + context.cacheDir)
-            val bmpFile = FileOutputStream(context.cacheDir.toString() + fileName)
-            bmpPic.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpFile)
-            bmpFile.flush()
-            bmpFile.close()
-        } catch (e: Exception) {
-            Log.e("compressBitmap", "Error on saving file")
+        var bmp = BitmapFactory.decodeFile(filePath, options)
+        var actualHeight = options.outHeight
+        var actualWidth = options.outWidth
+
+//      max Height and width values of the compressed image is taken as 816x612
+        val maxHeight = 816.0f
+        val maxWidth = 612.0f
+        var imgRatio = (actualWidth / actualHeight).toFloat()
+        val maxRatio = maxWidth / maxHeight
+
+//      width and height values are set maintaining the aspect ratio of the image
+        if (actualHeight > maxHeight || actualWidth > maxWidth) {
+            if (imgRatio < maxRatio) {
+                imgRatio = maxHeight / actualHeight
+                actualWidth = (imgRatio * actualWidth).toInt()
+                actualHeight = maxHeight.toInt()
+            } else if (imgRatio > maxRatio) {
+                imgRatio = maxWidth / actualWidth
+                actualHeight = (imgRatio * actualHeight).toInt()
+                actualWidth = maxWidth.toInt()
+            } else {
+                actualHeight = maxHeight.toInt()
+                actualWidth = maxWidth.toInt()
+            }
         }
-        return context.cacheDir.toString() + fileName
+
+        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight)
+
+//      inJustDecodeBounds set to false to load the actual bitmap
+        options.inJustDecodeBounds = false
+
+//      this options allow android to claim the bitmap memory if it runs low on memory
+        options.inPurgeable = true
+        options.inInputShareable = true
+        options.inTempStorage = ByteArray(16 * 1024)
+        try {
+//          load the bitmap from its path
+            bmp = BitmapFactory.decodeFile(filePath, options)
+        } catch (exception: OutOfMemoryError) {
+            exception.printStackTrace()
+        }
+        try {
+            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888)
+        } catch (exception: OutOfMemoryError) {
+            exception.printStackTrace()
+        }
+        val ratioX = actualWidth / options.outWidth.toFloat()
+        val ratioY = actualHeight / options.outHeight.toFloat()
+        val middleX = actualWidth / 2.0f
+        val middleY = actualHeight / 2.0f
+        val scaleMatrix = Matrix()
+        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
+        val canvas = Canvas(scaledBitmap!!)
+        canvas.setMatrix(scaleMatrix)
+        canvas.drawBitmap(
+            bmp,
+            middleX - bmp.width / 2,
+            middleY - bmp.height / 2,
+            Paint(Paint.FILTER_BITMAP_FLAG)
+        )
+
+        val exif: ExifInterface
+        try {
+            exif = ExifInterface(filePath!!)
+            val orientation: Int = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION, 0
+            )
+            Log.d("EXIF", "Exif: $orientation")
+            val matrix = Matrix()
+            when (orientation) {
+                6 -> {
+                    matrix.postRotate(90f)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+                3 -> {
+                    matrix.postRotate(180f)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+                8 -> {
+                    matrix.postRotate(270f)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+            }
+            scaledBitmap = Bitmap.createBitmap(
+                scaledBitmap!!, 0, 0,
+                scaledBitmap.width, scaledBitmap.height, matrix,
+                true
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        var out: FileOutputStream? = null
+        val filename: String = filePath + fileName
+        try {
+            out = FileOutputStream(filename)
+            scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, out)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        return filename
     }
+
 
     private fun calculateInSampleSize(
         options: BitmapFactory.Options,
