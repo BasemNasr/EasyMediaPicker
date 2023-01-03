@@ -364,17 +364,17 @@ class EasyPicker(
 
     fun captureHighQualityImage() {
         CoroutineScope(Main).launch {
+
             mPath = async { MediaStoreUtils.createImageUri(act)!! }.await()
             if (checkPermission()) {
+
                 val intent = Intent(
                     Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI
                 ).apply {
                     type = "image/*"
                 }
-                if (intent.resolveActivity(act.packageManager) != null) {
-                    takeImageLauncher.launch(mPath)
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) takeImageLauncher.launch(
+                takeImageLauncher.launch(
                     mPath
                 )
             } else {
@@ -400,11 +400,7 @@ class EasyPicker(
                 ).apply {
                     type = "image/*"
                 }
-                if (intent.resolveActivity(act.packageManager) != null) {
-                    imageLauncher.launch(intent)
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) imageLauncher.launch(
-                    intent
-                )
+                imageLauncher.launch(intent)
             }
         }
     }
