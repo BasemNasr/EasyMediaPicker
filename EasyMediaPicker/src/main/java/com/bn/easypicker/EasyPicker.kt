@@ -30,7 +30,7 @@ import kotlin.random.Random
 class EasyPicker(
     builder: Builder,
 ) : OnAttachmentTypeSelected {
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+//    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     private val request: Int = builder.request
     private val mContext: Context = builder.act
@@ -41,6 +41,14 @@ class EasyPicker(
     private val textColor: Int = builder.textColor
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackground: Int = builder.btnBackground
+
+
+
+   private val resultLauncher = act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == -1) {
+            chooseImage()
+        }
+    }
 
     private val mSelectImageSheet: SelectAttachmentsTypeSheet by lazy {
         SelectAttachmentsTypeSheet(
@@ -100,18 +108,6 @@ class EasyPicker(
 
         fun build(): EasyPicker {
             return EasyPicker(this)
-        }
-    }
-
-
-    init {
-        act.lifecycleScope.launch {
-            resultLauncher =
-                act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                    if (result.resultCode == -1) {
-                        chooseImage()
-                    }
-                }
         }
     }
 
