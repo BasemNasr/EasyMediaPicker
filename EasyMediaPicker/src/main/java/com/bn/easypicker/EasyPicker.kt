@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
@@ -33,7 +34,7 @@ class EasyPicker(
 
     private val request: Int = builder.request
     private val mContext: Context = builder.act
-    private val act: AppCompatActivity = builder.act
+    private val act: FragmentActivity = builder.act
     private val mListener: OnCaptureMedia = builder.mListener
     private val cameraIcon: Int = builder.cameraIcon
     private val galleryIcon: Int = builder.galleryIcon
@@ -54,9 +55,9 @@ class EasyPicker(
     }
 
 
-    open class Builder(act: AppCompatActivity) {
+    open class Builder(act: FragmentActivity) {
         var request: Int = 102456
-        var act: AppCompatActivity = act
+        var act = act
         var cameraIcon: Int = R.drawable.ic_camera
         var galleryIcon: Int = R.drawable.ic_galery
         var sheetBackgroundColor: Int = R.color.white
