@@ -17,6 +17,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
 import java.io.*
+import java.util.*
 
 object UploadImages {
     fun start(): String {
@@ -90,7 +91,7 @@ object UploadImages {
     @RequiresApi(Build.VERSION_CODES.DONUT)
     fun resizeAndCompressImageBeforeSend(context: Context,
                                          filePath: String?,
-                                         fileName: String): String {
+                                         fileName: String?="${UUID.randomUUID()}"): String {
         var scaledBitmap: Bitmap? = null
         val options = BitmapFactory.Options()
 
