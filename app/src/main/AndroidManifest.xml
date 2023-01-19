@@ -18,9 +18,17 @@
         android:theme="@style/Theme.EasyPicker"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
-            android:exported="true">
+            android:name=".MainActivity3"
+            android:exported="false"
+            android:label="@string/title_activity_main3"
+            android:theme="@style/Theme.EasyPicker.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
+        <activity
+            android:name=".MainActivity2"
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

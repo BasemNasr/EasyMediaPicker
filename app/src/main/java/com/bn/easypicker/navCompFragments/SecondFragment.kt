@@ -1,23 +1,34 @@
-package com.bn.easypicker.fragment
+package com.bn.easypicker.navCompFragments
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bn.easypicker.EasyPicker
 import com.bn.easypicker.FileResource
 import com.bn.easypicker.MainActivity
 import com.bn.easypicker.R
+import com.bn.easypicker.databinding.FragmentSecondBinding
 import com.bn.easypicker.listeners.OnCaptureMedia
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 
+/**
+ * A simple [Fragment] subclass as the second destination in the navigation.
+ */
+class SecondFragment : Fragment(), OnCaptureMedia {
 
-class PickerProfileFragment : Fragment(), OnCaptureMedia {
+    private var _binding: FragmentSecondBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
 
     private lateinit var easyPicker: EasyPicker
     var mProfileImagePath = ""
@@ -26,15 +37,24 @@ class PickerProfileFragment : Fragment(), OnCaptureMedia {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_picker_profile, container, false)
+
+        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpImagePicker()
-        view.findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg).setOnClickListener {
-            easyPicker.chooseImage()
+
+        binding.buttonSecond.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setUpImagePicker() {
@@ -42,7 +62,7 @@ class PickerProfileFragment : Fragment(), OnCaptureMedia {
             easyPicker =
                 EasyPicker.Builder(requireActivity() as AppCompatActivity)
                     .setRequestCode(MainActivity.PICK_PROFILE_IMAGE)
-                    .setListener(this@PickerProfileFragment).build()
+                    .setListener(this@SecondFragment).build()
         }
     }
 
@@ -58,6 +78,5 @@ class PickerProfileFragment : Fragment(), OnCaptureMedia {
             }
         }
     }
-
 
 }

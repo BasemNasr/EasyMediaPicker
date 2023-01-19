@@ -40,6 +40,12 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
             startActivity(intent)
 
         }
+        findViewById<AppCompatButton>(R.id.btnNavComponents).setOnClickListener {
+            val intent = Intent(this@MainActivity
+                ,MainActivity3::class.java)
+            startActivity(intent)
+
+        }
     }
 
     private fun setUpImagePicker() {

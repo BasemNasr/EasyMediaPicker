@@ -36,9 +36,22 @@
         android:layout_height="wrap_content"
         android:text="Go To Fragment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnNavComponents"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/margin_20dp"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNavComponents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNext"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_20dp"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
