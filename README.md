@@ -46,7 +46,7 @@ build.gradle (app)
     }
 
 dependencies {
-	implementation 'com.github.BasemNasr:EasyMediaPicker:v0.0.6'
+	implementation 'com.github.BasemNasr:EasyMediaPicker:v0.0.9'
 }
 ```
 
