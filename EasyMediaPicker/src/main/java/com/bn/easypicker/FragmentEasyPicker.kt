@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
@@ -26,13 +26,13 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlin.random.Random
 
 
-class EasyPicker(
+class FragmentEasyPicker(
     builder: Builder,
 ) : OnAttachmentTypeSelected {
 
     private val request: Int = builder.request
-    private val mContext: Context = builder.act
-    private val act: FragmentActivity = builder.act
+    private val mContext: Context = builder.frag.requireContext()
+    private val fragment: Fragment = builder.frag
     private val mListener: OnCaptureMedia = builder.mListener
     private val cameraIcon: Int = builder.cameraIcon
     private val galleryIcon: Int = builder.galleryIcon
@@ -42,7 +42,7 @@ class EasyPicker(
 
 
     private val resultLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == -1) {
                 chooseImage()
             }
@@ -61,9 +61,9 @@ class EasyPicker(
     }
 
 
-    open class Builder(act: FragmentActivity) {
+    open class Builder(fragment: Fragment) {
         var request: Int = 102456
-        var act = act
+        var frag = fragment
         var cameraIcon: Int = R.drawable.ic_camera
         var galleryIcon: Int = R.drawable.ic_galery
         var sheetBackgroundColor: Int = R.color.white
@@ -104,9 +104,8 @@ class EasyPicker(
             return this
         }
 
-        fun build(): EasyPicker {
-            Log.v("CurrentState", "${act.lifecycle.currentState}")
-            return EasyPicker(this)
+        fun build(): FragmentEasyPicker {
+            return FragmentEasyPicker(this)
         }
     }
 
@@ -114,7 +113,7 @@ class EasyPicker(
     private lateinit var mPath: Uri
 
     private var imageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 var imageUri: Uri = try {
@@ -147,12 +146,12 @@ class EasyPicker(
 
 
     private var takeImageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
             CoroutineScope(Dispatchers.Main).launch {
                 var resulting: FileResource? = null
                 if (!result) {
                     try {
-                        deleteUriFile(mPath, act)
+                        deleteUriFile(mPath, mContext)
                     } catch (e: Exception) {
                         Log.v("Exception", e.toString())
                     }
@@ -179,7 +178,7 @@ class EasyPicker(
 
 
     private var videoLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val imageUri: Uri = data?.data!!
@@ -225,7 +224,7 @@ class EasyPicker(
     }
 
     private var compressHighQualityImageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data!!
                 CoroutineScope(Dispatchers.Main).launch {
@@ -262,7 +261,7 @@ class EasyPicker(
 
 
     private var fileLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val imageUri: Uri = data?.data!!
@@ -291,14 +290,14 @@ class EasyPicker(
 
 
     private fun checkPermission(): Boolean {
-        return PermissionUtils.hasPermissions(act, PermissionUtils.IMAGE_PERMISSIONS)
+        return PermissionUtils.hasPermissions(mContext, PermissionUtils.IMAGE_PERMISSIONS)
     }
 
     fun chooseImage() {
         if (checkPermission()) {
             mSelectImageSheet.show()
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
@@ -310,13 +309,13 @@ class EasyPicker(
             ).apply {
                 type = "image/*"
             }
-            if (intent.resolveActivity(act.packageManager) != null) {
+            if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
                 compressHighQualityImageLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) compressHighQualityImageLauncher.launch(
                 intent
             )
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
@@ -328,11 +327,11 @@ class EasyPicker(
             ).apply {
                 type = "video/*"
             }
-            if (intent.resolveActivity(act.packageManager) != null) {
+            if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
                 videoLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) videoLauncher.launch(intent)
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
@@ -347,10 +346,10 @@ class EasyPicker(
             ).apply {
                 type = "*/*"
             }
-            if (intent.resolveActivity(act.packageManager) != null) {
+            if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
                 fileLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) fileLauncher.launch(intent)
-        } else PickActions.openStorageRequest(act, resultLauncher)
+        } else PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
 
     }
 
@@ -364,7 +363,7 @@ class EasyPicker(
     fun captureHighQualityImage() {
         CoroutineScope(Main).launch {
 
-            mPath = async { MediaStoreUtils.createImageUri(act)!! }.await()
+            mPath = async { MediaStoreUtils.createImageUri(fragment.requireActivity())!! }.await()
             if (checkPermission()) {
 
                 val intent = Intent(
@@ -377,14 +376,14 @@ class EasyPicker(
                     mPath
                 )
             } else {
-                PickActions.openStorageRequest(act, resultLauncher)
+                PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
             }
         }
     }
 
     override fun onAttachSelected(selectedAttatchType: Int) {
         // 0 mean open Camera , 1 mean select image
-        act.lifecycleScope.launchWhenStarted {
+        fragment.lifecycleScope.launchWhenStarted {
             imageLauncher
             videoLauncher
         }

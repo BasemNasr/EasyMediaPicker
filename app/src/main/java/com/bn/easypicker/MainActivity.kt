@@ -5,12 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.listeners.OnCaptureMedia
-import com.bn.easypicker.mutils.Constants.MEDIA_PERMISSION_DONE
 import com.bn.easypicker.mutils.UploadImages
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.launch
 import java.io.File
 
 class MainActivity : AppCompatActivity(), OnCaptureMedia {
@@ -35,28 +32,34 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
             easyPicker.chooseImage()
         }
         findViewById<AppCompatButton>(R.id.btnNext).setOnClickListener {
-            val intent = Intent(this@MainActivity
-                ,MainActivity2::class.java)
+            val intent = Intent(
+                this@MainActivity, MainActivity2::class.java
+            )
             startActivity(intent)
 
         }
         findViewById<AppCompatButton>(R.id.btnNavComponents).setOnClickListener {
-            val intent = Intent(this@MainActivity
-                ,MainActivity3::class.java)
+            val intent = Intent(
+                this@MainActivity, MainActivity3::class.java
+            )
             startActivity(intent)
 
         }
     }
 
     private fun setUpImagePicker() {
-        lifecycleScope.launch {
-            easyPicker = EasyPicker.Builder(this@MainActivity)
-                .setRequestCode(PICK_PROFILE_IMAGE)
-                .setIconsAndTextColor(R.drawable.camera,R.drawable.gallery,R.color.black,R.drawable.bg_et_red)
-                .setSheetBackgroundColor(R.color.white)
-                .setListener(this@MainActivity)
-                .build()
-        }
+        easyPicker = EasyPicker.Builder(this@MainActivity)
+            .setRequestCode(PICK_PROFILE_IMAGE)
+            .setIconsAndTextColor(
+                R.drawable.camera,
+                R.drawable.gallery,
+                R.color.black,
+                R.drawable.bg_et_red
+            )
+            .setSheetBackgroundColor(R.color.white)
+            .setListener(this@MainActivity)
+            .build()
+
     }
 
     override fun onCaptureMedia(request: Int, file: FileResource) {
