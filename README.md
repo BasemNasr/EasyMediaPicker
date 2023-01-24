@@ -46,7 +46,7 @@ build.gradle (app)
     }
 
 dependencies {
-	implementation 'com.github.BasemNasr:EasyMediaPicker:v0.0.6'
+	implementation 'com.github.BasemNasr:EasyMediaPicker:v0.0.9'
 }
 ```
 
@@ -90,6 +90,43 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
                 } else file.path
 
                 mProfileImagePath = imagePath!!
+                Glide.with(this@MainActivity).load(mProfileImagePath)
+                    .into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+            }
+        }
+    }
+    
+}
+
+```
+```kotlin
+class PickerProfileFragment : Fragment(), OnCaptureMedia {
+    private lateinit var easyPicker: FragmentEasyPicker
+    var mProfileImagePath = ""
+    .
+    .
+    .
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+       .
+       setUpImagePicker()
+       btn.setOnClickListener {
+            easyPicker.chooseImage()
+       }
+    }
+    
+    private fun setUpImagePicker() {
+      easyPicker =  FragmentEasyPicker.Builder(this@PickerProfileFragment)
+                .setRequestCode(MainActivity.PICK_PROFILE_IMAGE)
+                .setListener(this@PickerProfileFragment).build()
+    }
+    
+   override fun onCaptureMedia(request: Int, file: FileResource) {
+        when (request) {
+            PICK_PROFILE_IMAGE -> {
+               // getting file path (file.path)
+         
+                mProfileImagePath = file.path ?: ""
                 Glide.with(this@MainActivity).load(mProfileImagePath)
                     .into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
             }
