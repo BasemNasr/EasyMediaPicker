@@ -291,7 +291,8 @@ class EasyPicker(
 
 
     private fun checkPermission(): Boolean {
-        return PermissionUtils.hasPermissions(act, PermissionUtils.IMAGE_PERMISSIONS)
+        return if (Build.VERSION.SDK_INT > 32) PermissionUtils.hasPermissions(act, PermissionUtils.NEW_IMAGE_PERMISSIONS)
+        else PermissionUtils.hasPermissions(act, PermissionUtils.IMAGE_PERMISSIONS)
     }
 
     fun chooseImage() {

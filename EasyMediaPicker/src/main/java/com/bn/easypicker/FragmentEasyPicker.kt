@@ -290,7 +290,8 @@ class FragmentEasyPicker(
 
 
     private fun checkPermission(): Boolean {
-        return PermissionUtils.hasPermissions(mContext, PermissionUtils.IMAGE_PERMISSIONS)
+        return if (Build.VERSION.SDK_INT > 32) PermissionUtils.hasPermissions(mContext, PermissionUtils.NEW_IMAGE_PERMISSIONS)
+        else PermissionUtils.hasPermissions(mContext, PermissionUtils.IMAGE_PERMISSIONS)
     }
 
     fun chooseImage() {
