@@ -24,6 +24,8 @@ class RequestStoragePermissionActivity : AppCompatActivity(), OnPermissionDialog
         )
     }
 
+    private val readImagePermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_generic_permission)
@@ -75,10 +77,17 @@ class RequestStoragePermissionActivity : AppCompatActivity(), OnPermissionDialog
         }
     }
 
+
     private fun getStorageAccess() {
-        if (!PermissionUtils.hasPermissions(this, PermissionUtils.IMAGE_PERMISSIONS)) {
-            requestPermissions(PermissionUtils.IMAGE_PERMISSIONS, 3001)
-        } else finish()
+        if (Build.VERSION.SDK_INT > 32) {
+            if (!PermissionUtils.hasPermissions(this, PermissionUtils.NEW_IMAGE_PERMISSIONS)) {
+                requestPermissions(PermissionUtils.NEW_IMAGE_PERMISSIONS, 3001)
+            } else finish()
+        } else {
+            if (!PermissionUtils.hasPermissions(this, PermissionUtils.IMAGE_PERMISSIONS)) {
+                requestPermissions(PermissionUtils.IMAGE_PERMISSIONS, 3001)
+            } else finish()
+        }
     }
 
     companion object {

@@ -14,7 +14,8 @@ object PermissionUtils {
 
 
     val NEW_IMAGE_PERMISSIONS =
-        arrayOf(permission.READ_MEDIA_IMAGES,permission.CAMERA)
+        arrayOf(permission.READ_MEDIA_IMAGES, permission.CAMERA)
+
     val IMAGE_PERMISSIONS = arrayOf(permission.READ_EXTERNAL_STORAGE,permission.WRITE_EXTERNAL_STORAGE,
         permission.CAMERA)
     val MEDIA_LOCATION_PERMISSIONS = arrayOf(permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE, permission.ACCESS_MEDIA_LOCATION)
