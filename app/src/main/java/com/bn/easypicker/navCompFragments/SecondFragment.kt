@@ -1,7 +1,6 @@
 package com.bn.easypicker.navCompFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,11 +71,11 @@ class SecondFragment : Fragment(), OnCaptureMedia {
 
     }
 
-    override fun onCaptureMedia(request: Int, file: FileResource) {
+    override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
         when (request) {
             MainActivity.PICK_PROFILE_IMAGE -> {
-                file.let {
-                    mProfileImagePath = file.path ?: ""
+                files?.let {
+                    mProfileImagePath = files?.get(0)?.path ?: ""
                     Glide.with(requireActivity()).load(mProfileImagePath)
                         .into(requireView().findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
                 }

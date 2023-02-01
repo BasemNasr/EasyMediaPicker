@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
@@ -70,7 +71,11 @@ class EasyPicker(
         var btnBackground: Int = R.drawable.bg_et_silver
         var textColor: Int = R.color.black
         var mListener = object : OnCaptureMedia {
-            override fun onCaptureMedia(request: Int, file: FileResource) {
+            override fun onCaptureMedia(
+                request: Int,
+                file: ArrayList<FileResource>?,
+            ) {
+
             }
         }
 
@@ -123,33 +128,68 @@ class EasyPicker(
                     getImageUri(mContext, result.data!!.extras!!.get("data") as Bitmap)!!
                 }
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    var resulting: FileResource? = null
+                CoroutineScope(Main).launch {
+                    var resulting: ArrayList<FileResource> = ArrayList()
                     async {
                         try {
-                            resulting = MediaStoreUtils.getResourceByUri(mContext, imageUri)
+                            resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
                             try {
                                 Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                                resulting = FileResource(
+                                resulting.add(FileResource(
                                     uri = imageUri,
                                     path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                                )
+                                ))
                             } catch (e: Exception) {
                                 Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                             }
                         }
                     }.await()
-                    mListener.onCaptureMedia(request, resulting!!)
+                    mListener.onCaptureMedia(request, resulting)
                 }
+            }
+        }
+    private var multiImageLauncher =
+        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                if (result.data?.clipData != null) {
+                    val count: Int = result.data?.clipData?.itemCount ?: 0
+
+                    var images: ArrayList<FileResource> = ArrayList()
+                    for (i in 0 until count) {
+                        val imageUri: Uri = try {
+                            result.data?.clipData?.getItemAt(i)?.uri!!
+                        } catch (e: Exception) {
+                            getImageUri(
+                                mContext,
+                                result.data?.clipData?.getItemAt(i)?.uri!! as Bitmap
+                            )!!
+                        }
+
+                        images.add(
+                            FileResource(
+                                uri = imageUri,
+                                path = FilesVersionUtil.getRealPathFromUri(
+                                    mContext,
+                                    imageUri
+                                )
+                            )
+                        )
+                    }
+                    if(images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
+                } else {
+                    Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
+                }
+
             }
         }
 
 
     private var takeImageLauncher =
         act.registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-            CoroutineScope(Dispatchers.Main).launch {
-                var resulting: FileResource? = null
+            CoroutineScope(Main).launch {
+                var resulting: ArrayList<FileResource> = ArrayList()
+
                 if (!result) {
                     try {
                         deleteUriFile(mPath, act)
@@ -160,20 +200,20 @@ class EasyPicker(
                 }
                 async {
                     try {
-                        resulting = MediaStoreUtils.getResourceByUri(mContext, mPath)
+                        resulting.add(MediaStoreUtils.getResourceByUri(mContext, mPath))
                     } catch (e: Exception) {
                         try {
                             Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                            resulting = FileResource(
+                            resulting.add(FileResource(
                                 uri = mPath,
                                 path = FilesVersionUtil.getRealPathFromUri(mContext, mPath)
-                            )
+                            ))
                         } catch (e: Exception) {
                             Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                         }
                     }
                 }.await()
-                mListener.onCaptureMedia(request, resulting!!)
+                mListener.onCaptureMedia(request, resulting)
             }
         }
 
@@ -184,29 +224,29 @@ class EasyPicker(
                 val data: Intent? = result.data
                 val imageUri: Uri = data?.data!!
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    var resulting: FileResource? = null
+                CoroutineScope(Main).launch {
+                    var resulting: ArrayList<FileResource> = ArrayList()
                     async {
                         try {
-                            resulting = MediaStoreUtils.getResourceByUri(mContext, imageUri)
+                            resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
                             try {
                                 Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                                resulting = FileResource(
+                                resulting.add(FileResource(
                                     uri = imageUri,
                                     path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
                                         ?: getPathFromURI(mContext, imageUri)
-                                )
+                                ))
                             } catch (e: Exception) {
                                 try {
-                                    resulting = MediaStoreUtils.getResourceByUri(mContext, imageUri)
+                                    resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                                 } catch (e: Exception) {
                                     Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                                 }
                             }
                         }
                     }.await()
-                    mListener.onCaptureMedia(request, resulting!!)
+                    mListener.onCaptureMedia(request, resulting)
                 }
             }
         }
@@ -228,11 +268,12 @@ class EasyPicker(
         act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data!!
-                CoroutineScope(Dispatchers.Main).launch {
-                    var resulting: FileResource? = null
+                CoroutineScope(Main).launch {
+                    var resulting: ArrayList<FileResource> = ArrayList()
                     async {
-                        resulting = try {
-                            MediaStoreUtils.getResourceByUri(mContext, imageUri)
+
+                        try {
+                            resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
                             FileResource(
                                 uri = imageUri,
@@ -240,7 +281,7 @@ class EasyPicker(
                             )
                         }
                     }.await()
-                    resulting?.path?.let {
+                    resulting[0].path?.let {
                         CoroutineScope(Dispatchers.Default).launch {
                             val compressedImageFile: String =
                                 withContext(Dispatchers.Default) {
@@ -250,9 +291,9 @@ class EasyPicker(
                                         "${System.currentTimeMillis()}"
                                     )
                                 }
-                            withContext(Dispatchers.Main) {
-                                resulting?.path = compressedImageFile
-                                mListener.onCaptureMedia(request, resulting!!)
+                            withContext(Main) {
+                                resulting[0].path = compressedImageFile
+                                mListener.onCaptureMedia(request, resulting)
                             }
                         }
                     }
@@ -267,37 +308,55 @@ class EasyPicker(
                 val data: Intent? = result.data
                 val imageUri: Uri = data?.data!!
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    var resulting: FileResource? = null
+                CoroutineScope(Main).launch {
+                    var resulting: ArrayList<FileResource> = ArrayList()
                     async {
                         try {
-                            resulting = MediaStoreUtils.getResourceByUri(mContext, imageUri)
+                            resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
                             try {
                                 Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                                resulting = FileResource(
+                                resulting.add(FileResource(
                                     uri = imageUri,
                                     path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                                )
+                                ))
                             } catch (e: Exception) {
                                 Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                             }
                         }
                     }.await()
-                    mListener.onCaptureMedia(request, resulting!!)
+                    mListener.onCaptureMedia(request, resulting)
                 }
             }
         }
 
 
     private fun checkPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT > 32) PermissionUtils.hasPermissions(act, PermissionUtils.NEW_IMAGE_PERMISSIONS)
+        return if (Build.VERSION.SDK_INT > 32) PermissionUtils.hasPermissions(
+            act,
+            PermissionUtils.NEW_IMAGE_PERMISSIONS
+        )
         else PermissionUtils.hasPermissions(act, PermissionUtils.IMAGE_PERMISSIONS)
     }
 
     fun chooseImage() {
         if (checkPermission()) {
             mSelectImageSheet.show()
+        } else {
+            PickActions.openStorageRequest(act, resultLauncher)
+        }
+    }
+
+    fun chooseMultipleImages() {
+        if (checkPermission()) {
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI
+            ).apply {
+                type = "image/*"
+            }
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            multiImageLauncher.launch(intent)
         } else {
             PickActions.openStorageRequest(act, resultLauncher)
         }
