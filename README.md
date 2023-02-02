@@ -83,16 +83,16 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
                 .build()
     }
     
-   override fun onCaptureMedia(request: Int, file: FileResource) {
+    override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
         when (request) {
             PICK_PROFILE_IMAGE -> {
                // getting file path (file.path)
           
-                val imagePath = if (file.path!!.isNotEmpty()) {
+                val imagePath = if (files?.get(0)?.path!!.isNotEmpty()) {
                     UploadImages.resizeAndCompressImageBeforeSend(
-                        this@MainActivity, file.path, File(file.path).name
+                        this@MainActivity, files[0].path, File(files[0].path).name
                     )
-                } else file.path
+                } else files[0].path
 
                 mProfileImagePath = imagePath!!
                 Glide.with(this@MainActivity).load(mProfileImagePath)
@@ -126,14 +126,15 @@ class PickerProfileFragment : Fragment(), OnCaptureMedia {
                 .setListener(this@PickerProfileFragment).build()
     }
     
-   override fun onCaptureMedia(request: Int, file: FileResource) {
+    override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
         when (request) {
             PICK_PROFILE_IMAGE -> {
                // getting file path (file.path)
-         
-                mProfileImagePath = file.path ?: ""
-                Glide.with(this@MainActivity).load(mProfileImagePath)
-                    .into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+		files?.let {
+                    mProfileImagePath = files[0]?.path ?: ""
+                    Glide.with(requireActivity()).load(mProfileImagePath)
+                        .into(requireView().findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+                }
             }
         }
     }
@@ -156,6 +157,19 @@ class PickerProfileFragment : Fragment(), OnCaptureMedia {
   
   //choose file and getting file path
     easyPicker.chooseFile()
+    
+      
+  //chooseMultipleImages
+ private lateinit var multiImagesEasyPicker: EasyPicker
+ multiImagesEasyPicker =
+            EasyPicker.Builder(this@SecondFragment)
+                .setRequestCode(MainActivity.PICK_IMAGES)
+                .setListener(this@SecondFragment)
+                .setMaxSelectionLimit(5)
+                .build()
+ multiImagesEasyPicker.chooseMultipleImages()
+
+
 
 
 ```
