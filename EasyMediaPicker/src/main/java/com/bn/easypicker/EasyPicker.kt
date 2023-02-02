@@ -17,6 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
 import com.bn.easypicker.listeners.OnCaptureMedia
+import com.bn.easypicker.multiChoose.Constants
+import com.bn.easypicker.multiChoose.GalleryActivity
 import com.bn.easypicker.mutils.FilesVersionUtil
 import com.bn.easypicker.mutils.PermissionUtils
 import com.bn.easypicker.mutils.UploadImages
@@ -40,6 +42,7 @@ class EasyPicker(
     private val textColor: Int = builder.textColor
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackground: Int = builder.btnBackground
+    private val maximumSelectionLimit: Int = builder.maximumSelectionLimit
 
 
     private val resultLauncher =
@@ -69,6 +72,7 @@ class EasyPicker(
         var galleryIcon: Int = R.drawable.ic_galery
         var sheetBackgroundColor: Int = R.color.white
         var btnBackground: Int = R.drawable.bg_et_silver
+        var maximumSelectionLimit: Int = 20
         var textColor: Int = R.color.black
         var mListener = object : OnCaptureMedia {
             override fun onCaptureMedia(
@@ -90,7 +94,12 @@ class EasyPicker(
             this.sheetBackgroundColor = backgroundColor
             return this
         }
-
+        fun setMaxSelectionLimit(
+            limit: Int
+        ): Builder {
+            this.maximumSelectionLimit = limit
+            return this
+        }
         fun setIconsAndTextColor(
             cameraIcon: Int? = null,
             galleryIcon: Int? = null,
@@ -136,10 +145,15 @@ class EasyPicker(
                         } catch (e: Exception) {
                             try {
                                 Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                                resulting.add(FileResource(
-                                    uri = imageUri,
-                                    path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                                ))
+                                resulting.add(
+                                    FileResource(
+                                        uri = imageUri,
+                                        path = FilesVersionUtil.getRealPathFromUri(
+                                            mContext,
+                                            imageUri
+                                        )
+                                    )
+                                )
                             } catch (e: Exception) {
                                 Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                             }
@@ -153,8 +167,8 @@ class EasyPicker(
         act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 if (result.data?.clipData != null) {
+                    Log.v("Filessss", "ResultOk")
                     val count: Int = result.data?.clipData?.itemCount ?: 0
-
                     var images: ArrayList<FileResource> = ArrayList()
                     for (i in 0 until count) {
                         val imageUri: Uri = try {
@@ -165,7 +179,6 @@ class EasyPicker(
                                 result.data?.clipData?.getItemAt(i)?.uri!! as Bitmap
                             )!!
                         }
-
                         images.add(
                             FileResource(
                                 uri = imageUri,
@@ -176,10 +189,51 @@ class EasyPicker(
                             )
                         )
                     }
-                    if(images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
+                    Log.v("Filessss", "${images.size}")
+                    if (images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
                 } else {
                     Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
                 }
+
+            }
+        }
+
+    fun getImagesList(data: Intent): ArrayList<Uri> {
+        if (data != null && data.hasExtra(Constants.BUNDLE_IMAGE_PICKED_SUCCESS) && data.getBooleanExtra(
+                Constants.BUNDLE_IMAGE_PICKED_SUCCESS,
+                false
+            )
+        ) {
+            return data?.getParcelableArrayListExtra(Constants.BUNDLE_SELECTED_IMAGE_RESULT)
+                ?: arrayListOf()
+        }
+        return arrayListOf()
+    }
+
+    private var multiImageLauncherFromCustomGallery =
+        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val uriArray = data?.let { getImagesList(it) }
+                var images: ArrayList<FileResource> = ArrayList()
+
+                if (uriArray != null) {
+                    for (imageUri in uriArray) {
+                        images.add(
+                            FileResource(
+                                uri = imageUri,
+                                path = FilesVersionUtil.getRealPathFromUri(
+                                    mContext,
+                                    imageUri
+                                )
+                            )
+                        )
+                    }
+                    if (images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
+                } else {
+                    Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
+                }
+
 
             }
         }
@@ -204,10 +258,12 @@ class EasyPicker(
                     } catch (e: Exception) {
                         try {
                             Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                            resulting.add(FileResource(
-                                uri = mPath,
-                                path = FilesVersionUtil.getRealPathFromUri(mContext, mPath)
-                            ))
+                            resulting.add(
+                                FileResource(
+                                    uri = mPath,
+                                    path = FilesVersionUtil.getRealPathFromUri(mContext, mPath)
+                                )
+                            )
                         } catch (e: Exception) {
                             Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                         }
@@ -232,14 +288,24 @@ class EasyPicker(
                         } catch (e: Exception) {
                             try {
                                 Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                                resulting.add(FileResource(
-                                    uri = imageUri,
-                                    path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                                        ?: getPathFromURI(mContext, imageUri)
-                                ))
+                                resulting.add(
+                                    FileResource(
+                                        uri = imageUri,
+                                        path = FilesVersionUtil.getRealPathFromUri(
+                                            mContext,
+                                            imageUri
+                                        )
+                                            ?: getPathFromURI(mContext, imageUri)
+                                    )
+                                )
                             } catch (e: Exception) {
                                 try {
-                                    resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
+                                    resulting.add(
+                                        MediaStoreUtils.getResourceByUri(
+                                            mContext,
+                                            imageUri
+                                        )
+                                    )
                                 } catch (e: Exception) {
                                     Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                                 }
@@ -316,10 +382,15 @@ class EasyPicker(
                         } catch (e: Exception) {
                             try {
                                 Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
-                                resulting.add(FileResource(
-                                    uri = imageUri,
-                                    path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                                ))
+                                resulting.add(
+                                    FileResource(
+                                        uri = imageUri,
+                                        path = FilesVersionUtil.getRealPathFromUri(
+                                            mContext,
+                                            imageUri
+                                        )
+                                    )
+                                )
                             } catch (e: Exception) {
                                 Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                             }
@@ -349,14 +420,24 @@ class EasyPicker(
 
     fun chooseMultipleImages() {
         if (checkPermission()) {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            ).apply {
-                type = "image/*"
+            act.lifecycleScope.launchWhenStarted {
+                multiImageLauncher
             }
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            multiImageLauncher.launch(intent)
+            if (Build.VERSION.SDK_INT >= 30) {
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                ).apply {
+                    type = "image/*"
+                }
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                multiImageLauncher.launch(intent)
+            } else {
+                val intent = Intent(act, GalleryActivity::class.java)
+                intent.putExtra(Constants.BUNDLE_SHOW_ALBUMS, true)
+                intent.putExtra(Constants.BUNDLE_MAX_SELECTION_LIMIT, maximumSelectionLimit)
+                multiImageLauncherFromCustomGallery.launch(intent)
+            }
         } else {
             PickActions.openStorageRequest(act, resultLauncher)
         }

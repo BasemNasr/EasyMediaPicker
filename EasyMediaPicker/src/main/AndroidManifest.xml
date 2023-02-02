@@ -10,5 +10,7 @@
 
     <application>
         <activity android:name="com.bn.easypicker.mutils.request_permission.RequestStoragePermissionActivity" />
+        <activity android:name=".multiChoose.GalleryActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
     </application>
 </manifest>

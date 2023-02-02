@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,7 @@ class SecondFragment : Fragment(), OnCaptureMedia {
 
 
     private lateinit var easyPicker: FragmentEasyPicker
+    private lateinit var multiImagesEasyPicker: FragmentEasyPicker
     var mProfileImagePath = ""
 
 
@@ -44,6 +46,7 @@ class SecondFragment : Fragment(), OnCaptureMedia {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpImagePicker()
+        setUpMultiImagesPicker()
 
         binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
@@ -52,7 +55,9 @@ class SecondFragment : Fragment(), OnCaptureMedia {
         binding.ivCaptainProfileImg.setOnClickListener {
             easyPicker.chooseAndCompressImage()
         }
-
+        binding.btnSelectMultiImages.setOnClickListener {
+            multiImagesEasyPicker.chooseMultipleImages()
+        }
 
     }
 
@@ -70,11 +75,29 @@ class SecondFragment : Fragment(), OnCaptureMedia {
 
 
     }
+    private fun setUpMultiImagesPicker() {
+        multiImagesEasyPicker =
+            FragmentEasyPicker.Builder(this@SecondFragment)
+                .setRequestCode(MainActivity.PICK_IMAGES)
+                .setListener(this@SecondFragment)
+                .setMaxSelectionLimit(5)
+                .build()
+
+
+    }
 
     override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
         when (request) {
             MainActivity.PICK_PROFILE_IMAGE -> {
                 files?.let {
+                    mProfileImagePath = files?.get(0)?.path ?: ""
+                    Glide.with(requireActivity()).load(mProfileImagePath)
+                        .into(requireView().findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+                }
+            }
+            MainActivity.PICK_IMAGES -> {
+                files?.let {
+                    Toast.makeText(requireContext(),"Images Size : ${files.size}",Toast.LENGTH_LONG).show()
                     mProfileImagePath = files?.get(0)?.path ?: ""
                     Glide.with(requireActivity()).load(mProfileImagePath)
                         .into(requireView().findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))

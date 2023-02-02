@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentInsetStartWithNavigation="0dp"
+    android:background="#FFFFFF"
+    app:titleTextColor="#263238"
+    android:elevation="4dp"
+    android:id="@+id/toolbar">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/menu_gallery_done"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:textColor="@color/colorMenuGalleryDone"
+        android:textSize="16sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:visibility="gone"
+        android:textAllCaps="false"
+        android:id="@+id/btnGalleryPickDone"
+        />
+
+</androidx.appcompat.widget.Toolbar>

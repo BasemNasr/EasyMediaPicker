@@ -17,6 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
 import com.bn.easypicker.listeners.OnCaptureMedia
+import com.bn.easypicker.multiChoose.Constants
+import com.bn.easypicker.multiChoose.GalleryActivity
 import com.bn.easypicker.mutils.FilesVersionUtil
 import com.bn.easypicker.mutils.PermissionUtils
 import com.bn.easypicker.mutils.UploadImages
@@ -40,6 +42,7 @@ class FragmentEasyPicker(
     private val textColor: Int = builder.textColor
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackground: Int = builder.btnBackground
+    private val maximumSelectionLimit: Int = builder.maximumSelectionLimit
 
 
     private val resultLauncher =
@@ -70,6 +73,8 @@ class FragmentEasyPicker(
         var sheetBackgroundColor: Int = R.color.white
         var btnBackground: Int = R.drawable.bg_et_silver
         var textColor: Int = R.color.black
+        var maximumSelectionLimit: Int = 20
+
         var mListener = object : OnCaptureMedia {
             override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
             }
@@ -86,7 +91,12 @@ class FragmentEasyPicker(
             this.sheetBackgroundColor = backgroundColor
             return this
         }
-
+        fun setMaxSelectionLimit(
+            limit: Int
+        ): Builder {
+            this.maximumSelectionLimit = limit
+            return this
+        }
         fun setIconsAndTextColor(
             cameraIcon: Int? = null,
             galleryIcon: Int? = null,
@@ -182,6 +192,45 @@ class FragmentEasyPicker(
                 } else {
                     Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
                 }
+
+            }
+        }
+
+    fun getImagesList(data: Intent): ArrayList<Uri> {
+        if (data != null && data.hasExtra(Constants.BUNDLE_IMAGE_PICKED_SUCCESS) && data.getBooleanExtra(
+                Constants.BUNDLE_IMAGE_PICKED_SUCCESS,
+                false
+            )
+        ) {
+            return data?.getParcelableArrayListExtra(Constants.BUNDLE_SELECTED_IMAGE_RESULT)
+                ?: arrayListOf()
+        }
+        return arrayListOf()
+    }
+    private var multiImageLauncherFromCustomGallery =
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val uriArray = data?.let { getImagesList(it) }
+                var images: ArrayList<FileResource> = ArrayList()
+
+                if (uriArray != null) {
+                    for (imageUri in uriArray) {
+                        images.add(
+                            FileResource(
+                                uri = imageUri,
+                                path = FilesVersionUtil.getRealPathFromUri(
+                                    mContext,
+                                    imageUri
+                                )
+                            )
+                        )
+                    }
+                    if (images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
+                } else {
+                    Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
+                }
+
 
             }
         }
@@ -365,17 +414,23 @@ class FragmentEasyPicker(
         }
     }
 
-
     fun chooseMultipleImages() {
         if (checkPermission()) {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            ).apply {
-                type = "image/*"
+            if (Build.VERSION.SDK_INT >= 30) {
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                ).apply {
+                    type = "image/*"
+                }
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                multiImageLauncher.launch(intent)
+            } else {
+                val intent = Intent(fragment.requireActivity(), GalleryActivity::class.java)
+                intent.putExtra(Constants.BUNDLE_SHOW_ALBUMS, true)
+                intent.putExtra(Constants.BUNDLE_MAX_SELECTION_LIMIT, maximumSelectionLimit)
+                multiImageLauncherFromCustomGallery.launch(intent)
             }
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            multiImageLauncher.launch(intent)
         } else {
             PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }

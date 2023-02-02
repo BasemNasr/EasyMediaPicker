@@ -11,5 +11,6 @@
     <color name="colorGray">#757575</color>
     <color name="pink_color">#E42879</color>
     <color name="pink_color_2">#E63B85</color>
-
+    <color name="fab_image_selected">#42A5F5</color>
+    <color name="colorMenuGalleryDone">#42A5F5</color>
 </resources>
