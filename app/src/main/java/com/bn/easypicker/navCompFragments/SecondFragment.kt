@@ -72,8 +72,6 @@ class SecondFragment : Fragment(), OnCaptureMedia {
                 .setRequestCode(MainActivity.PICK_PROFILE_IMAGE)
                 .setListener(this@SecondFragment)
                 .build()
-
-
     }
     private fun setUpMultiImagesPicker() {
         multiImagesEasyPicker =

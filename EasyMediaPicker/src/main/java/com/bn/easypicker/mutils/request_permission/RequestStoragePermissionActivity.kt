@@ -62,10 +62,12 @@ class RequestStoragePermissionActivity : AppCompatActivity(), OnPermissionDialog
                     if (!mPermission.isAdded) mPermission.show(supportFragmentManager, "tag")
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !PermissionUtils.hasPermissions(
                         this,
-                        PermissionUtils.MEDIA_LOCATION_PERMISSIONS
+                        PermissionUtils.IMAGE_PERMISSIONS
                     )
                 ) {
-                    if (!mPermission.isAdded) mPermission.show(supportFragmentManager, "tag")
+                    if (!mPermission.isAdded) {
+                        mPermission.show(supportFragmentManager, "tag")
+                    }
                 } else {
                     val returnIntent = Intent()
                     returnIntent.putExtra("result", Constants.MEDIA_PERMISSION_DONE);

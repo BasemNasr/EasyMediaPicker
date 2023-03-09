@@ -33,6 +33,13 @@ class EasyPicker(
     builder: Builder,
 ) : OnAttachmentTypeSelected {
 
+    companion object{
+        const val IMAGE_CHOSE_TYPE = 1
+        const val MULTI_IMAGES_TYPE = 2
+        const val VIDEO_TYPE = 3
+        const val FILE_TYPE = 4
+    }
+
     private val request: Int = builder.request
     private val mContext: Context = builder.act
     private val act: FragmentActivity = builder.act
@@ -43,12 +50,27 @@ class EasyPicker(
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackground: Int = builder.btnBackground
     private val maximumSelectionLimit: Int = builder.maximumSelectionLimit
+    private var currentChoseType:Int = 1
 
 
     private val resultLauncher =
         act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == -1) {
-                chooseImage()
+                when(currentChoseType){
+                    IMAGE_CHOSE_TYPE->{
+                        chooseImage()
+                    }
+                    MULTI_IMAGES_TYPE->{
+                        chooseMultipleImages()
+                    }
+                    VIDEO_TYPE->{
+                        chooseVideo()
+                    }
+                    FILE_TYPE->{
+                        chooseFile()
+                    }
+
+                }
             }
         }
 
@@ -411,6 +433,7 @@ class EasyPicker(
     }
 
     fun chooseImage() {
+        currentChoseType = IMAGE_CHOSE_TYPE
         if (checkPermission()) {
             mSelectImageSheet.show()
         } else {
@@ -419,6 +442,7 @@ class EasyPicker(
     }
 
     fun chooseMultipleImages() {
+        currentChoseType = MULTI_IMAGES_TYPE
         if (checkPermission()) {
             act.lifecycleScope.launchWhenStarted {
                 multiImageLauncher
@@ -462,6 +486,8 @@ class EasyPicker(
     }
 
     fun chooseVideo() {
+        currentChoseType = VIDEO_TYPE
+
         if (checkPermission()) {
             val intent = Intent(
                 Intent.ACTION_GET_CONTENT,
@@ -478,6 +504,7 @@ class EasyPicker(
     }
 
     fun chooseFile() {
+        currentChoseType = FILE_TYPE
         if (checkPermission()) {
             val mRequestFileIntent = Intent(Intent.ACTION_GET_CONTENT)
             mRequestFileIntent.type = "*/*"

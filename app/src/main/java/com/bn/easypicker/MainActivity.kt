@@ -15,7 +15,6 @@ import java.io.File
 class MainActivity : AppCompatActivity(), OnCaptureMedia {
 
     private lateinit var easyPicker: EasyPicker
-    private lateinit var multiplePicker: EasyPicker
     var mProfileImagePath = ""
 
 
