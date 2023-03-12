@@ -416,7 +416,7 @@ class FragmentEasyPicker(
 
     fun chooseMultipleImages() {
         if (checkPermission()) {
-            if (Build.VERSION.SDK_INT >= 30) {
+            if (Build.VERSION.SDK_INT > 30) {
                 val intent = Intent(
                     Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI

@@ -188,6 +188,7 @@ class EasyPicker(
     private var multiImageLauncher =
         act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                Log.v("Filessss:Data","${result.data}")
                 if (result.data?.clipData != null) {
                     Log.v("Filessss", "ResultOk")
                     val count: Int = result.data?.clipData?.itemCount ?: 0
@@ -447,7 +448,7 @@ class EasyPicker(
             act.lifecycleScope.launchWhenStarted {
                 multiImageLauncher
             }
-            if (Build.VERSION.SDK_INT >= 30) {
+            if (Build.VERSION.SDK_INT > 30) {
                 val intent = Intent(
                     Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI
