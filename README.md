@@ -4,6 +4,7 @@ Anroid library handling media picker from camera and gallery
 - Select Image From Gallery
 - Capture Image From Gallery
 - Select Video From Gallery
+- Multi Choose Images
 - Select File From Storage
 - We can using this library for compressing images in android (befor upload it to server)
 - Compressing Image in small sizes without losing image quality 
@@ -16,6 +17,10 @@ From Activity             |  From Fragment           |  Take Permissions
  Customize Your Component      |  Capture Image      |  Easy Getting Media Path
 |:-------------------------:|:-------------------------: |:-------------------------:
  <img src="screen4.png" width="300">  |  <img src="screen5.png" width="300">  |  <img src="screen6.png" width="300">
+ 
+  Multi Choose Images     
+|:-------------------------:|
+ <img src="screen7.jpg" width="300">  
 
 
 
@@ -46,7 +51,7 @@ build.gradle (app)
     }
 
 dependencies {
-	        implementation 'com.github.BasemNasr:EasyMediaPicker:v0.0.5'
+	implementation 'com.github.BasemNasr:EasyMediaPicker:v0.1.4'
 }
 ```
 
@@ -78,20 +83,58 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
                 .build()
     }
     
-   override fun onCaptureMedia(request: Int, file: FileResource) {
+    override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
         when (request) {
             PICK_PROFILE_IMAGE -> {
                // getting file path (file.path)
           
-                val imagePath = if (file.path!!.isNotEmpty()) {
+                val imagePath = if (files?.get(0)?.path!!.isNotEmpty()) {
                     UploadImages.resizeAndCompressImageBeforeSend(
-                        this@MainActivity, file.path, File(file.path).name
+                        this@MainActivity, files[0].path, File(files[0].path).name
                     )
-                } else file.path
+                } else files[0].path
 
                 mProfileImagePath = imagePath!!
                 Glide.with(this@MainActivity).load(mProfileImagePath)
                     .into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+            }
+        }
+    }
+    
+}
+
+```
+```kotlin
+class PickerProfileFragment : Fragment(), OnCaptureMedia {
+    private lateinit var easyPicker: FragmentEasyPicker
+    var mProfileImagePath = ""
+    .
+    .
+    .
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+       .
+       setUpImagePicker()
+       btn.setOnClickListener {
+            easyPicker.chooseImage()
+       }
+    }
+    
+    private fun setUpImagePicker() {
+      easyPicker =  FragmentEasyPicker.Builder(this@PickerProfileFragment)
+                .setRequestCode(MainActivity.PICK_PROFILE_IMAGE)
+                .setListener(this@PickerProfileFragment).build()
+    }
+    
+    override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
+        when (request) {
+            PICK_PROFILE_IMAGE -> {
+               // getting file path (file.path)
+		files?.let {
+                    mProfileImagePath = files[0]?.path ?: ""
+                    Glide.with(requireActivity()).load(mProfileImagePath)
+                        .into(requireView().findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+                }
             }
         }
     }
@@ -114,6 +157,19 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
   
   //choose file and getting file path
     easyPicker.chooseFile()
+    
+      
+  //chooseMultipleImages
+ private lateinit var multiImagesEasyPicker: EasyPicker
+ multiImagesEasyPicker =
+            EasyPicker.Builder(this@SecondFragment)
+                .setRequestCode(MainActivity.PICK_IMAGES)
+                .setListener(this@SecondFragment)
+                .setMaxSelectionLimit(5)
+                .build()
+ multiImagesEasyPicker.chooseMultipleImages()
+
+
 
 
 ```

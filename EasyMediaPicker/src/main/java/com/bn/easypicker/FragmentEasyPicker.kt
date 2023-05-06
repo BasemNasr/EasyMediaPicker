@@ -12,7 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
@@ -29,20 +29,13 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlin.random.Random
 
 
-class EasyPicker(
+class FragmentEasyPicker(
     builder: Builder,
 ) : OnAttachmentTypeSelected {
 
-    companion object{
-        const val IMAGE_CHOSE_TYPE = 1
-        const val MULTI_IMAGES_TYPE = 2
-        const val VIDEO_TYPE = 3
-        const val FILE_TYPE = 4
-    }
-
     private val request: Int = builder.request
-    private val mContext: Context = builder.act
-    private val act: FragmentActivity = builder.act
+    private val mContext: Context = builder.frag.requireContext()
+    private val fragment: Fragment = builder.frag
     private val mListener: OnCaptureMedia = builder.mListener
     private val cameraIcon: Int = builder.cameraIcon
     private val galleryIcon: Int = builder.galleryIcon
@@ -50,27 +43,12 @@ class EasyPicker(
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackground: Int = builder.btnBackground
     private val maximumSelectionLimit: Int = builder.maximumSelectionLimit
-    private var currentChoseType:Int = 1
 
 
     private val resultLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == -1) {
-                when(currentChoseType){
-                    IMAGE_CHOSE_TYPE->{
-                        chooseImage()
-                    }
-                    MULTI_IMAGES_TYPE->{
-                        chooseMultipleImages()
-                    }
-                    VIDEO_TYPE->{
-                        chooseVideo()
-                    }
-                    FILE_TYPE->{
-                        chooseFile()
-                    }
-
-                }
+                chooseImage()
             }
         }
 
@@ -87,21 +65,18 @@ class EasyPicker(
     }
 
 
-    open class Builder(act: FragmentActivity) {
+    open class Builder(fragment: Fragment) {
         var request: Int = 102456
-        var act = act
+        var frag = fragment
         var cameraIcon: Int = R.drawable.ic_camera
         var galleryIcon: Int = R.drawable.ic_galery
         var sheetBackgroundColor: Int = R.color.white
         var btnBackground: Int = R.drawable.bg_et_silver
-        var maximumSelectionLimit: Int = 20
         var textColor: Int = R.color.black
-        var mListener = object : OnCaptureMedia {
-            override fun onCaptureMedia(
-                request: Int,
-                file: ArrayList<FileResource>?,
-            ) {
+        var maximumSelectionLimit: Int = 20
 
+        var mListener = object : OnCaptureMedia {
+            override fun onCaptureMedia(request: Int, files: ArrayList<FileResource>?) {
             }
         }
 
@@ -140,9 +115,8 @@ class EasyPicker(
             return this
         }
 
-        fun build(): EasyPicker {
-            Log.v("CurrentState", "${act.lifecycle.currentState}")
-            return EasyPicker(this)
+        fun build(): FragmentEasyPicker {
+            return FragmentEasyPicker(this)
         }
     }
 
@@ -150,7 +124,7 @@ class EasyPicker(
     private lateinit var mPath: Uri
 
     private var imageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 var imageUri: Uri = try {
@@ -159,7 +133,7 @@ class EasyPicker(
                     getImageUri(mContext, result.data!!.extras!!.get("data") as Bitmap)!!
                 }
 
-                CoroutineScope(Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     var resulting: ArrayList<FileResource> = ArrayList()
                     async {
                         try {
@@ -185,13 +159,14 @@ class EasyPicker(
                 }
             }
         }
+
+
     private var multiImageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                Log.v("Filessss:Data","${result.data}")
                 if (result.data?.clipData != null) {
-                    Log.v("Filessss", "ResultOk")
                     val count: Int = result.data?.clipData?.itemCount ?: 0
+
                     var images: ArrayList<FileResource> = ArrayList()
                     for (i in 0 until count) {
                         val imageUri: Uri = try {
@@ -202,6 +177,7 @@ class EasyPicker(
                                 result.data?.clipData?.getItemAt(i)?.uri!! as Bitmap
                             )!!
                         }
+
                         images.add(
                             FileResource(
                                 uri = imageUri,
@@ -212,8 +188,7 @@ class EasyPicker(
                             )
                         )
                     }
-                    Log.v("Filessss", "${images.size}")
-                    if (images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
+                    if(images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
                 } else {
                     Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
                 }
@@ -232,9 +207,8 @@ class EasyPicker(
         }
         return arrayListOf()
     }
-
     private var multiImageLauncherFromCustomGallery =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
                 val uriArray = data?.let { getImagesList(it) }
@@ -262,14 +236,14 @@ class EasyPicker(
         }
 
 
-    private var takeImageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-            CoroutineScope(Main).launch {
-                var resulting: ArrayList<FileResource> = ArrayList()
 
+    private var takeImageLauncher =
+        fragment.registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
+            CoroutineScope(Dispatchers.Main).launch {
+                var resulting: ArrayList<FileResource> = ArrayList()
                 if (!result) {
                     try {
-                        deleteUriFile(mPath, act)
+                        deleteUriFile(mPath, mContext)
                     } catch (e: Exception) {
                         Log.v("Exception", e.toString())
                     }
@@ -297,13 +271,15 @@ class EasyPicker(
         }
 
 
+
+
     private var videoLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val imageUri: Uri = data?.data!!
 
-                CoroutineScope(Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     var resulting: ArrayList<FileResource> = ArrayList()
                     async {
                         try {
@@ -354,13 +330,12 @@ class EasyPicker(
     }
 
     private var compressHighQualityImageLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data!!
-                CoroutineScope(Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     var resulting: ArrayList<FileResource> = ArrayList()
                     async {
-
                         try {
                             resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
@@ -370,7 +345,7 @@ class EasyPicker(
                             )
                         }
                     }.await()
-                    resulting[0].path?.let {
+                    resulting[0]?.path?.let {
                         CoroutineScope(Dispatchers.Default).launch {
                             val compressedImageFile: String =
                                 withContext(Dispatchers.Default) {
@@ -380,7 +355,7 @@ class EasyPicker(
                                         "${System.currentTimeMillis()}"
                                     )
                                 }
-                            withContext(Main) {
+                            withContext(Dispatchers.Main) {
                                 resulting[0].path = compressedImageFile
                                 mListener.onCaptureMedia(request, resulting)
                             }
@@ -392,19 +367,18 @@ class EasyPicker(
 
 
     private var fileLauncher =
-        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val imageUri: Uri = data?.data!!
 
-                CoroutineScope(Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     var resulting: ArrayList<FileResource> = ArrayList()
                     async {
                         try {
                             resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
                             try {
-                                Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
                                 resulting.add(
                                     FileResource(
                                         uri = imageUri,
@@ -415,7 +389,6 @@ class EasyPicker(
                                     )
                                 )
                             } catch (e: Exception) {
-                                Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
                             }
                         }
                     }.await()
@@ -427,27 +400,22 @@ class EasyPicker(
 
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT > 32) PermissionUtils.hasPermissions(
-            act,
+            mContext,
             PermissionUtils.NEW_IMAGE_PERMISSIONS
         )
-        else PermissionUtils.hasPermissions(act, PermissionUtils.IMAGE_PERMISSIONS)
+        else PermissionUtils.hasPermissions(mContext, PermissionUtils.IMAGE_PERMISSIONS)
     }
 
     fun chooseImage() {
-        currentChoseType = IMAGE_CHOSE_TYPE
         if (checkPermission()) {
             mSelectImageSheet.show()
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
     fun chooseMultipleImages() {
-        currentChoseType = MULTI_IMAGES_TYPE
         if (checkPermission()) {
-            act.lifecycleScope.launchWhenStarted {
-                multiImageLauncher
-            }
             if (Build.VERSION.SDK_INT > 30) {
                 val intent = Intent(
                     Intent.ACTION_PICK,
@@ -458,13 +426,13 @@ class EasyPicker(
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 multiImageLauncher.launch(intent)
             } else {
-                val intent = Intent(act, GalleryActivity::class.java)
+                val intent = Intent(fragment.requireActivity(), GalleryActivity::class.java)
                 intent.putExtra(Constants.BUNDLE_SHOW_ALBUMS, true)
                 intent.putExtra(Constants.BUNDLE_MAX_SELECTION_LIMIT, maximumSelectionLimit)
                 multiImageLauncherFromCustomGallery.launch(intent)
             }
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
@@ -476,19 +444,17 @@ class EasyPicker(
             ).apply {
                 type = "image/*"
             }
-            if (intent.resolveActivity(act.packageManager) != null) {
+            if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
                 compressHighQualityImageLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) compressHighQualityImageLauncher.launch(
                 intent
             )
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
     fun chooseVideo() {
-        currentChoseType = VIDEO_TYPE
-
         if (checkPermission()) {
             val intent = Intent(
                 Intent.ACTION_GET_CONTENT,
@@ -496,16 +462,15 @@ class EasyPicker(
             ).apply {
                 type = "video/*"
             }
-            if (intent.resolveActivity(act.packageManager) != null) {
+            if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
                 videoLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) videoLauncher.launch(intent)
         } else {
-            PickActions.openStorageRequest(act, resultLauncher)
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }
     }
 
     fun chooseFile() {
-        currentChoseType = FILE_TYPE
         if (checkPermission()) {
             val mRequestFileIntent = Intent(Intent.ACTION_GET_CONTENT)
             mRequestFileIntent.type = "*/*"
@@ -516,10 +481,10 @@ class EasyPicker(
             ).apply {
                 type = "*/*"
             }
-            if (intent.resolveActivity(act.packageManager) != null) {
+            if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
                 fileLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) fileLauncher.launch(intent)
-        } else PickActions.openStorageRequest(act, resultLauncher)
+        } else PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
 
     }
 
@@ -533,7 +498,7 @@ class EasyPicker(
     fun captureHighQualityImage() {
         CoroutineScope(Main).launch {
 
-            mPath = async { MediaStoreUtils.createImageUri(act)!! }.await()
+            mPath = async { MediaStoreUtils.createImageUri(fragment.requireActivity())!! }.await()
             if (checkPermission()) {
 
                 val intent = Intent(
@@ -546,14 +511,14 @@ class EasyPicker(
                     mPath
                 )
             } else {
-                PickActions.openStorageRequest(act, resultLauncher)
+                PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
             }
         }
     }
 
     override fun onAttachSelected(selectedAttatchType: Int) {
         // 0 mean open Camera , 1 mean select image
-        act.lifecycleScope.launchWhenStarted {
+        fragment.lifecycleScope.launchWhenStarted {
             imageLauncher
             videoLauncher
         }
