@@ -485,7 +485,6 @@ class FragmentEasyPicker(
                 fileLauncher.launch(intent)
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) fileLauncher.launch(intent)
         } else PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
-
     }
 
     object PickActions {

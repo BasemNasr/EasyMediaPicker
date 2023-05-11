@@ -504,7 +504,7 @@ class EasyPicker(
         }
     }
 
-    fun chooseFile() {
+    fun  chooseFile() {
         currentChoseType = FILE_TYPE
         if (checkPermission()) {
             val mRequestFileIntent = Intent(Intent.ACTION_GET_CONTENT)

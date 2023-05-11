@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import com.bn.easypicker.listeners.OnCaptureMedia
 import com.bn.easypicker.mutils.UploadImages
 import com.bumptech.glide.Glide
@@ -15,12 +16,14 @@ import java.io.File
 class MainActivity : AppCompatActivity(), OnCaptureMedia {
 
     private lateinit var easyPicker: EasyPicker
+    private lateinit var filePicker: EasyPicker
     var mProfileImagePath = ""
 
 
     companion object {
         const val PICK_PROFILE_IMAGE = 4195
         const val PICK_IMAGES = 5687
+        const val PICK_FILE = 5688
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +31,8 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
         setContentView(R.layout.activity_main)
         setUpImagePicker()
         setUpMultipleImagePicker()
+        setUpFilePicker()
+
         setOnClicks()
     }
 
@@ -51,11 +56,28 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
             )
             startActivity(intent)
         }
+        findViewById<AppCompatButton>(R.id.btnPickFile).setOnClickListener {
+            filePicker.chooseFile()
+        }
     }
 
     private fun setUpImagePicker() {
         easyPicker = EasyPicker.Builder(this@MainActivity)
             .setRequestCode(PICK_PROFILE_IMAGE)
+            .setIconsAndTextColor(
+                R.drawable.camera,
+                R.drawable.gallery,
+                R.color.black,
+                R.drawable.bg_et_red
+            )
+            .setSheetBackgroundColor(R.color.white)
+            .setListener(this@MainActivity)
+            .build()
+
+    }
+    private fun setUpFilePicker() {
+        filePicker = EasyPicker.Builder(this@MainActivity)
+            .setRequestCode(PICK_FILE)
             .setIconsAndTextColor(
                 R.drawable.camera,
                 R.drawable.gallery,
@@ -92,6 +114,12 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
             PICK_IMAGES -> {
                 files?.let {
                     Glide.with(this@MainActivity).load((files[0].path)).into(findViewById<AppCompatImageView>(R.id.ivCaptainProfileImg))
+                }
+            }
+            PICK_FILE -> {
+                files?.let {
+                    Log.v("Pattthhh","${files[0].uri}")
+                    findViewById<AppCompatTextView>(R.id.tvTitle).text = files[0].path
                 }
             }
         }
