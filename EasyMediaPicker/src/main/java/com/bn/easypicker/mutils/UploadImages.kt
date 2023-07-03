@@ -190,7 +190,7 @@ object UploadImages {
             e.printStackTrace()
         }
         var out: FileOutputStream? = null
-        val filename: String = filePath + fileName
+        val filename: String = filePath?:""
         try {
             out = FileOutputStream(filename)
             scaledBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, out)
