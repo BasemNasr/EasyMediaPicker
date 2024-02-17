@@ -8,9 +8,12 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.webkit.MimeTypeMap
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 
 object FilesVersionUtil {
@@ -120,6 +123,47 @@ object FilesVersionUtil {
             cursor?.close()
         }
     }
+
+    fun getRealPathFromURIForAndroid10Issue(uri: Uri, context: Context): String? {
+        var path: String? = null
+        var returnCursor: Cursor? = null
+
+        try {
+            returnCursor = context.contentResolver.query(uri, null, null, null, null)
+            if (returnCursor != null && returnCursor.moveToFirst()) {
+                val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                val name = returnCursor.getString(nameIndex)
+                val file = File(context.filesDir, name)
+                try {
+                    val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+                    val outputStream = FileOutputStream(file)
+                    var read = 0
+                    val maxBufferSize = 1 * 1024 * 1024
+                    val bytesAvailable: Int = inputStream?.available() ?: 0
+                    val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+                    val buffers = ByteArray(bufferSize)
+                    while (inputStream?.read(buffers).also {
+                            if (it != null) {
+                                read = it
+                            }
+                        } != -1) {
+                        outputStream.write(buffers, 0, read)
+                    }
+                    Log.e("File Size", "Size " + file.length())
+                    inputStream?.close()
+                    outputStream.close()
+                    Log.e("File Path", "Path " + file.path)
+                    path = file.path
+                } catch (e: Exception) {
+                    Log.e("Exception", e.message!!)
+                }
+            }
+        } finally {
+            returnCursor?.close()
+        }
+        return path
+    }
+
     fun File.getMediaDuration(context: Context): Long {
         if (!exists()) return 0
         val retriever = MediaMetadataRetriever()

@@ -118,6 +118,8 @@ class MainActivity : AppCompatActivity(), OnCaptureMedia {
             }
             PICK_FILE -> {
                 files?.let {
+
+
                     Log.v("Pattthhh","${files[0].uri}")
                     findViewById<AppCompatTextView>(R.id.tvTitle).text = files[0].path
                 }
