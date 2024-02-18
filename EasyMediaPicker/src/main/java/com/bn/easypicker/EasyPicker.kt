@@ -408,9 +408,8 @@ class EasyPicker(
                                 resulting.add(
                                     FileResource(
                                         uri = imageUri,
-                                        path = FilesVersionUtil.getRealPathFromUri(
-                                            mContext,
-                                            imageUri
+                                        path = FilesVersionUtil.getRealPathFromURIForAndroid10Issue(
+                                            imageUri,mContext
                                         )
                                     )
                                 )
