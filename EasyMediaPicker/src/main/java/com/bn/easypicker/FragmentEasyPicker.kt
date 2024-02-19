@@ -91,12 +91,14 @@ class FragmentEasyPicker(
             this.sheetBackgroundColor = backgroundColor
             return this
         }
+
         fun setMaxSelectionLimit(
             limit: Int
         ): Builder {
             this.maximumSelectionLimit = limit
             return this
         }
+
         fun setIconsAndTextColor(
             cameraIcon: Int? = null,
             galleryIcon: Int? = null,
@@ -188,7 +190,7 @@ class FragmentEasyPicker(
                             )
                         )
                     }
-                    if(images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
+                    if (images.isNotEmpty()) mListener.onCaptureMedia(request, files = images)
                 } else {
                     Toast.makeText(mContext, "Can't pick your images", Toast.LENGTH_SHORT)
                 }
@@ -207,6 +209,7 @@ class FragmentEasyPicker(
         }
         return arrayListOf()
     }
+
     private var multiImageLauncherFromCustomGallery =
         fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -234,7 +237,6 @@ class FragmentEasyPicker(
 
             }
         }
-
 
 
     private var takeImageLauncher =
@@ -269,8 +271,6 @@ class FragmentEasyPicker(
                 mListener.onCaptureMedia(request, resulting)
             }
         }
-
-
 
 
     private var videoLauncher =
@@ -382,9 +382,9 @@ class FragmentEasyPicker(
                                 resulting.add(
                                     FileResource(
                                         uri = imageUri,
-                                        path = FilesVersionUtil.getRealPathFromUri(
-                                            mContext,
-                                            imageUri
+                                        path = FilesVersionUtil.getRealPathFromURIForAndroid10Issue(
+                                            imageUri,
+                                            mContext
                                         )
                                     )
                                 )
@@ -525,6 +525,7 @@ class FragmentEasyPicker(
             0 -> {
                 captureHighQualityImage()
             }
+
             1 -> {
                 val intent = Intent(
                     Intent.ACTION_PICK,
