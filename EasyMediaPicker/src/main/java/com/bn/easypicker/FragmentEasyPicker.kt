@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.bn.easypicker.EasyPicker.Companion.IMAGE_CHOSE_TYPE
 import com.bn.easypicker.MediaStoreUtils.deleteUriFile
 import com.bn.easypicker.listeners.OnAttachmentTypeSelected
 import com.bn.easypicker.listeners.OnCaptureMedia
@@ -43,12 +44,27 @@ class FragmentEasyPicker(
     private val backgroundColor: Int = builder.sheetBackgroundColor
     private val btnBackground: Int = builder.btnBackground
     private val maximumSelectionLimit: Int = builder.maximumSelectionLimit
+    private var currentChoseType:Int = 1
 
 
     private val resultLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == -1) {
-                chooseImage()
+                when(currentChoseType){
+                    EasyPicker.IMAGE_CHOSE_TYPE ->{
+                        chooseImage()
+                    }
+                    EasyPicker.MULTI_IMAGES_TYPE ->{
+                        chooseMultipleImages()
+                    }
+                    EasyPicker.VIDEO_TYPE ->{
+                        chooseVideo()
+                    }
+                    EasyPicker.FILE_TYPE ->{
+                        chooseFile()
+                    }
+
+                }
             }
         }
 
@@ -407,6 +423,8 @@ class FragmentEasyPicker(
     }
 
     fun chooseImage() {
+        currentChoseType = EasyPicker.IMAGE_CHOSE_TYPE
+
         if (checkPermission()) {
             mSelectImageSheet.show()
         } else {
@@ -415,6 +433,8 @@ class FragmentEasyPicker(
     }
 
     fun chooseMultipleImages() {
+        currentChoseType = EasyPicker.MULTI_IMAGES_TYPE
+
         if (checkPermission()) {
             if (Build.VERSION.SDK_INT > 30) {
                 val intent = Intent(
@@ -437,6 +457,7 @@ class FragmentEasyPicker(
     }
 
     fun chooseAndCompressImage() {
+        currentChoseType = IMAGE_CHOSE_TYPE
         if (checkPermission()) {
             val intent = Intent(
                 Intent.ACTION_PICK,
@@ -455,6 +476,7 @@ class FragmentEasyPicker(
     }
 
     fun chooseVideo() {
+        currentChoseType = EasyPicker.VIDEO_TYPE
         if (checkPermission()) {
             val intent = Intent(
                 Intent.ACTION_GET_CONTENT,
@@ -471,6 +493,7 @@ class FragmentEasyPicker(
     }
 
     fun chooseFile() {
+        currentChoseType = EasyPicker.FILE_TYPE
         if (checkPermission()) {
             val mRequestFileIntent = Intent(Intent.ACTION_GET_CONTENT)
             mRequestFileIntent.type = "*/*"
@@ -496,6 +519,7 @@ class FragmentEasyPicker(
 
     fun captureHighQualityImage() {
         CoroutineScope(Main).launch {
+            currentChoseType = IMAGE_CHOSE_TYPE
 
             mPath = async { MediaStoreUtils.createImageUri(fragment.requireActivity())!! }.await()
             if (checkPermission()) {
@@ -516,6 +540,7 @@ class FragmentEasyPicker(
     }
 
     override fun onAttachSelected(selectedAttatchType: Int) {
+        currentChoseType = IMAGE_CHOSE_TYPE
         // 0 mean open Camera , 1 mean select image
         fragment.lifecycleScope.launchWhenStarted {
             imageLauncher
