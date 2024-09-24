@@ -63,6 +63,9 @@ class FragmentEasyPicker(
                     EasyPicker.FILE_TYPE ->{
                         chooseFile()
                     }
+                    EasyPicker.GALLERY_TYPE ->{
+                        openGallery()
+                    }
 
                 }
             }
@@ -142,6 +145,42 @@ class FragmentEasyPicker(
     private lateinit var mPath: Uri
 
     private var imageLauncher =
+        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                var imageUri: Uri = try {
+                    data?.data!!
+                } catch (e: Exception) {
+                    getImageUri(mContext, result.data!!.extras!!.get("data") as Bitmap)!!
+                }
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    var resulting: ArrayList<FileResource> = ArrayList()
+                    async {
+                        try {
+                            resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
+                        } catch (e: Exception) {
+                            try {
+                                Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
+                                resulting.add(
+                                    FileResource(
+                                        uri = imageUri,
+                                        path = FilesVersionUtil.getRealPathFromUri(
+                                            mContext,
+                                            imageUri
+                                        )
+                                    )
+                                )
+                            } catch (e: Exception) {
+                                Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
+                            }
+                        }
+                    }.await()
+                    mListener.onCaptureMedia(request, resulting)
+                }
+            }
+        }
+    private var imageGalleryLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
@@ -355,10 +394,10 @@ class FragmentEasyPicker(
                         try {
                             resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
-                            FileResource(
+                            resulting.add(   FileResource(
                                 uri = imageUri,
                                 path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                            )
+                            ))
                         }
                     }.await()
                     resulting[0]?.path?.let {
@@ -427,6 +466,20 @@ class FragmentEasyPicker(
 
         if (checkPermission()) {
             mSelectImageSheet.show()
+        } else {
+            PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
+        }
+    }
+    fun openGallery() {
+        currentChoseType = EasyPicker.GALLERY_TYPE
+        if (checkPermission()) {
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI
+            ).apply {
+                type = "image/*"
+            }
+            imageGalleryLauncher.launch(intent)
         } else {
             PickActions.openStorageRequest(fragment.requireActivity(), resultLauncher)
         }

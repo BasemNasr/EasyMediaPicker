@@ -38,6 +38,7 @@ class EasyPicker(
         const val MULTI_IMAGES_TYPE = 2
         const val VIDEO_TYPE = 3
         const val FILE_TYPE = 4
+        const val GALLERY_TYPE = 5
     }
 
     private val request: Int = builder.request
@@ -68,6 +69,9 @@ class EasyPicker(
                     }
                     FILE_TYPE->{
                         chooseFile()
+                    }
+                    GALLERY_TYPE->{
+                        openGallery()
                     }
 
                 }
@@ -185,6 +189,45 @@ class EasyPicker(
                 }
             }
         }
+
+    private var imageGalleryLauncher =
+        act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                var imageUri: Uri = try {
+                    data?.data!!
+                } catch (e: Exception) {
+                    getImageUri(mContext, result.data!!.extras!!.get("data") as Bitmap)!!
+                }
+
+                CoroutineScope(Main).launch {
+                    var resulting: ArrayList<FileResource> = ArrayList()
+                    async {
+                        try {
+                            resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
+                        } catch (e: Exception) {
+                            try {
+                                Log.e("ExceptionVideo", ">>> Exception Video First: ${e.message}")
+                                resulting.add(
+                                    FileResource(
+                                        uri = imageUri,
+                                        path = FilesVersionUtil.getRealPathFromUri(
+                                            mContext,
+                                            imageUri
+                                        )
+                                    )
+                                )
+                            } catch (e: Exception) {
+                                Log.e("ExceptionVideo", ">>> Exception Video: ${e.message}")
+                            }
+                        }
+                    }.await()
+                    mListener.onCaptureMedia(request, resulting)
+                }
+            }
+        }
+
+
     private var multiImageLauncher =
         act.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -364,10 +407,10 @@ class EasyPicker(
                         try {
                             resulting.add(MediaStoreUtils.getResourceByUri(mContext, imageUri))
                         } catch (e: Exception) {
-                            FileResource(
+                            resulting.add(   FileResource(
                                 uri = imageUri,
                                 path = FilesVersionUtil.getRealPathFromUri(mContext, imageUri)
-                            )
+                            ))
                         }
                     }.await()
                     resulting[0].path?.let {
@@ -436,6 +479,21 @@ class EasyPicker(
         currentChoseType = IMAGE_CHOSE_TYPE
         if (checkPermission()) {
             mSelectImageSheet.show()
+        } else {
+            PickActions.openStorageRequest(act, resultLauncher)
+        }
+    }
+
+    fun openGallery() {
+        currentChoseType = IMAGE_CHOSE_TYPE
+        if (checkPermission()) {
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI
+            ).apply {
+                type = "image/*"
+            }
+            imageGalleryLauncher.launch(intent)
         } else {
             PickActions.openStorageRequest(act, resultLauncher)
         }
