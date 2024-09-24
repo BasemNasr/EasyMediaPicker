@@ -3,6 +3,7 @@ package com.bn.easypicker.mutils.request_permission
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -46,49 +47,42 @@ class RequestStoragePermissionActivity : AppCompatActivity(), OnPermissionDialog
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 3001) {
-            if (Build.VERSION.SDK_INT > 32) {
-                if (!PermissionUtils.hasPermissions(this, PermissionUtils.NEW_IMAGE_PERMISSIONS)
-                    && shouldShowRequestPermissionRationale(Manifest.permission.READ_MEDIA_IMAGES)
-                ) {
-                    if (!mPermission?.isAdded!!) mPermission?.show(supportFragmentManager, "tag")
-                } else {
-                    val returnIntent = Intent()
-                    returnIntent.putExtra("result", Constants.MEDIA_PERMISSION_DONE);
-                    setResult(Activity.RESULT_OK, returnIntent)
-                    finish()
-                }
+            val permissionGranted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+
+            if (permissionGranted) {
+                // Permission granted
+                val returnIntent = Intent()
+                returnIntent.putExtra("result", Constants.MEDIA_PERMISSION_DONE)
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish()
             } else {
-                if (!PermissionUtils.hasPermissions(this, PermissionUtils.IMAGE_PERMISSIONS)) {
-                    if (!mPermission.isAdded) mPermission.show(supportFragmentManager, "tag")
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !PermissionUtils.hasPermissions(
-                        this,
-                        PermissionUtils.IMAGE_PERMISSIONS
-                    )
-                ) {
+                // Permission denied
+                val shouldShowRationale = shouldShowRequestPermissionRationale(readImagePermission)
+
+                if (!PermissionUtils.hasPermissions(this, PermissionUtils.NEW_IMAGE_PERMISSIONS) && shouldShowRationale) {
                     if (!mPermission.isAdded) {
                         mPermission.show(supportFragmentManager, "tag")
                     }
                 } else {
-                    val returnIntent = Intent()
-                    returnIntent.putExtra("result", Constants.MEDIA_PERMISSION_DONE);
-                    setResult(Activity.RESULT_OK, returnIntent)
-                    finish()
+                    // User has denied permission and selected "Don't ask again"
+                    // You might want to show a message or take them to settings
+                    if (!mPermission.isAdded) {
+                        mPermission.show(supportFragmentManager, "tag")
+                    }
                 }
             }
-
         }
     }
 
-
     private fun getStorageAccess() {
-        if (Build.VERSION.SDK_INT > 32) {
-            if (!PermissionUtils.hasPermissions(this, PermissionUtils.NEW_IMAGE_PERMISSIONS)) {
-                requestPermissions(PermissionUtils.NEW_IMAGE_PERMISSIONS, 3001)
-            } else finish()
+        // Only request permissions if not already granted
+        if (!PermissionUtils.hasPermissions(this, if (Build.VERSION.SDK_INT > 32) PermissionUtils.NEW_IMAGE_PERMISSIONS else PermissionUtils.IMAGE_PERMISSIONS)) {
+            requestPermissions(
+                if (Build.VERSION.SDK_INT > 32) PermissionUtils.NEW_IMAGE_PERMISSIONS else PermissionUtils.IMAGE_PERMISSIONS,
+                3001
+            )
         } else {
-            if (!PermissionUtils.hasPermissions(this, PermissionUtils.IMAGE_PERMISSIONS)) {
-                requestPermissions(PermissionUtils.IMAGE_PERMISSIONS, 3001)
-            } else finish()
+            finish()
         }
     }
 
