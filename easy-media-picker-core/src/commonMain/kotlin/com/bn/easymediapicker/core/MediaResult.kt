@@ -28,9 +28,9 @@ data class MediaResult(
         val bytes = size ?: return null
         return when {
             bytes < 1024 -> "$bytes B"
-            bytes < 1024 * 1024 -> String.format("%.1f KB", bytes / 1024.0)
-            bytes < 1024 * 1024 * 1024 -> String.format("%.1f MB", bytes / (1024.0 * 1024))
-            else -> String.format("%.1f GB", bytes / (1024.0 * 1024 * 1024))
+            bytes < 1024 * 1024 -> "${(bytes.toDouble() / 1024.0).roundToSingleDecimal()} KB"
+            bytes < 1024 * 1024 * 1024 -> "${(bytes.toDouble() / (1024.0 * 1024)).roundToSingleDecimal()} MB"
+            else -> "${(bytes.toDouble() / (1024.0 * 1024 * 1024)).roundToSingleDecimal()} GB"
         }
     }
     
@@ -42,6 +42,26 @@ data class MediaResult(
         val minutes = durationSec / 60
         val seconds = durationSec % 60
         return "$minutes:${seconds.toString().padStart(2, '0')}"
+    }
+}
+
+/**
+ * Helper to round a Double to a single decimal place and format as string,
+ * without relying on JVM-only String.format.
+ */
+private fun Double.roundToSingleDecimal(): String {
+    val scaled = kotlin.math.round(this * 10.0) / 10.0
+    val longPart = scaled.toLong()
+    // If it's an integer like 2.0, show "2.0"; otherwise keep one decimal
+    return if (scaled == longPart.toDouble()) {
+        "${longPart}.0"
+    } else {
+        // Ensure exactly one decimal digit
+        val sign = if (scaled < 0) "-" else ""
+        val abs = kotlin.math.abs(scaled)
+        val intPart = abs.toInt()
+        val fracPart = ((abs - intPart) * 10).toInt()
+        "$sign$intPart.$fracPart"
     }
 }
 
