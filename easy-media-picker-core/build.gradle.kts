@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("maven-publish")
 }
 
 kotlin {
@@ -77,4 +78,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+publishing {
+    // JitPack will use the publications created by the Kotlin Multiplatform plugin.
+    // We keep the defaults; group and version come from the root project.
 }

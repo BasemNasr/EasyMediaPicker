@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("maven-publish")
 }
 
 kotlin {
@@ -86,4 +87,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.6"
     }
+}
+
+publishing {
+    // JitPack will use the publications created by the Kotlin Multiplatform + Compose plugins.
+    // We keep the defaults; group and version come from the root project.
 }
