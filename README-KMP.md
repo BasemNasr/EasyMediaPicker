@@ -15,10 +15,10 @@ From Activity             |  From Fragment           |  Take Permissions
 Customize Your Component      |  Capture Image      |  Easy Getting Media Path
 |:-------------------------:|:-------------------------: |:-------------------------:
 <img src="screen4.png" width="300">  |  <img src="screen5.png" width="300">  |  <img src="screen6.png" width="300">
-
+ 
 Multi Choose Images     
 |:-------------------------:|
-<img src="screen7.jpg" width="300">
+<img src="screen7.jpg" width="300">  
 
 ### Features
 
