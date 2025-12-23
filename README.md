@@ -48,10 +48,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // Core library (without Compose)
-                implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.1")
+                implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.2")
                 
                 // Compose integration (optional, if using Compose Multiplatform)
-                implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.1")
+                implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.2")
             }
         }
     }
@@ -77,7 +77,7 @@ dependencyResolutionManagement {
 
 // build.gradle (app)
 dependencies {
-    implementation "com.github.BasemNasr:EasyMediaPicker:v2.0.1"
+    implementation "com.github.BasemNasr:EasyMediaPicker:v2.0.2"
 }
 ```
 
@@ -93,10 +93,10 @@ If your Android-only app is already using **Jetpack Compose**, it is recommended
 ```kotlin
 dependencies {
     // Core API (Android implementation included)
-    implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.1")
+    implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.2")
 
     // Compose integration (for rememberMediaPickerState)
-    implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.1")
+    implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.2")
 }
 ```
 
