@@ -48,10 +48,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // Core library (without Compose)
-                implementation("com.bn.easymediapicker:easy-media-picker-core:2.0.0")
+                implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.0")
                 
                 // Compose integration (optional, if using Compose Multiplatform)
-                implementation("com.bn.easymediapicker:easy-media-picker-compose:2.0.0")
+                implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.0")
             }
         }
     }
@@ -60,11 +60,48 @@ kotlin {
 
 ### For Android-only projects
 
-If you only need Android support and want to use the original library, continue using:
+If you only need Android support and do **not** need KMP, you have two options:
+
+#### 1. XML / View-based Android apps (legacy API)
+
+Use the original **Android-only** API (`EasyPicker` / `FragmentEasyPicker`) from JitPack:
 
 ```groovy
-implementation 'com.github.BasemNasr:EasyMediaPicker:1.x.x'
+// settings.gradle / settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+// build.gradle (app)
+dependencies {
+    implementation "com.github.BasemNasr:EasyMediaPicker:v2.0.0"
+}
 ```
+
+- This version is designed primarily for **XML / View-based UIs**.
+- You use it from `Activity` / `Fragment` as shown in the legacy examples below.
+- There is **no direct Compose API**; in a Compose screen you would call it via
+  interop (e.g. using `AndroidView` or triggering the picker from an Activity/Fragment method).
+
+#### 2. Android apps using Jetpack Compose
+
+If your Android-only app is already using **Jetpack Compose**, it is recommended to use the **new KMP version** even if you only target Android:
+
+```kotlin
+dependencies {
+    // Core API (Android implementation included)
+    implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.0")
+
+    // Compose integration (for rememberMediaPickerState)
+    implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.0")
+}
+```
+
+- This gives you a **first-class Compose API** via `rememberMediaPickerState()`.
+- You can still stay Android-only, but your code is ready for iOS/Desktop later.
 
 ## Quick Start
 
