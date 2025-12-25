@@ -1,0 +1,157 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../easy-media-picker-compose/2.1.0/easy-media-picker-compose-2.1.0.module",
+    "group": "io.github.basemnasr-labs",
+    "module": "easy-media-picker-compose",
+    "version": "2.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "io.github.basemnasr-labs",
+          "module": "easy-media-picker-core",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose.klib",
+          "url": "easy-media-picker-compose-iosarm64-2.1.0.klib",
+          "size": 17352,
+          "sha512": "dd0d0d9bd76ba37323016ded6c266b0d698e9e9dbda1eefe6487e5af21475ed51fd04c042f46ba2bf1ba48719db78167261af845eb698528ca6deeb1f56c2e5c",
+          "sha256": "afcb887a0090726475317fe25b92b3f6eff54082f325f22e676d5ca8f0eda353",
+          "sha1": "344717bc0a07011e0d5132483d9907b627c5525e",
+          "md5": "0fdbeccdc9e79ccabd76882422522102"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "files": [
+        {
+          "name": "easy-media-picker-compose-iosarm64-2.1.0-sources.jar",
+          "url": "easy-media-picker-compose-iosarm64-2.1.0-sources.jar",
+          "size": 4344,
+          "sha512": "e060e9dca05fb9f06bd20f6c8ae1dfd7d644b067dca6f5673dd35934c7dc1d295f955bc3a96849acccbd716ec2c106a8f268e35675611fad88caf3ee6582938f",
+          "sha256": "9ad12bc8f1866d86172f8a86918cacb39ddd1e6f626c28b4fce676cbf544d407",
+          "sha1": "71ec6e9568e4148b9cd351520161ea88ef5d10a3",
+          "md5": "45949b2439716d9481422dd8a3d202af"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "io.github.basemnasr-labs",
+          "module": "easy-media-picker-core",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose-iosarm64-2.1.0-metadata.jar",
+          "url": "easy-media-picker-compose-iosarm64-2.1.0-metadata.jar",
+          "size": 4096,
+          "sha512": "2acfdc5eb1a3b9b63d2393d0bc5a708bd43c88b3a44864be42118c53bf319ef7f8ac5e75b286a516d291489ab54c508943a61c29779186dc1e751d036f22ffd8",
+          "sha256": "b42b8223e8844b6f2ef09b1dbdd4826392f8ac5a29dbcc519d0ace38b758b7e3",
+          "sha1": "ed2edd05cdd4b56b671006db56e11410b45c9f01",
+          "md5": "241cd95f45af81cf85dcbf8ffe6501bf"
+        }
+      ]
+    }
+  ]
+}

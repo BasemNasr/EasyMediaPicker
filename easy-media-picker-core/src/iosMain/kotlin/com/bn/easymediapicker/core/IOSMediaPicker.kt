@@ -6,6 +6,7 @@ import platform.Photos.*
 import platform.PhotosUI.*
 import platform.UIKit.*
 import platform.UniformTypeIdentifiers.*
+import platform.darwin.NSObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -248,13 +249,13 @@ class IOSMediaPicker(
         isVideo: Boolean,
         config: MediaPickerConfig
     ): MediaResult? {
-        if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceTypeCamera)) {
+        if (!UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypeCamera)) {
             throw MediaPickerException("Camera is not available on this device")
         }
         
         return suspendCancellableCoroutine { continuation ->
             val picker = UIImagePickerController()
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera
+            picker.sourceType = UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypeCamera
             
             if (isVideo) {
                 picker.mediaTypes = listOf("public.movie")

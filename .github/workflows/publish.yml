@@ -1,0 +1,66 @@
+# GitHub Actions workflow to publish EasyMediaPicker KMP library to Maven Central
+# This runs on macOS to support iOS targets (Kotlin/Native requires macOS + Xcode)
+
+name: Publish to Maven Central
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 2.1.0)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      
+      - name: Cache Kotlin/Native compiler
+        uses: actions/cache@v3
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      
+      - name: Build all targets
+        run: ./gradlew build --no-daemon
+      
+      - name: Publish to Maven Central
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          ./gradlew publishAllPublicationsToSonatypeRepository --no-daemon
+      
+      - name: Close and release staging repository
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          echo "After artifacts are uploaded, log into https://s01.oss.sonatype.org/"
+          echo "Go to Staging Repositories, find your repository, Close it, then Release it."
+          echo "Or automate with Gradle Nexus Publish Plugin in the future."
+
+

@@ -2,7 +2,36 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
-    id("maven-publish")
+    id("com.vanniktech.maven.publish")
+}
+
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+    
+    pom {
+        name.set("EasyMediaPicker Compose")
+        description.set("Compose Multiplatform UI for EasyMediaPicker")
+        url.set("https://github.com/BasemNasr/EasyMediaPicker")
+        licenses {
+            license {
+                name.set("Apache License 2.0")
+                url.set("https://opensource.org/licenses/Apache-2.0")
+            }
+        }
+        developers {
+            developer {
+                id.set("BasemNasr")
+                name.set("Basem Nasr")
+                email.set("basemnasr20@gmail.com")
+            }
+        }
+        scm {
+            url.set("https://github.com/BasemNasr/EasyMediaPicker")
+            connection.set("scm:git:git://github.com/BasemNasr/EasyMediaPicker.git")
+            developerConnection.set("scm:git:ssh://git@github.com/BasemNasr/EasyMediaPicker.git")
+        }
+    }
 }
 
 kotlin {
@@ -16,6 +45,7 @@ kotlin {
                 jvmTarget = "17"
             }
         }
+        publishLibraryVariants("release")
     }
     
     // iOS targets
@@ -89,7 +119,3 @@ android {
     }
 }
 
-publishing {
-    // JitPack will use the publications created by the Kotlin Multiplatform + Compose plugins.
-    // We keep the defaults; group and version come from the root project.
-}

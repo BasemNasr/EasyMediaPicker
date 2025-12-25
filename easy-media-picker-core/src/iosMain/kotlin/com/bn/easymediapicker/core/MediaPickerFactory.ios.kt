@@ -1,6 +1,7 @@
 package com.bn.easymediapicker.core
 
 import platform.UIKit.UIViewController
+import kotlin.experimental.ExperimentalNativeApi
 import kotlin.native.ref.WeakReference
 
 /**
@@ -13,6 +14,7 @@ import kotlin.native.ref.WeakReference
  * MediaPickerFactory.initialize(viewController)
  * ```
  */
+@OptIn(ExperimentalNativeApi::class)
 actual object MediaPickerFactory {
     private var viewControllerRef: WeakReference<UIViewController>? = null
     
@@ -44,4 +46,7 @@ actual object MediaPickerFactory {
         return IOSMediaPicker(viewController)
     }
 }
+
+
+
 

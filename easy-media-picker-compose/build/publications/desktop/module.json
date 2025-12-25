@@ -1,0 +1,134 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../easy-media-picker-compose/2.1.0/easy-media-picker-compose-2.1.0.module",
+    "group": "io.github.basemnasr-labs",
+    "module": "easy-media-picker-compose",
+    "version": "2.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "desktopApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose-desktop-2.1.0.jar",
+          "url": "easy-media-picker-compose-desktop-2.1.0.jar",
+          "size": 34412,
+          "sha512": "6cb1e8060b712aaef671ac0b9a979028228790bff925ddc8d362b150f0179a9d2237cdce2791ca05168fefb57bfcb61ffbf909c2e1224397ddd2807137529bad",
+          "sha256": "b5976685e80866bb3f77c8ffbd6e4724f619d2e4f073a3473cb345129bb5bc3f",
+          "sha1": "980c21c0e2250f8394584dcf72468cbbb42c6385",
+          "md5": "a13355ae188d975eba1a7e2036f5d08e"
+        }
+      ]
+    },
+    {
+      "name": "desktopRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.desktop",
+          "module": "desktop-jvm-macos-arm64",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "io.github.basemnasr-labs",
+          "module": "easy-media-picker-core",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose-desktop-2.1.0.jar",
+          "url": "easy-media-picker-compose-desktop-2.1.0.jar",
+          "size": 34412,
+          "sha512": "6cb1e8060b712aaef671ac0b9a979028228790bff925ddc8d362b150f0179a9d2237cdce2791ca05168fefb57bfcb61ffbf909c2e1224397ddd2807137529bad",
+          "sha256": "b5976685e80866bb3f77c8ffbd6e4724f619d2e4f073a3473cb345129bb5bc3f",
+          "sha1": "980c21c0e2250f8394584dcf72468cbbb42c6385",
+          "md5": "a13355ae188d975eba1a7e2036f5d08e"
+        }
+      ]
+    },
+    {
+      "name": "desktopSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "easy-media-picker-compose-desktop-2.1.0-sources.jar",
+          "url": "easy-media-picker-compose-desktop-2.1.0-sources.jar",
+          "size": 4472,
+          "sha512": "bd3b09013c8aa007b77553069f90bd03514cb714f36bb6173874bae3ac08d13f6865f5549b1f1f7b626c50c5d29717ab75f2006eae22e1e996bffb9524509cfe",
+          "sha256": "ae5a5a1e8876fae9915ea013ff2fe5ac29617d68001283a5a50643d978c28411",
+          "sha1": "1dadc2fc2c939760ba86a63b86167acefa6f53aa",
+          "md5": "46d450d8a546d0f6e887793ab674b9db"
+        }
+      ]
+    }
+  ]
+}

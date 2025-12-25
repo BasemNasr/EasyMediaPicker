@@ -1,0 +1,334 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.basemnasr-labs",
+    "module": "easy-media-picker-compose",
+    "version": "2.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "io.github.basemnasr-labs",
+          "module": "easy-media-picker-core",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose-metadata-2.1.0.jar",
+          "url": "easy-media-picker-compose-2.1.0.jar",
+          "size": 4862,
+          "sha512": "50a70bb51db12c398581ddfbaeace7ad2b23c69985da6708507cd6e6b7313d20ee44fe055bfddf306ebad5049a3af221e6d5f8f4926b90559dd05e18608ed0df",
+          "sha256": "8376c1503ac138c5df6e280cbcb94366597888aec18fc2fe88d40a20d525bd92",
+          "sha1": "e1226e4455b679d897f2b8749452b4a95d994a5b",
+          "md5": "ec272971b7065f6abb78bc5ef9248e7b"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "easy-media-picker-compose-kotlin-2.1.0-sources.jar",
+          "url": "easy-media-picker-compose-2.1.0-sources.jar",
+          "size": 4344,
+          "sha512": "7c2046dcc9a45f0c5606fdb77b4986c6f837c46d52488c1aa83b220b668a2a3dcf50aec4df0e37316215928c224233a1682d950a2547a96fbdff29081079e61e",
+          "sha256": "388ebc675eec1f0ff1e5f6c250a85d85efca69256bba051465e7e38f2b3ce564",
+          "sha1": "29991aee557fdf5ebf03c834c49b85be4e636a95",
+          "md5": "9614469e63bd030ba51db16ea7318b79"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-android/2.1.0/easy-media-picker-compose-android-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-android",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-android/2.1.0/easy-media-picker-compose-android-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-android",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-android/2.1.0/easy-media-picker-compose-android-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-android",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "desktopApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-desktop/2.1.0/easy-media-picker-compose-desktop-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-desktop",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "desktopRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-desktop/2.1.0/easy-media-picker-compose-desktop-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-desktop",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "desktopSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-desktop/2.1.0/easy-media-picker-compose-desktop-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-desktop",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iosarm64/2.1.0/easy-media-picker-compose-iosarm64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iosarm64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iosarm64/2.1.0/easy-media-picker-compose-iosarm64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iosarm64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iosarm64/2.1.0/easy-media-picker-compose-iosarm64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iosarm64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iossimulatorarm64/2.1.0/easy-media-picker-compose-iossimulatorarm64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iossimulatorarm64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iossimulatorarm64/2.1.0/easy-media-picker-compose-iossimulatorarm64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iossimulatorarm64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iossimulatorarm64/2.1.0/easy-media-picker-compose-iossimulatorarm64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iossimulatorarm64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iosx64/2.1.0/easy-media-picker-compose-iosx64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iosx64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosX64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iosx64/2.1.0/easy-media-picker-compose-iosx64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iosx64",
+        "version": "2.1.0"
+      }
+    },
+    {
+      "name": "iosX64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-compose-iosx64/2.1.0/easy-media-picker-compose-iosx64-2.1.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-compose-iosx64",
+        "version": "2.1.0"
+      }
+    }
+  ]
+}

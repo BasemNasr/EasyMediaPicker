@@ -1,0 +1,115 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../easy-media-picker-core/2.1.0/easy-media-picker-core-2.1.0.module",
+    "group": "io.github.basemnasr-labs",
+    "module": "easy-media-picker-core",
+    "version": "2.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosSimulatorArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-core.klib",
+          "url": "easy-media-picker-core-iossimulatorarm64-2.1.0.klib",
+          "size": 51291,
+          "sha512": "45fa2b7e6952d6ccc18a0d6002f5dfbad7d074e5feb4139c6271cf571330f73976b00de3d9b581fc54cb78f9fd215071034d70bf3cdd62bdfc041a9ee0d917c3",
+          "sha256": "0cd99d409085b875245bbb6edd8f4721fc15a9b09dc39cc0538702bca1aff6dc",
+          "sha1": "371bcf409ecf0c69c710ed664cc8c10c25d6b1af",
+          "md5": "c9108d92b3ce7880c887e5f2801e44d3"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "files": [
+        {
+          "name": "easy-media-picker-core-iossimulatorarm64-2.1.0-sources.jar",
+          "url": "easy-media-picker-core-iossimulatorarm64-2.1.0-sources.jar",
+          "size": 9674,
+          "sha512": "786792c644a95f2f768935dd0a4b10d5b3f02e6a9882dbdd79d8624e0e63cee8250fcd19f239d6f5762c9f7fd1fcca0bf0fa4538a24832b50ae1dd8ad5c5346d",
+          "sha256": "b65d5626b4128ea5c771acd1f7e55bfefcccbf1deb3b657bf69b656829d989e0",
+          "sha1": "49262a3b4cea8f4f73a512a26b760e913bbba7fb",
+          "md5": "233b7ec063f248e80895223783ae8213"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-core-iossimulatorarm64-2.1.0-metadata.jar",
+          "url": "easy-media-picker-core-iossimulatorarm64-2.1.0-metadata.jar",
+          "size": 5254,
+          "sha512": "e1d3bc371b0a2206aa53b7460cc8184b878e3c6ffbb078fbc9c2977c6783175442bf547e71bcaefd0dd3a8485b80cc4f2dc2fd65efeed8830fdff87724f3431c",
+          "sha256": "541ded3bddb6eaeadbde5f10f4789ab1117d29fea6acc9fd45f6d533bfff4e39",
+          "sha1": "a33121ed74c14c334ebf669867dae9958567a3e5",
+          "md5": "970dbae2dd77696fc36d67803ea35f25"
+        }
+      ]
+    }
+  ]
+}
