@@ -37,24 +37,76 @@ Multi Choose Images
 
 ## Installation
 
-### Gradle (KMP Project)
+### Option 1: Maven Central (Recommended - Supports Android, iOS, Desktop)
 
-Add the dependencies to your `build.gradle.kts`:
+Add the dependency to your **shared module**'s `build.gradle.kts`:
 
 ```kotlin
-// In your shared module
+// In your shared module (e.g., composeApp or shared)
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                // Core library (without Compose)
-                implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.2")
-                
-                // Compose integration (optional, if using Compose Multiplatform)
-                implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.2")
+        commonMain.dependencies {
+            // Core logic
+            implementation("io.github.basemnasr-labs:easy-media-picker-core:2.1.0")
+            
+            // Compose Multiplatform UI integration
+            implementation("io.github.basemnasr-labs:easy-media-picker-compose:2.1.0")
+        }
+    }
+}
+```
+
+### Option 2: JitPack (Android & Desktop Only)
+
+> ⚠️ **Note:** JitPack cannot build iOS artifacts. Use this only for Android/Desktop projects.
+
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        google()
+        maven(url = "https://jitpack.io") {
+            // Exclude module metadata to avoid iOS resolution errors
+            metadataSources {
+                mavenPom()
+                artifact()
             }
         }
     }
+}
+
+// In your androidMain or desktopMain (NOT commonMain)
+androidMain.dependencies {
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
+}
+```
+
+### Option 3: Git Submodule (Full KMP Support with Local Build)
+
+For projects that need iOS support before Maven Central publishing:
+
+```bash
+# Add as submodule
+git submodule add https://github.com/BasemNasr/EasyMediaPicker.git libs/EasyMediaPicker
+```
+
+```kotlin
+// settings.gradle.kts
+includeBuild("libs/EasyMediaPicker") {
+    dependencySubstitution {
+        substitute(module("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core"))
+            .using(project(":easy-media-picker-core"))
+        substitute(module("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose"))
+            .using(project(":easy-media-picker-compose"))
+    }
+}
+
+// Then use in commonMain
+commonMain.dependencies {
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
 }
 ```
 
@@ -93,10 +145,10 @@ If your Android-only app is already using **Jetpack Compose**, it is recommended
 ```kotlin
 dependencies {
     // Core API (Android implementation included)
-    implementation("com.bn.easymediapicker:easy-media-picker-core:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
 
     // Compose integration (for rememberMediaPickerState)
-    implementation("com.bn.easymediapicker:easy-media-picker-compose:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
 }
 ```
 
@@ -400,6 +452,32 @@ lifecycleScope.launch {
 | Multi-platform | Android only | Android, iOS, Desktop |
 | Compose support | Manual integration | `rememberMediaPickerState()` |
 
+## Publishing to Maven Central
+
+To publish this library to Maven Central (required for iOS support as a simple dependency):
+
+### Prerequisites
+
+1. Create account at https://issues.sonatype.org/
+2. Request group ID `io.github.basemnasr`
+3. Generate GPG key for signing
+
+### Setup Secrets
+
+Add these GitHub repository secrets:
+- `OSSRH_USERNAME` - Sonatype username
+- `OSSRH_PASSWORD` - Sonatype password
+- `SIGNING_KEY_ID` - GPG key ID (last 8 characters)
+- `SIGNING_KEY` - GPG private key (base64 encoded)
+- `SIGNING_PASSWORD` - GPG key passphrase
+
+### Publish
+
+1. Create a GitHub Release with tag (e.g., `v2.1.0`)
+2. The GitHub Action will automatically build on macOS and publish all platforms including iOS
+
+Or manually trigger from Actions tab.
+
 ## Project Structure
 
 ```
@@ -422,6 +500,7 @@ EasyMediaPicker/
 
 ## TODO / Future Features
 
+- [x] Publish to Maven Central with full iOS support
 - [ ] Image compression options
 - [ ] Video compression options
 - [ ] Audio picking
@@ -464,4 +543,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support
 
 If you find this library helpful, please consider giving it a ⭐ on GitHub!
-
