@@ -1,24 +1,20 @@
 # EasyMediaPicker KMP
 
+<p align="center">
+  <img src="EasyMediaPicker.png" width="600">
+</p>
+
 A Kotlin Multiplatform library for picking images, videos, and files across Android, iOS, Desktop, and Web platforms.
+
+## Demo
+
+| Screenshot | Video Demo |
+| :---: | :---: |
+| <img src="screen-1.png" width="300"> | <video src="ScreenRecord.mov" width="300" controls></video> |
 
 ## Overview
 
 EasyMediaPicker KMP is the multiplatform evolution of [EasyMediaPicker](https://github.com/BasemNasr/EasyMediaPicker). It provides a unified, coroutine-based API for media picking operations across all supported platforms.
-
-### Android Screenshots
-
-From Activity             |  From Fragment           |  Take Permissions           
-:-------------------------:|:-------------------------: |:-------------------------:
-<img src="screen1.png" width="300">  |  <img src="screen2.png" width="300">  |  <img src="screen3.png" width="300"> 
-
-Customize Your Component      |  Capture Image      |  Easy Getting Media Path
-|:-------------------------:|:-------------------------: |:-------------------------:
-<img src="screen4.png" width="300">  |  <img src="screen5.png" width="300">  |  <img src="screen6.png" width="300">
-
-Multi Choose Images     
-|:-------------------------:|
-<img src="screen7.jpg" width="300">
 
 ### Features
 
@@ -80,33 +76,6 @@ dependencyResolutionManagement {
 
 // In your androidMain or desktopMain (NOT commonMain)
 androidMain.dependencies {
-    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
-    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
-}
-```
-
-### Option 3: Git Submodule (Full KMP Support with Local Build)
-
-For projects that need iOS support before Maven Central publishing:
-
-```bash
-# Add as submodule
-git submodule add https://github.com/BasemNasr/EasyMediaPicker.git libs/EasyMediaPicker
-```
-
-```kotlin
-// settings.gradle.kts
-includeBuild("libs/EasyMediaPicker") {
-    dependencySubstitution {
-        substitute(module("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core"))
-            .using(project(":easy-media-picker-core"))
-        substitute(module("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose"))
-            .using(project(":easy-media-picker-compose"))
-    }
-}
-
-// Then use in commonMain
-commonMain.dependencies {
     implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
     implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
 }
@@ -487,31 +456,6 @@ lifecycleScope.launch {
 | Multi-platform | Android only | Android, iOS, Desktop |
 | Compose support | Manual integration | `rememberMediaPickerState()` |
 
-## Publishing to Maven Central
-
-To publish this library to Maven Central (required for iOS support as a simple dependency):
-
-### Prerequisites
-
-1. Create account at https://issues.sonatype.org/
-2. Request group ID `io.github.basemnasr`
-3. Generate GPG key for signing
-
-### Setup Secrets
-
-Add these GitHub repository secrets:
-- `OSSRH_USERNAME` - Sonatype username
-- `OSSRH_PASSWORD` - Sonatype password
-- `SIGNING_KEY_ID` - GPG key ID (last 8 characters)
-- `SIGNING_KEY` - GPG private key (base64 encoded)
-- `SIGNING_PASSWORD` - GPG key passphrase
-
-### Publish
-
-1. Create a GitHub Release with tag (e.g., `v2.1.0`)
-2. The GitHub Action will automatically build on macOS and publish all platforms including iOS
-
-Or manually trigger from Actions tab.
 
 ## Project Structure
 
@@ -535,20 +479,6 @@ EasyMediaPicker/
 └── app/                             # Sample Android app
 ```
 
-## TODO / Future Features
-
-- [x] Publish to Maven Central with full iOS support
-- [x] Web (JS) platform support
-- [ ] Image compression options
-- [ ] Video compression options
-- [ ] Audio picking
-- [ ] Custom UI for picker
-- [ ] Camera settings (resolution, flash, etc.)
-- [ ] Video duration metadata on iOS and Web
-- [ ] File type icons
-- [ ] Drag and drop support on Desktop and Web
-- [ ] Video thumbnail generation on Web
-- [ ] WASM target support
 
 ## License
 
