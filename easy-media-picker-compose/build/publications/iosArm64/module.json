@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../easy-media-picker-compose/2.1.0/easy-media-picker-compose-2.1.0.module",
+    "url": "../../easy-media-picker-compose/2.2.0/easy-media-picker-compose-2.2.0.module",
     "group": "io.github.basemnasr-labs",
     "module": "easy-media-picker-compose",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -36,7 +36,7 @@
           "group": "io.github.basemnasr-labs",
           "module": "easy-media-picker-core",
           "version": {
-            "requires": "2.1.0"
+            "requires": "2.2.0"
           }
         },
         {
@@ -64,12 +64,12 @@
       "files": [
         {
           "name": "easy-media-picker-compose.klib",
-          "url": "easy-media-picker-compose-iosarm64-2.1.0.klib",
-          "size": 17352,
-          "sha512": "dd0d0d9bd76ba37323016ded6c266b0d698e9e9dbda1eefe6487e5af21475ed51fd04c042f46ba2bf1ba48719db78167261af845eb698528ca6deeb1f56c2e5c",
-          "sha256": "afcb887a0090726475317fe25b92b3f6eff54082f325f22e676d5ca8f0eda353",
-          "sha1": "344717bc0a07011e0d5132483d9907b627c5525e",
-          "md5": "0fdbeccdc9e79ccabd76882422522102"
+          "url": "easy-media-picker-compose-iosarm64-2.2.0.klib",
+          "size": 18492,
+          "sha512": "293c6c4716fb76aedabe55a6588fbe3faf25f9d93afa7b3615720fc64943518b41b7d91751c1da3ef693a2588f6b85b0e44a613700c36a02fb8766d1fb888cc9",
+          "sha256": "e6bbf7fc61f69a0895b2a466d15137812f351514a240ffa6ec6c6bd265da185d",
+          "sha1": "29cfa12749cd595bc0f9985ee142c6156f891aef",
+          "md5": "84cbde4817c91bce1dc754349a178872"
         }
       ]
     },
@@ -85,13 +85,13 @@
       },
       "files": [
         {
-          "name": "easy-media-picker-compose-iosarm64-2.1.0-sources.jar",
-          "url": "easy-media-picker-compose-iosarm64-2.1.0-sources.jar",
-          "size": 4344,
-          "sha512": "e060e9dca05fb9f06bd20f6c8ae1dfd7d644b067dca6f5673dd35934c7dc1d295f955bc3a96849acccbd716ec2c106a8f268e35675611fad88caf3ee6582938f",
-          "sha256": "9ad12bc8f1866d86172f8a86918cacb39ddd1e6f626c28b4fce676cbf544d407",
-          "sha1": "71ec6e9568e4148b9cd351520161ea88ef5d10a3",
-          "md5": "45949b2439716d9481422dd8a3d202af"
+          "name": "easy-media-picker-compose-iosarm64-2.2.0-sources.jar",
+          "url": "easy-media-picker-compose-iosarm64-2.2.0-sources.jar",
+          "size": 4459,
+          "sha512": "1765fef29b14e885a7e3d90abb9269bc2c70c159cfc002b344876b4b4ae2288090784d2a8b61523173d898b14804588f6a186f749e3bfe3185cf4a6bcbc43589",
+          "sha256": "adae3fb6a830cb620422a5461075bc26eaee4edb77cbeb17ad01716e342a17d0",
+          "sha1": "ded09c36ba54b91c435c447a9230d8d911df98d1",
+          "md5": "253ad5a6220cb6db8a6134571cddcceb"
         }
       ]
     },
@@ -116,7 +116,7 @@
           "group": "io.github.basemnasr-labs",
           "module": "easy-media-picker-core",
           "version": {
-            "requires": "2.1.0"
+            "requires": "2.2.0"
           }
         },
         {
@@ -143,13 +143,13 @@
       ],
       "files": [
         {
-          "name": "easy-media-picker-compose-iosarm64-2.1.0-metadata.jar",
-          "url": "easy-media-picker-compose-iosarm64-2.1.0-metadata.jar",
+          "name": "easy-media-picker-compose-iosarm64-2.2.0-metadata.jar",
+          "url": "easy-media-picker-compose-iosarm64-2.2.0-metadata.jar",
           "size": 4096,
-          "sha512": "2acfdc5eb1a3b9b63d2393d0bc5a708bd43c88b3a44864be42118c53bf319ef7f8ac5e75b286a516d291489ab54c508943a61c29779186dc1e751d036f22ffd8",
-          "sha256": "b42b8223e8844b6f2ef09b1dbdd4826392f8ac5a29dbcc519d0ace38b758b7e3",
-          "sha1": "ed2edd05cdd4b56b671006db56e11410b45c9f01",
-          "md5": "241cd95f45af81cf85dcbf8ffe6501bf"
+          "sha512": "9c9aa7221c2402b8b544577771a869da8fa90ca5270d07be464c558edca954d5861a4bb0e21e3723ebf153f880dd23be6fe24e84ea1ca27d05eae85cc49f9fd4",
+          "sha256": "20f21640415c7aee3f85977e9419d53b9925788601587c29aac0d32a6d6abe0d",
+          "sha1": "132dd22402f1b7c77434d8720c8ad337dca1b8a4",
+          "md5": "843f47020584fe989fe10251eedf56a6"
         }
       ]
     }

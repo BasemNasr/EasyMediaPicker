@@ -62,6 +62,18 @@ kotlin {
         }
     }
     
+    // Web (JS) target
+    js(IR) {
+        browser {
+            commonWebpackConfig {
+                cssSupport {
+                    enabled.set(true)
+                }
+            }
+        }
+        binaries.executable()
+    }
+    
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -92,6 +104,13 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+            }
+        }
+        
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.html.core)
+                implementation(compose.runtime)
             }
         }
     }

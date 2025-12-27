@@ -1,6 +1,6 @@
 # EasyMediaPicker KMP
 
-A Kotlin Multiplatform library for picking images, videos, and files across Android, iOS, and Desktop platforms.
+A Kotlin Multiplatform library for picking images, videos, and files across Android, iOS, Desktop, and Web platforms.
 
 ## Overview
 
@@ -22,22 +22,24 @@ Multi Choose Images
 
 ### Features
 
-| Feature | Android | iOS | Desktop |
-|---------|---------|-----|---------|
-| Pick Image | ✅ | ✅ | ✅ |
-| Pick Multiple Images | ✅ | ✅ | ✅ |
-| Pick Video | ✅ | ✅ | ✅ |
-| Pick Multiple Videos | ✅ | ✅ | ✅ |
-| Pick File | ✅ | ✅ | ✅ |
-| Pick Multiple Files | ✅ | ✅ | ✅ |
-| Camera Capture (Photo) | ✅ | ✅ | ❌ |
-| Camera Capture (Video) | ✅ | ✅ | ❌ |
-| Permission Handling | ✅ | ✅ | N/A |
-| Compose Integration | ✅ | ✅ | ✅ |
+| Feature | Android | iOS | Desktop | Web |
+|---------|---------|-----|---------|-----|
+| Pick Image | ✅ | ✅ | ✅ | ✅ |
+| Pick Multiple Images | ✅ | ✅ | ✅ | ✅ |
+| Pick Video | ✅ | ✅ | ✅ | ✅ |
+| Pick Multiple Videos | ✅ | ✅ | ✅ | ✅ |
+| Pick File | ✅ | ✅ | ✅ | ✅ |
+| Pick Multiple Files | ✅ | ✅ | ✅ | ✅ |
+| Camera Capture (Photo) | ✅ | ✅ | ❌ | ✅* |
+| Camera Capture (Video) | ✅ | ✅ | ❌ | ✅* |
+| Permission Handling | ✅ | ✅ | N/A | N/A |
+| Compose Integration | ✅ | ✅ | ✅ | ✅ |
+
+*Camera capture on web uses the browser's built-in camera interface via `capture` attribute.
 
 ## Installation
 
-### Option 1: Maven Central (Recommended - Supports Android, iOS, Desktop)
+### Option 1: Maven Central (Recommended - Supports Android, iOS, Desktop, Web)
 
 Add the dependency to your **shared module**'s `build.gradle.kts`:
 
@@ -47,10 +49,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core logic
-            implementation("io.github.basemnasr-labs:easy-media-picker-core:2.1.0")
+            implementation("io.github.basemnasr-labs:easy-media-picker-core:2.2.0")
             
             // Compose Multiplatform UI integration
-            implementation("io.github.basemnasr-labs:easy-media-picker-compose:2.1.0")
+            implementation("io.github.basemnasr-labs:easy-media-picker-compose:2.2.0")
         }
     }
 }
@@ -267,6 +269,39 @@ fun main() = application {
     }
 }
 ```
+
+### Web (JavaScript)
+
+No special setup required. The library uses the HTML5 File API which is supported in all modern browsers.
+
+```kotlin
+// In your Compose for Web app
+@Composable
+fun App() {
+    val pickerState = rememberMediaPickerState()
+    
+    Button(onClick = {
+        pickerState.pickImage { result ->
+            result?.let {
+                console.log("Selected: ${it.name}")
+            }
+        }
+    }) {
+        Text("Pick Image")
+    }
+}
+```
+
+**Browser Compatibility:**
+- Chrome/Edge: Full support
+- Firefox: Full support
+- Safari: Full support (iOS 13+)
+
+**Limitations:**
+- Camera capture uses browser's native camera UI (via `capture` attribute)
+- File access is sandboxed by browser security
+- No direct file system access (files are accessed via Blob URLs)
+- Video duration metadata may not be available on all browsers
 
 ## API Reference
 
@@ -487,13 +522,15 @@ EasyMediaPicker/
 │       ├── commonMain/              # Common API
 │       ├── androidMain/             # Android implementation
 │       ├── iosMain/                 # iOS implementation
-│       └── desktopMain/             # Desktop implementation
+│       ├── desktopMain/             # Desktop implementation
+│       └── jsMain/                  # Web (JS) implementation
 ├── easy-media-picker-compose/       # Compose Multiplatform integration
 │   └── src/
 │       ├── commonMain/              # Common Compose utilities
 │       ├── androidMain/             # Android Compose
 │       ├── iosMain/                 # iOS Compose
-│       └── desktopMain/             # Desktop Compose
+│       ├── desktopMain/             # Desktop Compose
+│       └── jsMain/                  # Web Compose
 ├── EasyMediaPicker/                 # Legacy Android-only module (unchanged)
 └── app/                             # Sample Android app
 ```
@@ -501,14 +538,17 @@ EasyMediaPicker/
 ## TODO / Future Features
 
 - [x] Publish to Maven Central with full iOS support
+- [x] Web (JS) platform support
 - [ ] Image compression options
 - [ ] Video compression options
 - [ ] Audio picking
 - [ ] Custom UI for picker
 - [ ] Camera settings (resolution, flash, etc.)
-- [ ] Video duration metadata on iOS
+- [ ] Video duration metadata on iOS and Web
 - [ ] File type icons
-- [ ] Drag and drop support on Desktop
+- [ ] Drag and drop support on Desktop and Web
+- [ ] Video thumbnail generation on Web
+- [ ] WASM target support
 
 ## License
 

@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../easy-media-picker-core/2.1.0/easy-media-picker-core-2.1.0.module",
+    "url": "../../easy-media-picker-core/2.2.0/easy-media-picker-core-2.2.0.module",
     "group": "io.github.basemnasr-labs",
     "module": "easy-media-picker-core",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -34,12 +34,12 @@
       "files": [
         {
           "name": "easy-media-picker-core-release.aar",
-          "url": "easy-media-picker-core-android-2.1.0.aar",
-          "size": 110094,
-          "sha512": "083bedaa87b757c13495bb6d1fbf0224556dd5551fdc8d6b3853bff651ef43cef8c971bf15baaebe2b3810d0a855177086b0e15d856635ac95ed701cb4cef58d",
-          "sha256": "33e3147cc002663e0c09f8dbead87371ef2134f00a46f4186d4e35c6f249aa8d",
-          "sha1": "cfa519434a19cf08a9f32681be21106e5fcf65ce",
-          "md5": "037b8d145b941510ce201437b5daac5b"
+          "url": "easy-media-picker-core-android-2.2.0.aar",
+          "size": 49516,
+          "sha512": "2fd60bb48f1b98dc86bf47e08b1f84e8458ba9a4dffca181f3a3303ac04f83bef96aa605d23d7a98fb3ba4b1717470959bbe7aef562acb99e2558edbcbb286b6",
+          "sha256": "442c2ae8d47880e326ce0bc509dc9f46cbc15450b421716560277f0a8affbd73",
+          "sha1": "974fdde16dfcf1ba3960be34b0727a20cde35e0f",
+          "md5": "b6a1156dbd9db98efd6906eb8e25cb17"
         }
       ]
     },
@@ -223,12 +223,12 @@
       "files": [
         {
           "name": "easy-media-picker-core-release.aar",
-          "url": "easy-media-picker-core-android-2.1.0.aar",
-          "size": 110094,
-          "sha512": "083bedaa87b757c13495bb6d1fbf0224556dd5551fdc8d6b3853bff651ef43cef8c971bf15baaebe2b3810d0a855177086b0e15d856635ac95ed701cb4cef58d",
-          "sha256": "33e3147cc002663e0c09f8dbead87371ef2134f00a46f4186d4e35c6f249aa8d",
-          "sha1": "cfa519434a19cf08a9f32681be21106e5fcf65ce",
-          "md5": "037b8d145b941510ce201437b5daac5b"
+          "url": "easy-media-picker-core-android-2.2.0.aar",
+          "size": 49516,
+          "sha512": "2fd60bb48f1b98dc86bf47e08b1f84e8458ba9a4dffca181f3a3303ac04f83bef96aa605d23d7a98fb3ba4b1717470959bbe7aef562acb99e2558edbcbb286b6",
+          "sha256": "442c2ae8d47880e326ce0bc509dc9f46cbc15450b421716560277f0a8affbd73",
+          "sha1": "974fdde16dfcf1ba3960be34b0727a20cde35e0f",
+          "md5": "b6a1156dbd9db98efd6906eb8e25cb17"
         }
       ]
     },
@@ -244,13 +244,13 @@
       },
       "files": [
         {
-          "name": "easy-media-picker-core-android-2.1.0-sources.jar",
-          "url": "easy-media-picker-core-android-2.1.0-sources.jar",
-          "size": 10399,
-          "sha512": "4bb1eb5a76c608032d5768f10998651c5ffb40514b5b21002f3954835bf6f2c9a7df10e23f9dd72ddf8d1fe77f094a125d6ed326b52a2cb5003238b5d7eedaa9",
-          "sha256": "78be891b66920f64ec5ef60871be8fe52832021abb48ecb44a78614a1cb2ff44",
-          "sha1": "2f76d93ea762ff322f772e091a5d41ae8e5497f4",
-          "md5": "4ce782a75f9660a5aab0c7598559a98d"
+          "name": "easy-media-picker-core-android-2.2.0-sources.jar",
+          "url": "easy-media-picker-core-android-2.2.0-sources.jar",
+          "size": 10347,
+          "sha512": "996ff007a02377f6e7af956b8affc4c2e5a0a0b2712cb097cbe79d4ef243ffa1a733255f4b6e45436b80d951d6c56cb5bfcb6fb6d9800e337ea086d8a4f097b5",
+          "sha256": "41d0eaab5cce4fb75fd304d481ec686079a3c8bb86c087238d418e671200b822",
+          "sha1": "619fa7b18a5aa320235994b75e28272c750ce39a",
+          "md5": "da91c489173e05807d8565083e0996ca"
         }
       ]
     }

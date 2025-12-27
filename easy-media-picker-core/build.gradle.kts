@@ -61,6 +61,18 @@ kotlin {
         }
     }
     
+    // Web (JS) target
+    js(IR) {
+        browser {
+            commonWebpackConfig {
+                cssSupport {
+                    enabled.set(true)
+                }
+            }
+        }
+        binaries.executable()
+    }
+    
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -91,6 +103,12 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
+            }
+        }
+        
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             }
         }
     }

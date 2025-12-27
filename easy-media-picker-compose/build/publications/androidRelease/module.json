@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../easy-media-picker-compose/2.1.0/easy-media-picker-compose-2.1.0.module",
+    "url": "../../easy-media-picker-compose/2.2.0/easy-media-picker-compose-2.2.0.module",
     "group": "io.github.basemnasr-labs",
     "module": "easy-media-picker-compose",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -34,12 +34,12 @@
       "files": [
         {
           "name": "easy-media-picker-compose-release.aar",
-          "url": "easy-media-picker-compose-android-2.1.0.aar",
-          "size": 33494,
-          "sha512": "f4f521e5fb82816c27354cc025f3e98dcc938dac260d048d6d9b250e2975b8d1adfe9d64ed99977c02311fdef8f6ae08f889f57c5b5b001c7fe2275702c7979f",
-          "sha256": "fd724b868ba5f65b22ea1dcbe4a0540b8ef7a0bc5f68625db0f2f26d3ceff596",
-          "sha1": "8ce99275f4698156585678d7c4dc6b472a691053",
-          "md5": "3e065f4d94387d721116460097ee78dc"
+          "url": "easy-media-picker-compose-android-2.2.0.aar",
+          "size": 40264,
+          "sha512": "92c4d0978eabc74199c3cc5be05c148625681062422548f22f3a87944eb931d76405527eaca447bb9725a10f484bf0142351724a2e8d63e162171de504d1ac1c",
+          "sha256": "6d570936a8e4da2cb37d4ad2e0affe81a5b4d683a89e00a4e02f7c6d40e4aea4",
+          "sha1": "6d12cf99f4491ee368711a3c52a044b995e1eec9",
+          "md5": "4aff643633e0453e32c2bed4aceaf030"
         }
       ]
     },
@@ -139,7 +139,7 @@
           "group": "io.github.basemnasr-labs",
           "module": "easy-media-picker-core",
           "version": {
-            "requires": "2.1.0"
+            "requires": "2.2.0"
           },
           "excludes": [
             {
@@ -223,12 +223,12 @@
       "files": [
         {
           "name": "easy-media-picker-compose-release.aar",
-          "url": "easy-media-picker-compose-android-2.1.0.aar",
-          "size": 33494,
-          "sha512": "f4f521e5fb82816c27354cc025f3e98dcc938dac260d048d6d9b250e2975b8d1adfe9d64ed99977c02311fdef8f6ae08f889f57c5b5b001c7fe2275702c7979f",
-          "sha256": "fd724b868ba5f65b22ea1dcbe4a0540b8ef7a0bc5f68625db0f2f26d3ceff596",
-          "sha1": "8ce99275f4698156585678d7c4dc6b472a691053",
-          "md5": "3e065f4d94387d721116460097ee78dc"
+          "url": "easy-media-picker-compose-android-2.2.0.aar",
+          "size": 40264,
+          "sha512": "92c4d0978eabc74199c3cc5be05c148625681062422548f22f3a87944eb931d76405527eaca447bb9725a10f484bf0142351724a2e8d63e162171de504d1ac1c",
+          "sha256": "6d570936a8e4da2cb37d4ad2e0affe81a5b4d683a89e00a4e02f7c6d40e4aea4",
+          "sha1": "6d12cf99f4491ee368711a3c52a044b995e1eec9",
+          "md5": "4aff643633e0453e32c2bed4aceaf030"
         }
       ]
     },
@@ -244,13 +244,13 @@
       },
       "files": [
         {
-          "name": "easy-media-picker-compose-android-2.1.0-sources.jar",
-          "url": "easy-media-picker-compose-android-2.1.0-sources.jar",
-          "size": 4434,
-          "sha512": "6260b5ca2eba483547d805259d42b35d7a44f58da1e998a896a53a4e10a2f9758c5002d2f5ecd2f4780db2c86e417d960319a728233352f0ff0f53f9e311bbb5",
-          "sha256": "83f1ab4fddc4d72469c697938dca35cce89d244526e7a7f9dc74de14fcecf635",
-          "sha1": "63587df3791cc9116cf3a04d4103a77ab8bb33a4",
-          "md5": "db6253cf4c4b868dd8c8cf2e6c9e5222"
+          "name": "easy-media-picker-compose-android-2.2.0-sources.jar",
+          "url": "easy-media-picker-compose-android-2.2.0-sources.jar",
+          "size": 4786,
+          "sha512": "012bab8f296a2b9c4f3f09fc7b5fc64b7dfae8634008e310409bccd7c69b4ee67bca2ba78721859d60702682d83969193f21cc5bd4e9c88025e825f2a2214a05",
+          "sha256": "f2b5e1bd40fad056a90d141884ac26deb606ac48c67a7134bd29cc58f382d143",
+          "sha1": "493e746224e803227881b034b3e377522a246d68",
+          "md5": "d3ee86e4b0527e4457df9e4382ed67b0"
         }
       ]
     }

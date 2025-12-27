@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../easy-media-picker-core/2.1.0/easy-media-picker-core-2.1.0.module",
+    "url": "../../easy-media-picker-core/2.2.0/easy-media-picker-core-2.2.0.module",
     "group": "io.github.basemnasr-labs",
     "module": "easy-media-picker-core",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -34,8 +34,8 @@
       ],
       "files": [
         {
-          "name": "easy-media-picker-core-desktop-2.1.0.jar",
-          "url": "easy-media-picker-core-desktop-2.1.0.jar",
+          "name": "easy-media-picker-core-desktop-2.2.0.jar",
+          "url": "easy-media-picker-core-desktop-2.2.0.jar",
           "size": 37924,
           "sha512": "d765d994e788674b94df7d3d88466f523a5e89e95a1f5396086c93d32d7158137bee92ec5d81b92d1f8af0890d6c451c80f657ef7ae5e508bc80e9d70a6164fd",
           "sha256": "cf28e6068aaf16f9934a2dda337f7e7ea49fa8a6c8d805513916dcaf273cc3df",
@@ -77,8 +77,8 @@
       ],
       "files": [
         {
-          "name": "easy-media-picker-core-desktop-2.1.0.jar",
-          "url": "easy-media-picker-core-desktop-2.1.0.jar",
+          "name": "easy-media-picker-core-desktop-2.2.0.jar",
+          "url": "easy-media-picker-core-desktop-2.2.0.jar",
           "size": 37924,
           "sha512": "d765d994e788674b94df7d3d88466f523a5e89e95a1f5396086c93d32d7158137bee92ec5d81b92d1f8af0890d6c451c80f657ef7ae5e508bc80e9d70a6164fd",
           "sha256": "cf28e6068aaf16f9934a2dda337f7e7ea49fa8a6c8d805513916dcaf273cc3df",
@@ -99,8 +99,8 @@
       },
       "files": [
         {
-          "name": "easy-media-picker-core-desktop-2.1.0-sources.jar",
-          "url": "easy-media-picker-core-desktop-2.1.0-sources.jar",
+          "name": "easy-media-picker-core-desktop-2.2.0-sources.jar",
+          "url": "easy-media-picker-core-desktop-2.2.0-sources.jar",
           "size": 8791,
           "sha512": "e0f21bf1852cbdd4df9242c5795705af82b656925e2deafe63d1e6b7449af7427db5b7ca54675b70aabc600dd2ac58bf9c3072519cb1d04b4c6f3234465f17b5",
           "sha256": "de19f570c293fb629cee60990e4a5df8bb580e22e0ee3f808f69e5bdef0b04ea",

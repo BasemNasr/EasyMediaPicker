@@ -65,6 +65,18 @@
           "nativeMain",
           "commonMain"
         ]
+      },
+      {
+        "name": "jsApiElements",
+        "sourceSet": [
+          "commonMain"
+        ]
+      },
+      {
+        "name": "jsRuntimeElements",
+        "sourceSet": [
+          "commonMain"
+        ]
       }
     ],
     "sourceSets": [

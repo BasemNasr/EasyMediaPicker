@@ -43,33 +43,31 @@ actual object MediaPickerFactory {
      * Creates a [MediaPicker] for the registered Activity/Fragment.
      * Make sure to call [initialize] first.
      */
+    /**
+     * Creates a [MediaPicker] for the registered Activity/Fragment.
+     * Make sure to call [initialize] first.
+     */
     actual fun create(): MediaPicker {
-        fragmentRef?.get()?.let { fragment ->
-            return AndroidMediaPicker.create(fragment)
-        }
-        
-        activityRef?.get()?.let { activity ->
-            return AndroidMediaPicker.create(activity)
-        }
-        
-        throw IllegalStateException(
-            "MediaPickerFactory not initialized. Call MediaPickerFactory.initialize(activity) " +
-            "or MediaPickerFactory.initialize(fragment) before using the picker."
-        )
+        return fragmentRef?.get()?.context?.let { AndroidMediaPicker(it) }
+            ?: activityRef?.get()?.let { AndroidMediaPicker(it) }
+            ?: throw IllegalStateException(
+                "MediaPickerFactory not initialized. Call MediaPickerFactory.initialize(activity) " +
+                "or MediaPickerFactory.initialize(fragment) before using the picker."
+            )
     }
     
     /**
      * Creates a [MediaPicker] directly from a ComponentActivity.
      */
     fun create(activity: ComponentActivity): MediaPicker {
-        return AndroidMediaPicker.create(activity)
+        return AndroidMediaPicker(activity)
     }
     
     /**
      * Creates a [MediaPicker] directly from a Fragment.
      */
     fun create(fragment: Fragment): MediaPicker {
-        return AndroidMediaPicker.create(fragment)
+        return AndroidMediaPicker(fragment.requireContext())
     }
 }
 

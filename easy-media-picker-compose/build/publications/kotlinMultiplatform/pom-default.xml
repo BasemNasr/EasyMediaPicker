@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.basemnasr-labs</groupId>
   <artifactId>easy-media-picker-compose</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
   <name>EasyMediaPicker Compose</name>
   <description>Compose Multiplatform UI for EasyMediaPicker</description>
   <url>https://github.com/BasemNasr/EasyMediaPicker</url>
@@ -41,7 +41,7 @@
     <dependency>
       <groupId>io.github.basemnasr-labs</groupId>
       <artifactId>easy-media-picker-core</artifactId>
-      <version>2.1.0</version>
+      <version>2.2.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

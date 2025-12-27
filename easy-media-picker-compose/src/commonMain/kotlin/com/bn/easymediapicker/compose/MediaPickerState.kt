@@ -15,6 +15,10 @@ import kotlinx.coroutines.launch
  * @property picker The underlying [MediaPicker] implementation
  * @property scope The [CoroutineScope] for launching picker operations
  */
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
 class MediaPickerState(
     internal val picker: MediaPicker,
     private val scope: CoroutineScope
@@ -22,7 +26,13 @@ class MediaPickerState(
     /**
      * Whether a picker operation is currently in progress.
      */
-    var isLoading: Boolean = false
+    var isLoading: Boolean by mutableStateOf(false)
+        private set
+
+    /**
+     * The last error that occurred during a picker operation.
+     */
+    var error: Throwable? by mutableStateOf(null)
         private set
     
     // ========== Image Operations ==========
@@ -36,10 +46,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val result = picker.pickImage(config)
                 onResult(result)
             } catch (e: Exception) {
+                error = e
                 onResult(null)
             } finally {
                 isLoading = false
@@ -57,10 +69,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val results = picker.pickImages(maxSelection, config)
                 onResult(results)
             } catch (e: Exception) {
+                error = e
                 onResult(emptyList())
             } finally {
                 isLoading = false
@@ -79,10 +93,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val result = picker.pickVideo(config)
                 onResult(result)
             } catch (e: Exception) {
+                error = e
                 onResult(null)
             } finally {
                 isLoading = false
@@ -100,10 +116,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val results = picker.pickVideos(maxSelection, config)
                 onResult(results)
             } catch (e: Exception) {
+                error = e
                 onResult(emptyList())
             } finally {
                 isLoading = false
@@ -122,10 +140,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val result = picker.pickFile(config)
                 onResult(result)
             } catch (e: Exception) {
+                error = e
                 onResult(null)
             } finally {
                 isLoading = false
@@ -143,10 +163,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val results = picker.pickFiles(maxSelection, config)
                 onResult(results)
             } catch (e: Exception) {
+                error = e
                 onResult(emptyList())
             } finally {
                 isLoading = false
@@ -165,10 +187,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val result = picker.captureImage(config)
                 onResult(result)
             } catch (e: Exception) {
+                error = e
                 onResult(null)
             } finally {
                 isLoading = false
@@ -185,10 +209,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val result = picker.captureVideo(config)
                 onResult(result)
             } catch (e: Exception) {
+                error = e
                 onResult(null)
             } finally {
                 isLoading = false
@@ -207,10 +233,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val result = picker.pickMedia(config)
                 onResult(result)
             } catch (e: Exception) {
+                error = e
                 onResult(null)
             } finally {
                 isLoading = false
@@ -228,10 +256,12 @@ class MediaPickerState(
     ) {
         scope.launch {
             isLoading = true
+            error = null
             try {
                 val results = picker.pickMultipleMedia(maxSelection, config)
                 onResult(results)
             } catch (e: Exception) {
+                error = e
                 onResult(emptyList())
             } finally {
                 isLoading = false

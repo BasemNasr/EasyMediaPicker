@@ -22,6 +22,7 @@ include(":EasyMediaPicker")
 // New KMP modules
 include(":easy-media-picker-core")
 include(":easy-media-picker-compose")
+include(":composeApp")
 
 
 

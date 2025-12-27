@@ -38,28 +38,53 @@ import com.bn.easymediapicker.core.MediaPickerFactory
 @Composable
 actual fun rememberMediaPickerState(): MediaPickerState {
     val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
     
-    // Initialize the factory with the current activity
-    DisposableEffect(context) {
-        val activity = context as? ComponentActivity
-        if (activity != null) {
-            MediaPickerFactory.initialize(activity)
-        }
-        
-        onDispose { }
+    // Create the picker instance directly
+    // We cast to AndroidMediaPicker to register launchers, but return as MediaPickerState
+    val picker = remember(context) { 
+        com.bn.easymediapicker.core.AndroidMediaPicker(context)
     }
     
-    val picker = remember(context) {
-        val activity = context as? ComponentActivity
-            ?: throw IllegalStateException(
-                "rememberMediaPickerState() must be called from a ComponentActivity context"
-            )
-        MediaPickerFactory.create(activity)
+    // Create launchers
+    val pickVisualMediaLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia()
+    ) { uri -> picker.onPickVisualMediaResult(uri) }
+    
+    val pickMultipleVisualMediaLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.PickMultipleVisualMedia()
+    ) { uris -> picker.onPickMultipleVisualMediaResult(uris) }
+    
+    val startActivityLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result -> picker.onActivityResult(result) }
+    
+    val takePictureLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.TakePicture()
+    ) { success -> picker.onTakePictureResult(success) }
+    
+    val captureVideoLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.CaptureVideo()
+    ) { success -> picker.onCaptureVideoResult(success) }
+    
+    val requestPermissionsLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions()
+    ) { results -> picker.onRequestPermissionsResult(results) }
+    
+    // Register launchers with the picker
+    // This allows the AndroidMediaPicker to launch activities using these safe launchers
+    androidx.compose.runtime.SideEffect {
+        picker.registerLaunchers(
+            pickVisualMediaLauncher,
+            pickMultipleVisualMediaLauncher,
+            startActivityLauncher,
+            takePictureLauncher,
+            captureVideoLauncher,
+            requestPermissionsLauncher
+        )
     }
     
-    return remember(picker) {
+    return remember(picker, scope) {
         MediaPickerState(picker, scope)
     }
 }

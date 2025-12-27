@@ -3,7 +3,7 @@
   "component": {
     "group": "io.github.basemnasr-labs",
     "module": "easy-media-picker-core",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -39,13 +39,13 @@
       ],
       "files": [
         {
-          "name": "easy-media-picker-core-metadata-2.1.0.jar",
-          "url": "easy-media-picker-core-2.1.0.jar",
-          "size": 5376,
-          "sha512": "1ea6885bfb9e5afda18d20e9aa806cc7a0d76a443a7f7ff23e2c9313b84c58ea9e25c8d28794032bcb81d9a3171bb0693d3cb6adbdde1cdfa5fd3e0d8a622890",
-          "sha256": "d529eae88d1e11c9db54c1ab906f467abbc0f4cef115861e2a9e0212d29c16b4",
-          "sha1": "25b1d4bbc56f9efcbb0330175161797c0ba6ae3b",
-          "md5": "861ac9ef1cdde593fcd165d34b4a1e37"
+          "name": "easy-media-picker-core-metadata-2.2.0.jar",
+          "url": "easy-media-picker-core-2.2.0.jar",
+          "size": 5385,
+          "sha512": "6085a2cd31a363a403c9dbe1741106c7a6e1b1b8aa1d089ea101416186d5e3005bf6156081654d3bf5b3345b15d5dafc35bd91f8c62163c4088c3a9f07a086d6",
+          "sha256": "9613a147acc7dae83cb09d6d43862fe1a8888f9a853346ca735cf13b60625d9f",
+          "sha1": "6065b9c5d7729c4e972b3dfa47e81a453426d682",
+          "md5": "42652b978b6cf4be543636187c434386"
         }
       ]
     },
@@ -60,8 +60,8 @@
       },
       "files": [
         {
-          "name": "easy-media-picker-core-kotlin-2.1.0-sources.jar",
-          "url": "easy-media-picker-core-2.1.0-sources.jar",
+          "name": "easy-media-picker-core-kotlin-2.2.0-sources.jar",
+          "url": "easy-media-picker-core-2.2.0-sources.jar",
           "size": 9674,
           "sha512": "0d66428055a4120b552256adc0d106af9989442ff208d3b2c08e0733f96e5d5a0f25af4c6a1b2a83b3b3d8d017aa6639c61e66f9fde79b4f13432c0580f29e4c",
           "sha256": "6131d80ce4d236f586daa90192b95753f8e72ec0fde2d71e2af97f8f7610f9a3",
@@ -78,10 +78,10 @@
         "org.jetbrains.kotlin.platform.type": "androidJvm"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-android/2.1.0/easy-media-picker-core-android-2.1.0.module",
+        "url": "../../easy-media-picker-core-android/2.2.0/easy-media-picker-core-android-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-android",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -92,10 +92,10 @@
         "org.jetbrains.kotlin.platform.type": "androidJvm"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-android/2.1.0/easy-media-picker-core-android-2.1.0.module",
+        "url": "../../easy-media-picker-core-android/2.2.0/easy-media-picker-core-android-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-android",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -109,10 +109,10 @@
         "org.jetbrains.kotlin.platform.type": "androidJvm"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-android/2.1.0/easy-media-picker-core-android-2.1.0.module",
+        "url": "../../easy-media-picker-core-android/2.2.0/easy-media-picker-core-android-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-android",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -124,10 +124,10 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-desktop/2.1.0/easy-media-picker-core-desktop-2.1.0.module",
+        "url": "../../easy-media-picker-core-desktop/2.2.0/easy-media-picker-core-desktop-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-desktop",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -139,10 +139,10 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-desktop/2.1.0/easy-media-picker-core-desktop-2.1.0.module",
+        "url": "../../easy-media-picker-core-desktop/2.2.0/easy-media-picker-core-desktop-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-desktop",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -156,10 +156,10 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-desktop/2.1.0/easy-media-picker-core-desktop-2.1.0.module",
+        "url": "../../easy-media-picker-core-desktop/2.2.0/easy-media-picker-core-desktop-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-desktop",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -172,10 +172,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iosarm64/2.1.0/easy-media-picker-core-iosarm64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iosarm64/2.2.0/easy-media-picker-core-iosarm64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iosarm64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -189,10 +189,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iosarm64/2.1.0/easy-media-picker-core-iosarm64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iosarm64/2.2.0/easy-media-picker-core-iosarm64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iosarm64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -205,10 +205,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iosarm64/2.1.0/easy-media-picker-core-iosarm64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iosarm64/2.2.0/easy-media-picker-core-iosarm64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iosarm64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -221,10 +221,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iossimulatorarm64/2.1.0/easy-media-picker-core-iossimulatorarm64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iossimulatorarm64/2.2.0/easy-media-picker-core-iossimulatorarm64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iossimulatorarm64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -238,10 +238,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iossimulatorarm64/2.1.0/easy-media-picker-core-iossimulatorarm64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iossimulatorarm64/2.2.0/easy-media-picker-core-iossimulatorarm64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iossimulatorarm64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -254,10 +254,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iossimulatorarm64/2.1.0/easy-media-picker-core-iossimulatorarm64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iossimulatorarm64/2.2.0/easy-media-picker-core-iossimulatorarm64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iossimulatorarm64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -270,10 +270,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iosx64/2.1.0/easy-media-picker-core-iosx64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iosx64/2.2.0/easy-media-picker-core-iosx64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iosx64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -287,10 +287,10 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iosx64/2.1.0/easy-media-picker-core-iosx64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iosx64/2.2.0/easy-media-picker-core-iosx64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iosx64",
-        "version": "2.1.0"
+        "version": "2.2.0"
       }
     },
     {
@@ -303,10 +303,57 @@
         "org.jetbrains.kotlin.platform.type": "native"
       },
       "available-at": {
-        "url": "../../easy-media-picker-core-iosx64/2.1.0/easy-media-picker-core-iosx64-2.1.0.module",
+        "url": "../../easy-media-picker-core-iosx64/2.2.0/easy-media-picker-core-iosx64-2.2.0.module",
         "group": "io.github.basemnasr-labs",
         "module": "easy-media-picker-core-iosx64",
-        "version": "2.1.0"
+        "version": "2.2.0"
+      }
+    },
+    {
+      "name": "jsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-core-js/2.2.0/easy-media-picker-core-js-2.2.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-core-js",
+        "version": "2.2.0"
+      }
+    },
+    {
+      "name": "jsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-core-js/2.2.0/easy-media-picker-core-js-2.2.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-core-js",
+        "version": "2.2.0"
+      }
+    },
+    {
+      "name": "jsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../easy-media-picker-core-js/2.2.0/easy-media-picker-core-js-2.2.0.module",
+        "group": "io.github.basemnasr-labs",
+        "module": "easy-media-picker-core-js",
+        "version": "2.2.0"
       }
     }
   ]

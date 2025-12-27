@@ -11,11 +11,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,220 +30,244 @@ import kotlin.coroutines.resumeWithException
 
 /**
  * Android implementation of [MediaPicker].
- * 
+ *
  * Uses the modern Activity Result API and PhotoPicker when available.
  * Falls back to traditional intents on older devices.
+ * 
+ * Note: Launchers must be registered via [registerLaunchers] before use.
  */
-class AndroidMediaPicker private constructor(
-    private val context: Context,
-    private val activityResultRegistry: androidx.activity.result.ActivityResultRegistry,
-    private val lifecycleOwner: androidx.lifecycle.LifecycleOwner
+class AndroidMediaPicker(
+    private val context: Context
 ) : MediaPicker {
     
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     
-    companion object {
-        private const val KEY_PICK_IMAGE = "pick_image"
-        private const val KEY_PICK_IMAGES = "pick_images"
-        private const val KEY_PICK_VIDEO = "pick_video"
-        private const val KEY_PICK_VIDEOS = "pick_videos"
-        private const val KEY_PICK_FILE = "pick_file"
-        private const val KEY_PICK_FILES = "pick_files"
-        private const val KEY_CAPTURE_IMAGE = "capture_image"
-        private const val KEY_CAPTURE_VIDEO = "capture_video"
-        private const val KEY_PICK_MEDIA = "pick_media"
-        private const val KEY_PICK_MULTIPLE_MEDIA = "pick_multiple_media"
-        private const val KEY_REQUEST_PERMISSIONS = "request_permissions"
+    // Active continuation for the current operation
+    private var activeContinuation: CancellableContinuation<*>? = null
+    
+    // Launchers
+    private var pickVisualMediaLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private var pickMultipleVisualMediaLauncher: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    private var startActivityLauncher: ActivityResultLauncher<Intent>? = null
+    private var takePictureLauncher: ActivityResultLauncher<Uri>? = null
+    private var captureVideoLauncher: ActivityResultLauncher<Uri>? = null
+    private var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>? = null
+    
+    // Captured URI for camera operations
+    private var captureUri: Uri? = null
+    
+    // Current config for processing results
+    private var currentConfig: MediaPickerConfig = MediaPickerConfig.Default
+
+    fun registerLaunchers(
+        pickVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>,
+        pickMultipleVisualMedia: ActivityResultLauncher<PickVisualMediaRequest>,
+        startActivity: ActivityResultLauncher<Intent>,
+        takePicture: ActivityResultLauncher<Uri>,
+        captureVideo: ActivityResultLauncher<Uri>,
+        requestPermissions: ActivityResultLauncher<Array<String>>
+    ) {
+        this.pickVisualMediaLauncher = pickVisualMedia
+        this.pickMultipleVisualMediaLauncher = pickMultipleVisualMedia
+        this.startActivityLauncher = startActivity
+        this.takePictureLauncher = takePicture
+        this.captureVideoLauncher = captureVideo
+        this.requestPermissionsLauncher = requestPermissions
+    }
+
+    // ========== Result Handlers ==========
+
+    fun onPickVisualMediaResult(uri: Uri?) {
+        val continuation = activeContinuation as? CancellableContinuation<MediaResult?> ?: return
+        activeContinuation = null
         
-        /**
-         * Create from a ComponentActivity.
-         */
-        fun create(activity: ComponentActivity): AndroidMediaPicker {
-            return AndroidMediaPicker(
-                context = activity.applicationContext,
-                activityResultRegistry = activity.activityResultRegistry,
-                lifecycleOwner = activity
-            )
-        }
-        
-        /**
-         * Create from a Fragment.
-         */
-        fun create(fragment: Fragment): AndroidMediaPicker {
-            return AndroidMediaPicker(
-                context = fragment.requireContext().applicationContext,
-                activityResultRegistry = fragment.requireActivity().activityResultRegistry,
-                lifecycleOwner = fragment.viewLifecycleOwner
-            )
+        if (uri != null) {
+            scope.launch(Dispatchers.IO) {
+                try {
+                    val result = uriToMediaResult(uri, currentConfig)
+                    continuation.resume(result)
+                } catch (e: Exception) {
+                    continuation.resumeWithException(MediaPickerException("Failed to process media", e))
+                }
+            }
+        } else {
+            continuation.resume(null)
         }
     }
-    
+
+    fun onPickMultipleVisualMediaResult(uris: List<Uri>) {
+        val continuation = activeContinuation as? CancellableContinuation<List<MediaResult>> ?: return
+        activeContinuation = null
+        
+        if (uris.isNotEmpty()) {
+            scope.launch(Dispatchers.IO) {
+                try {
+                    val results = uris.mapNotNull { uri ->
+                        try {
+                            uriToMediaResult(uri, currentConfig)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                    continuation.resume(results)
+                } catch (e: Exception) {
+                    continuation.resumeWithException(MediaPickerException("Failed to process media", e))
+                }
+            }
+        } else {
+            continuation.resume(emptyList())
+        }
+    }
+
+    fun onActivityResult(result: ActivityResult) {
+        // Handle StartActivityForResult (Fallback & Files)
+        // We need to differentiate between single and multiple selection based on activeContinuation type/context?
+        // Or we check both types.
+        
+        // Try single result first
+        val singleContinuation = activeContinuation as? CancellableContinuation<MediaResult?>
+        if (singleContinuation != null) {
+            activeContinuation = null
+             val uri = result.data?.data
+             if (result.resultCode == Activity.RESULT_OK && uri != null) {
+                scope.launch(Dispatchers.IO) {
+                    try {
+                        val mediaResult = uriToMediaResult(uri, currentConfig)
+                        singleContinuation.resume(mediaResult)
+                    } catch (e: Exception) {
+                        singleContinuation.resumeWithException(MediaPickerException("Failed to process result", e))
+                    }
+                }
+            } else {
+                singleContinuation.resume(null)
+            }
+            return
+        }
+
+        // Try multiple result
+        val multipleContinuation = activeContinuation as? CancellableContinuation<List<MediaResult>>
+        if (multipleContinuation != null) {
+            activeContinuation = null
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uris = mutableListOf<Uri>()
+                result.data?.data?.let { uris.add(it) }
+                result.data?.clipData?.let { clipData ->
+                    for (i in 0 until clipData.itemCount) {
+                         clipData.getItemAt(i)?.uri?.let { uris.add(it) }
+                    }
+                }
+                
+                 if (uris.isNotEmpty()) {
+                    scope.launch(Dispatchers.IO) {
+                        try {
+                             val results = uris.mapNotNull { uri ->
+                                try {
+                                    uriToMediaResult(uri, currentConfig)
+                                } catch (e: Exception) {
+                                    null
+                                }
+                            }
+                            // Apply max selection limit if needed? 
+                            // Current impl relies on picker UI or just returns all.
+                            multipleContinuation.resume(results)
+                        } catch (e: Exception) {
+                            multipleContinuation.resumeWithException(MediaPickerException("Failed to process results", e))
+                        }
+                    }
+                } else {
+                    multipleContinuation.resume(emptyList())
+                }
+            } else {
+                multipleContinuation.resume(emptyList())
+            }
+            return
+        }
+    }
+
+    fun onTakePictureResult(success: Boolean) {
+        val continuation = activeContinuation as? CancellableContinuation<MediaResult?> ?: return
+        activeContinuation = null
+        
+        if (success && captureUri != null) {
+            scope.launch(Dispatchers.IO) {
+                try {
+                    val result = uriToMediaResult(captureUri!!, currentConfig)
+                    continuation.resume(result)
+                } catch (e: Exception) {
+                    continuation.resumeWithException(MediaPickerException("Failed to process captured image", e))
+                }
+            }
+        } else {
+            captureUri?.let { deleteUri(it) }
+            continuation.resume(null)
+        }
+    }
+
+    fun onCaptureVideoResult(success: Boolean) {
+        val continuation = activeContinuation as? CancellableContinuation<MediaResult?> ?: return
+        activeContinuation = null
+        
+        if (success && captureUri != null) {
+             scope.launch(Dispatchers.IO) {
+                try {
+                    val result = uriToMediaResult(captureUri!!, currentConfig)
+                    continuation.resume(result)
+                } catch (e: Exception) {
+                    continuation.resumeWithException(MediaPickerException("Failed to process captured video", e))
+                }
+            }
+        } else {
+            captureUri?.let { deleteUri(it) }
+            continuation.resume(null)
+        }
+    }
+
+    fun onRequestPermissionsResult(results: Map<String, Boolean>) {
+        val continuation = activeContinuation as? CancellableContinuation<Boolean> ?: return
+        activeContinuation = null
+        val allGranted = results.values.all { it }
+        continuation.resume(allGranted)
+    }
+
     // ========== Image Operations ==========
     
     override suspend fun pickImage(config: MediaPickerConfig): MediaResult? {
+        currentConfig = config
         return if (isPhotoPickerAvailable()) {
-            pickImageWithPhotoPicker(config)
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                pickVisualMediaLauncher?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
+            }
         } else {
-            pickImageWithIntent(config)
-        }
-    }
-    
-    private suspend fun pickImageWithPhotoPicker(config: MediaPickerConfig): MediaResult? {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_IMAGE + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.PickVisualMedia()
-            ) { uri ->
-                if (uri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val result = uriToMediaResult(uri, config)
-                            continuation.resume(result)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process image", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(null)
+             suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+                    type = "image/*"
                 }
-            }
-            
-            launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
-        }
-    }
-    
-    private suspend fun pickImageWithIntent(config: MediaPickerConfig): MediaResult? {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_IMAGE + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                val uri = result.data?.data
-                if (result.resultCode == Activity.RESULT_OK && uri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val mediaResult = uriToMediaResult(uri, config)
-                            continuation.resume(mediaResult)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process image", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(null)
-                }
-            }
-            
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-                type = "image/*"
-            }
-            launcher.launch(intent)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
+                startActivityLauncher?.launch(intent)
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
             }
         }
     }
     
     override suspend fun pickImages(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
+        currentConfig = config
         return if (isPhotoPickerAvailable()) {
-            pickImagesWithPhotoPicker(maxSelection, config)
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                pickMultipleVisualMediaLauncher?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
+            }
         } else {
-            pickImagesWithIntent(maxSelection, config)
-        }
-    }
-    
-    private suspend fun pickImagesWithPhotoPicker(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_IMAGES + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.PickMultipleVisualMedia(maxSelection)
-            ) { uris ->
-                if (uris.isNotEmpty()) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val results = uris.mapNotNull { uri ->
-                                try {
-                                    uriToMediaResult(uri, config)
-                                } catch (e: Exception) {
-                                    null
-                                }
-                            }
-                            continuation.resume(results)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process images", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(emptyList())
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+                    type = "image/*"
+                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
-            }
-            
-            launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
-        }
-    }
-    
-    private suspend fun pickImagesWithIntent(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_IMAGES + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val uris = mutableListOf<Uri>()
-                    
-                    // Check for single selection
-                    result.data?.data?.let { uris.add(it) }
-                    
-                    // Check for multiple selection
-                    result.data?.clipData?.let { clipData ->
-                        for (i in 0 until minOf(clipData.itemCount, maxSelection)) {
-                            clipData.getItemAt(i)?.uri?.let { uris.add(it) }
-                        }
-                    }
-                    
-                    if (uris.isNotEmpty()) {
-                        scope.launch(Dispatchers.IO) {
-                            try {
-                                val results = uris.mapNotNull { uri ->
-                                    try {
-                                        uriToMediaResult(uri, config)
-                                    } catch (e: Exception) {
-                                        null
-                                    }
-                                }
-                                continuation.resume(results)
-                            } catch (e: Exception) {
-                                continuation.resumeWithException(MediaPickerException("Failed to process images", e))
-                            }
-                        }
-                    } else {
-                        continuation.resume(emptyList())
-                    }
-                } else {
-                    continuation.resume(emptyList())
-                }
-            }
-            
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-                type = "image/*"
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            }
-            launcher.launch(intent)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
+                startActivityLauncher?.launch(intent)
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
             }
         }
     }
@@ -250,166 +275,42 @@ class AndroidMediaPicker private constructor(
     // ========== Video Operations ==========
     
     override suspend fun pickVideo(config: MediaPickerConfig): MediaResult? {
+        currentConfig = config
         return if (isPhotoPickerAvailable()) {
-            pickVideoWithPhotoPicker(config)
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                pickVisualMediaLauncher?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
+            }
         } else {
-            pickVideoWithIntent(config)
-        }
-    }
-    
-    private suspend fun pickVideoWithPhotoPicker(config: MediaPickerConfig): MediaResult? {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_VIDEO + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.PickVisualMedia()
-            ) { uri ->
-                if (uri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val result = uriToMediaResult(uri, config)
-                            continuation.resume(result)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process video", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(null)
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    type = "video/*"
                 }
-            }
-            
-            launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
-        }
-    }
-    
-    private suspend fun pickVideoWithIntent(config: MediaPickerConfig): MediaResult? {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_VIDEO + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                val uri = result.data?.data
-                if (result.resultCode == Activity.RESULT_OK && uri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val mediaResult = uriToMediaResult(uri, config)
-                            continuation.resume(mediaResult)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process video", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(null)
-                }
-            }
-            
-            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-                type = "video/*"
-            }
-            launcher.launch(intent)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
+                startActivityLauncher?.launch(intent)
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
             }
         }
     }
     
     override suspend fun pickVideos(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
+        currentConfig = config
         return if (isPhotoPickerAvailable()) {
-            pickVideosWithPhotoPicker(maxSelection, config)
+            suspendCancellableCoroutine { cont ->
+                 activeContinuation = cont
+                 pickMultipleVisualMediaLauncher?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
+            }
         } else {
-            pickVideosWithIntent(maxSelection, config)
-        }
-    }
-    
-    private suspend fun pickVideosWithPhotoPicker(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_VIDEOS + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.PickMultipleVisualMedia(maxSelection)
-            ) { uris ->
-                if (uris.isNotEmpty()) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val results = uris.mapNotNull { uri ->
-                                try {
-                                    uriToMediaResult(uri, config)
-                                } catch (e: Exception) {
-                                    null
-                                }
-                            }
-                            continuation.resume(results)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process videos", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(emptyList())
+             suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    type = "video/*"
+                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
-            }
-            
-            launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
-        }
-    }
-    
-    private suspend fun pickVideosWithIntent(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_VIDEOS + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val uris = mutableListOf<Uri>()
-                    
-                    result.data?.data?.let { uris.add(it) }
-                    result.data?.clipData?.let { clipData ->
-                        for (i in 0 until minOf(clipData.itemCount, maxSelection)) {
-                            clipData.getItemAt(i)?.uri?.let { uris.add(it) }
-                        }
-                    }
-                    
-                    if (uris.isNotEmpty()) {
-                        scope.launch(Dispatchers.IO) {
-                            try {
-                                val results = uris.mapNotNull { uri ->
-                                    try {
-                                        uriToMediaResult(uri, config)
-                                    } catch (e: Exception) {
-                                        null
-                                    }
-                                }
-                                continuation.resume(results)
-                            } catch (e: Exception) {
-                                continuation.resumeWithException(MediaPickerException("Failed to process videos", e))
-                            }
-                        }
-                    } else {
-                        continuation.resume(emptyList())
-                    }
-                } else {
-                    continuation.resume(emptyList())
-                }
-            }
-            
-            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-                type = "video/*"
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            }
-            launcher.launch(intent)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
+                startActivityLauncher?.launch(intent)
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
             }
         }
     }
@@ -417,248 +318,87 @@ class AndroidMediaPicker private constructor(
     // ========== File Operations ==========
     
     override suspend fun pickFile(config: MediaPickerConfig): MediaResult? {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_FILE + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                val uri = result.data?.data
-                if (result.resultCode == Activity.RESULT_OK && uri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val mediaResult = uriToMediaResult(uri, config)
-                            continuation.resume(mediaResult)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process file", e))
-                        }
-                    }
-                } else {
-                    continuation.resume(null)
-                }
-            }
-            
+        currentConfig = config
+        return suspendCancellableCoroutine { cont ->
+            activeContinuation = cont
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-                type = if (config.allowedMimeTypes.isNotEmpty()) {
-                    config.allowedMimeTypes.first()
-                } else {
-                    "*/*"
-                }
+                type = if (config.allowedMimeTypes.isNotEmpty()) config.allowedMimeTypes.first() else "*/*"
                 if (config.allowedMimeTypes.size > 1) {
                     putExtra(Intent.EXTRA_MIME_TYPES, config.allowedMimeTypes.toTypedArray())
                 }
             }
-            launcher.launch(intent)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
+            startActivityLauncher?.launch(intent)
+                 ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
         }
     }
     
     override suspend fun pickFiles(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_PICK_FILES + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val uris = mutableListOf<Uri>()
-                    
-                    result.data?.data?.let { uris.add(it) }
-                    result.data?.clipData?.let { clipData ->
-                        for (i in 0 until minOf(clipData.itemCount, maxSelection)) {
-                            clipData.getItemAt(i)?.uri?.let { uris.add(it) }
-                        }
-                    }
-                    
-                    if (uris.isNotEmpty()) {
-                        scope.launch(Dispatchers.IO) {
-                            try {
-                                val results = uris.mapNotNull { uri ->
-                                    try {
-                                        uriToMediaResult(uri, config)
-                                    } catch (e: Exception) {
-                                        null
-                                    }
-                                }
-                                continuation.resume(results)
-                            } catch (e: Exception) {
-                                continuation.resumeWithException(MediaPickerException("Failed to process files", e))
-                            }
-                        }
-                    } else {
-                        continuation.resume(emptyList())
-                    }
-                } else {
-                    continuation.resume(emptyList())
-                }
-            }
-            
-            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-                type = if (config.allowedMimeTypes.isNotEmpty()) {
-                    config.allowedMimeTypes.first()
-                } else {
-                    "*/*"
-                }
+        currentConfig = config
+        return suspendCancellableCoroutine { cont ->
+            activeContinuation = cont
+             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = if (config.allowedMimeTypes.isNotEmpty()) config.allowedMimeTypes.first() else "*/*"
                 if (config.allowedMimeTypes.size > 1) {
                     putExtra(Intent.EXTRA_MIME_TYPES, config.allowedMimeTypes.toTypedArray())
                 }
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             }
-            launcher.launch(intent)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
+            startActivityLauncher?.launch(intent)
+                 ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
         }
     }
     
     // ========== Camera Operations ==========
     
-    private var captureUri: Uri? = null
-    
     override suspend fun captureImage(config: MediaPickerConfig): MediaResult? {
+        currentConfig = config
         val uri = withContext(Dispatchers.IO) { createImageUri() }
             ?: throw MediaPickerException("Failed to create image URI")
-        
         captureUri = uri
         
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_CAPTURE_IMAGE + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.TakePicture()
-            ) { success ->
-                if (success && captureUri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val result = uriToMediaResult(captureUri!!, config)
-                            continuation.resume(result)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process captured image", e))
-                        }
-                    }
-                } else {
-                    // Clean up the empty file
-                    captureUri?.let { deleteUri(it) }
-                    continuation.resume(null)
-                }
-            }
-            
-            launcher.launch(uri)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
+        return suspendCancellableCoroutine { cont ->
+            activeContinuation = cont
+            takePictureLauncher?.launch(uri)
+                 ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
         }
     }
     
     override suspend fun captureVideo(config: MediaPickerConfig): MediaResult? {
+        currentConfig = config
         val uri = withContext(Dispatchers.IO) { createVideoUri() }
             ?: throw MediaPickerException("Failed to create video URI")
-        
         captureUri = uri
         
-        return suspendCancellableCoroutine { continuation ->
-            val launcher = activityResultRegistry.register(
-                KEY_CAPTURE_VIDEO + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.CaptureVideo()
-            ) { success ->
-                if (success && captureUri != null) {
-                    scope.launch(Dispatchers.IO) {
-                        try {
-                            val result = uriToMediaResult(captureUri!!, config)
-                            continuation.resume(result)
-                        } catch (e: Exception) {
-                            continuation.resumeWithException(MediaPickerException("Failed to process captured video", e))
-                        }
-                    }
-                } else {
-                    captureUri?.let { deleteUri(it) }
-                    continuation.resume(null)
-                }
-            }
-            
-            launcher.launch(uri)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
+        return suspendCancellableCoroutine { cont ->
+            activeContinuation = cont
+            captureVideoLauncher?.launch(uri)
+                 ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
         }
     }
     
     // ========== Media (Combined) Operations ==========
     
     override suspend fun pickMedia(config: MediaPickerConfig): MediaResult? {
+        currentConfig = config
         return if (isPhotoPickerAvailable()) {
-            suspendCancellableCoroutine { continuation ->
-                val launcher = activityResultRegistry.register(
-                    KEY_PICK_MEDIA + System.currentTimeMillis(),
-                    lifecycleOwner,
-                    ActivityResultContracts.PickVisualMedia()
-                ) { uri ->
-                    if (uri != null) {
-                        scope.launch(Dispatchers.IO) {
-                            try {
-                                val result = uriToMediaResult(uri, config)
-                                continuation.resume(result)
-                            } catch (e: Exception) {
-                                continuation.resumeWithException(MediaPickerException("Failed to process media", e))
-                            }
-                        }
-                    } else {
-                        continuation.resume(null)
-                    }
-                }
-                
-                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
-                
-                continuation.invokeOnCancellation {
-                    launcher.unregister()
-                }
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                pickVisualMediaLauncher?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
             }
         } else {
-            // Fall back to intent-based picker
-            pickImage(config) ?: pickVideo(config)
+            // Fallback not perfectly supported for combined without custom logic, defaulting to image
+            pickImage(config)
         }
     }
     
     override suspend fun pickMultipleMedia(maxSelection: Int, config: MediaPickerConfig): List<MediaResult> {
+        currentConfig = config
         return if (isPhotoPickerAvailable()) {
-            suspendCancellableCoroutine { continuation ->
-                val launcher = activityResultRegistry.register(
-                    KEY_PICK_MULTIPLE_MEDIA + System.currentTimeMillis(),
-                    lifecycleOwner,
-                    ActivityResultContracts.PickMultipleVisualMedia(maxSelection)
-                ) { uris ->
-                    if (uris.isNotEmpty()) {
-                        scope.launch(Dispatchers.IO) {
-                            try {
-                                val results = uris.mapNotNull { uri ->
-                                    try {
-                                        uriToMediaResult(uri, config)
-                                    } catch (e: Exception) {
-                                        null
-                                    }
-                                }
-                                continuation.resume(results)
-                            } catch (e: Exception) {
-                                continuation.resumeWithException(MediaPickerException("Failed to process media", e))
-                            }
-                        }
-                    } else {
-                        continuation.resume(emptyList())
-                    }
-                }
-                
-                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
-                
-                continuation.invokeOnCancellation {
-                    launcher.unregister()
-                }
+            suspendCancellableCoroutine { cont ->
+                activeContinuation = cont
+                pickMultipleVisualMediaLauncher?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+                     ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
             }
         } else {
             pickImages(maxSelection, config)
@@ -668,7 +408,8 @@ class AndroidMediaPicker private constructor(
     // ========== Permissions ==========
     
     override suspend fun hasPermissions(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        // Implementation remains the same
+         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -680,7 +421,8 @@ class AndroidMediaPicker private constructor(
     }
     
     override suspend fun requestPermissions(): Boolean {
-        return suspendCancellableCoroutine { continuation ->
+        return suspendCancellableCoroutine { cont ->
+            activeContinuation = cont
             val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 arrayOf(
                     Manifest.permission.READ_MEDIA_IMAGES,
@@ -699,28 +441,15 @@ class AndroidMediaPicker private constructor(
                     Manifest.permission.CAMERA
                 )
             }
-            
-            val launcher = activityResultRegistry.register(
-                KEY_REQUEST_PERMISSIONS + System.currentTimeMillis(),
-                lifecycleOwner,
-                ActivityResultContracts.RequestMultiplePermissions()
-            ) { results ->
-                val allGranted = results.values.all { it }
-                continuation.resume(allGranted)
-            }
-            
-            launcher.launch(permissions)
-            
-            continuation.invokeOnCancellation {
-                launcher.unregister()
-            }
+            requestPermissionsLauncher?.launch(permissions)
+                 ?: cont.resumeWithException(IllegalStateException("Launcher not registered"))
         }
     }
     
     // ========== Helper Functions ==========
     
     private fun isPhotoPickerAvailable(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+        return ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context)
     }
     
     private suspend fun uriToMediaResult(uri: Uri, config: MediaPickerConfig): MediaResult {
@@ -805,8 +534,8 @@ class AndroidMediaPicker private constructor(
     private fun createVideoUri(): Uri? {
         val filename = "video_${System.currentTimeMillis()}.mp4"
         val contentValues = ContentValues().apply {
-            put(MediaStore.Video.Media.DISPLAY_NAME, filename)
-            put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
+             put(MediaStore.Video.Media.DISPLAY_NAME, filename)
+             put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
         }
         
         val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.basemnasr-labs</groupId>
   <artifactId>easy-media-picker-core-iosx64</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
   <packaging>klib</packaging>
   <name>EasyMediaPicker Core</name>
   <description>Core logic for EasyMediaPicker KMP library</description>

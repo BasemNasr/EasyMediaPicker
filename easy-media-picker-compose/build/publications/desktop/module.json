@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../easy-media-picker-compose/2.1.0/easy-media-picker-compose-2.1.0.module",
+    "url": "../../easy-media-picker-compose/2.2.0/easy-media-picker-compose-2.2.0.module",
     "group": "io.github.basemnasr-labs",
     "module": "easy-media-picker-compose",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -34,13 +34,13 @@
       ],
       "files": [
         {
-          "name": "easy-media-picker-compose-desktop-2.1.0.jar",
-          "url": "easy-media-picker-compose-desktop-2.1.0.jar",
-          "size": 34412,
-          "sha512": "6cb1e8060b712aaef671ac0b9a979028228790bff925ddc8d362b150f0179a9d2237cdce2791ca05168fefb57bfcb61ffbf909c2e1224397ddd2807137529bad",
-          "sha256": "b5976685e80866bb3f77c8ffbd6e4724f619d2e4f073a3473cb345129bb5bc3f",
-          "sha1": "980c21c0e2250f8394584dcf72468cbbb42c6385",
-          "md5": "a13355ae188d975eba1a7e2036f5d08e"
+          "name": "easy-media-picker-compose-desktop-2.2.0.jar",
+          "url": "easy-media-picker-compose-desktop-2.2.0.jar",
+          "size": 35861,
+          "sha512": "65ccb295476befaf628f01f57b91557e87ea3bc9838bd8e6acd7ed67d819457c637ef5fda5deb712779e884e8660948d85618cda7074f30f5bf0042cf3b0fc6d",
+          "sha256": "122d16e3961820be428139c20d40e62c8ca438345f39fbe29822b75b3fe33c77",
+          "sha1": "1a42baf29df16c4c0450f7da27296a42590df131",
+          "md5": "5684406f8f43992077b5b961ecbd8238"
         }
       ]
     },
@@ -71,7 +71,7 @@
           "group": "io.github.basemnasr-labs",
           "module": "easy-media-picker-core",
           "version": {
-            "requires": "2.1.0"
+            "requires": "2.2.0"
           }
         },
         {
@@ -98,13 +98,13 @@
       ],
       "files": [
         {
-          "name": "easy-media-picker-compose-desktop-2.1.0.jar",
-          "url": "easy-media-picker-compose-desktop-2.1.0.jar",
-          "size": 34412,
-          "sha512": "6cb1e8060b712aaef671ac0b9a979028228790bff925ddc8d362b150f0179a9d2237cdce2791ca05168fefb57bfcb61ffbf909c2e1224397ddd2807137529bad",
-          "sha256": "b5976685e80866bb3f77c8ffbd6e4724f619d2e4f073a3473cb345129bb5bc3f",
-          "sha1": "980c21c0e2250f8394584dcf72468cbbb42c6385",
-          "md5": "a13355ae188d975eba1a7e2036f5d08e"
+          "name": "easy-media-picker-compose-desktop-2.2.0.jar",
+          "url": "easy-media-picker-compose-desktop-2.2.0.jar",
+          "size": 35861,
+          "sha512": "65ccb295476befaf628f01f57b91557e87ea3bc9838bd8e6acd7ed67d819457c637ef5fda5deb712779e884e8660948d85618cda7074f30f5bf0042cf3b0fc6d",
+          "sha256": "122d16e3961820be428139c20d40e62c8ca438345f39fbe29822b75b3fe33c77",
+          "sha1": "1a42baf29df16c4c0450f7da27296a42590df131",
+          "md5": "5684406f8f43992077b5b961ecbd8238"
         }
       ]
     },
@@ -120,13 +120,13 @@
       },
       "files": [
         {
-          "name": "easy-media-picker-compose-desktop-2.1.0-sources.jar",
-          "url": "easy-media-picker-compose-desktop-2.1.0-sources.jar",
-          "size": 4472,
-          "sha512": "bd3b09013c8aa007b77553069f90bd03514cb714f36bb6173874bae3ac08d13f6865f5549b1f1f7b626c50c5d29717ab75f2006eae22e1e996bffb9524509cfe",
-          "sha256": "ae5a5a1e8876fae9915ea013ff2fe5ac29617d68001283a5a50643d978c28411",
-          "sha1": "1dadc2fc2c939760ba86a63b86167acefa6f53aa",
-          "md5": "46d450d8a546d0f6e887793ab674b9db"
+          "name": "easy-media-picker-compose-desktop-2.2.0-sources.jar",
+          "url": "easy-media-picker-compose-desktop-2.2.0-sources.jar",
+          "size": 4587,
+          "sha512": "58438c6e3aaad48f446fbe0e3bc9438ec1b0e292c0c696a34f1d239d6b3def6402257586a8349cf42f9b92b6c4a9badc5b427b610ab7c0e1308ca30947b7d794",
+          "sha256": "cf0231386b7e32e1ebce8301353a9c43354181bb9795e8f4df7eec5dcd6db4aa",
+          "sha1": "c15f5dfa005c7dd948b83cd0f62320babaec0fb8",
+          "md5": "07da27839235045ef019e81f58a0af41"
         }
       ]
     }
