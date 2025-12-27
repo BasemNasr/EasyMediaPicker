@@ -8,9 +8,9 @@ A Kotlin Multiplatform library for picking images, videos, and files across Andr
 
 ## Demo
 
-| Screenshot | Video Demo |
-| :---: | :---: |
-| <img src="screen-1.png" width="300"> | <video src="ScreenRecord.mov" width="300" controls></video> |
+|              Screenshot              |                         Video Demo                          |
+|:------------------------------------:|:-----------------------------------------------------------:|
+| <img src="screen-1.png" width="400"> | <video src="ScreenRecord.mov" width="400" controls></video> |
 
 ## Overview
 
@@ -76,8 +76,8 @@ dependencyResolutionManagement {
 
 // In your androidMain or desktopMain (NOT commonMain)
 androidMain.dependencies {
-    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
-    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.2.0")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.2.0")
 }
 ```
 
@@ -100,7 +100,7 @@ dependencyResolutionManagement {
 
 // build.gradle (app)
 dependencies {
-    implementation "com.github.BasemNasr:EasyMediaPicker:v2.0.2"
+    implementation "com.github.BasemNasr:EasyMediaPicker:v2.2.0"
 }
 ```
 
@@ -116,10 +116,10 @@ If your Android-only app is already using **Jetpack Compose**, it is recommended
 ```kotlin
 dependencies {
     // Core API (Android implementation included)
-    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-core:v2.2.0")
 
     // Compose integration (for rememberMediaPickerState)
-    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.0.2")
+    implementation("com.github.BasemNasr.EasyMediaPicker:easy-media-picker-compose:v2.2.0")
 }
 ```
 
