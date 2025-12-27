@@ -8,9 +8,9 @@ A Kotlin Multiplatform library for picking images, videos, and files across Andr
 
 ## Demo
 
-|              Screenshot              |                         Video Demo                          |
-|:------------------------------------:|:-----------------------------------------------------------:|
-| <img src="screen-1.png" width="500"> | <video src="ScreenRecord.mov" width="500" controls></video> |
+|              Screenshot              |
+|:------------------------------------:|
+| <img src="screen-1.png" width="700"> |
 
 ## Overview
 
