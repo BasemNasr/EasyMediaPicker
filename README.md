@@ -1,10 +1,10 @@
 # EasyMediaPicker KMP
 
+A Kotlin Multiplatform library for picking images, videos, and files across Android, iOS, Desktop, and Web platforms.
 <p align="center">
-  <img src="EasyMediaPicker.png" width="600">
+  <img src="EasyMediaPicker.png" width="700">
 </p>
 
-A Kotlin Multiplatform library for picking images, videos, and files across Android, iOS, Desktop, and Web platforms.
 
 ## Demo
 
