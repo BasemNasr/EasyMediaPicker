@@ -1,0 +1,56 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:2:1-22:12
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:2:1-22:12
+	package
+		INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.CAMERA
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:5:5-65
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:5:22-62
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:8:5-9:38
+	android:maxSdkVersion
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:9:9-35
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:8:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:10:5-11:38
+	android:maxSdkVersion
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:11:9-35
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:10:22-78
+uses-permission#android.permission.READ_MEDIA_IMAGES
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:14:5-76
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:14:22-73
+uses-permission#android.permission.READ_MEDIA_VIDEO
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:15:5-75
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:15:22-72
+uses-permission#android.permission.READ_MEDIA_AUDIO
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:16:5-75
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:16:22-72
+uses-feature#android.hardware.camera
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:19:5-85
+	android:required
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:19:58-82
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:19:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:20:5-95
+	android:required
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:20:68-92
+	android:name
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml:20:19-67
+uses-sdk
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-core/src/androidMain/AndroidManifest.xml

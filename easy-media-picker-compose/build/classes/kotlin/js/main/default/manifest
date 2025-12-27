@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=1.9.20
+depends=io.github.basemnasr-labs\:easy-media-picker-core org.jetbrains.kotlin\:kotlin-dom-api-compat org.jetbrains.compose.foundation\:foundation org.jetbrains.compose.animation\:animation org.jetbrains.compose.foundation\:foundation-layout org.jetbrains.compose.animation\:animation-core org.jetbrains.compose.ui\:ui org.jetbrains.compose.ui\:ui-text org.jetbrains.compose.ui\:ui-graphics org.jetbrains.skiko\:skiko org.jetbrains.compose.html\:html-core org.jetbrains.compose.html\:internal-html-core-runtime org.jetbrains.compose.ui\:ui-unit org.jetbrains.compose.ui\:ui-geometry org.jetbrains.compose.runtime\:runtime-saveable org.jetbrains.compose.runtime\:runtime org.jetbrains.kotlinx\:kotlinx-coroutines-core org.jetbrains.kotlinx\:atomicfu org.jetbrains.compose.ui\:ui-util kotlin org.jetbrains.kotlin\:kotlinx-atomicfu-runtime
+ir_signature_versions=1,2
+jsOutputName=EasyMediaPicker-easy-media-picker-compose
+metadata_version=1.4.1
+serializedIrFileFingerprints=1fh3ubyq0w4vo.2ow8bie0oazvc 3f0b3u4mmsl1t.3fclraplxqtvc 2i7pvbzkkryfd.1sq0h9ypxyeu
+serializedKlibFingerprint=152re7uc9kzxp.rs5gkiryxgho
+unique_name=io.github.basemnasr-labs\:easy-media-picker-compose

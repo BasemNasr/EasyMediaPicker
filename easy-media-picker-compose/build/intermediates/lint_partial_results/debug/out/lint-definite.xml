@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.2.0" type="incidents">
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-core than 1.7.3 is available: 1.10.2">
+        <fix-replace
+            description="Change to 1.10.2"
+            family="Update versions"
+            oldString="1.7.3"
+            replacement="1.10.2"/>
+        <location
+            file="${:easy-media-picker-compose*projectDir}/build.gradle.kts"
+            line="83"
+            column="33"
+            startOffset="2222"
+            endLine="83"
+            endColumn="84"
+            endOffset="2273"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.activity:activity-compose than 1.8.1 is available: 1.12.2">
+        <fix-replace
+            description="Change to 1.12.2"
+            family="Update versions"
+            oldString="1.8.1"
+            replacement="1.12.2"/>
+        <location
+            file="${:easy-media-picker-compose*projectDir}/build.gradle.kts"
+            line="96"
+            column="33"
+            startOffset="2591"
+            endLine="96"
+            endColumn="73"
+            endOffset="2631"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.6.2 is available: 2.10.0">
+        <fix-replace
+            description="Change to 2.10.0"
+            family="Update versions"
+            oldString="2.6.2"
+            replacement="2.10.0"/>
+        <location
+            file="${:easy-media-picker-compose*projectDir}/build.gradle.kts"
+            line="97"
+            column="33"
+            startOffset="2666"
+            endLine="97"
+            endColumn="83"
+            endOffset="2716"/>
+    </incident>
+
+</incidents>

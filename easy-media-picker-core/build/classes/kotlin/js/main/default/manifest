@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=1.9.20
+depends=org.jetbrains.kotlin\:kotlin-dom-api-compat org.jetbrains.kotlinx\:kotlinx-coroutines-core org.jetbrains.kotlinx\:atomicfu kotlin org.jetbrains.kotlin\:kotlinx-atomicfu-runtime
+ir_signature_versions=1,2
+jsOutputName=EasyMediaPicker-easy-media-picker-core
+metadata_version=1.4.1
+serializedIrFileFingerprints=284q6ygbw5uvl.1kc9w7pdrulps f0k7t7689v76.1rmvkmiklphbh 2t6dwp412a2mh.2rypqqtt5ki6y 1iq8vix05txm.1g1onzsfaoflc 3i1ye7i4l2ta4.99gz30r8rojk 3obfrll6gqzna.1l8km957tf0og
+serializedKlibFingerprint=2sa8s2bf7o49q.r5d7l0yjz1vi
+unique_name=io.github.basemnasr-labs\:easy-media-picker-core

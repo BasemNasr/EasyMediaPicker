@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/layout-v21/notification_template_custom_big.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-core-1.12.0-9:/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/layout-v21/notification_template_icon_group.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-core-1.12.0-9:/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/layout-v21/notification_action.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-core-1.12.0-9:/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/layout-v21/notification_action_tombstone.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-core-1.12.0-9:/layout-v21/notification_action_tombstone.xml"
+    }
+]

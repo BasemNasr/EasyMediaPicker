@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.bn.easymediapicker.compose.easy-media-picker-compose-merged_res-43:/layout-watch-v20/abc_alert_dialog_title_material.xml",
+        "source": "com.bn.easymediapicker.compose.easy-media-picker-compose-appcompat-1.6.1-27:/layout-watch-v20/abc_alert_dialog_title_material.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.compose.easy-media-picker-compose-merged_res-43:/layout-watch-v20/abc_alert_dialog_button_bar_material.xml",
+        "source": "com.bn.easymediapicker.compose.easy-media-picker-compose-appcompat-1.6.1-27:/layout-watch-v20/abc_alert_dialog_button_bar_material.xml"
+    }
+]

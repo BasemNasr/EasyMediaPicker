@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml:2:1-4:12
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml:2:1-4:12
+	package
+		INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml:2:11-69
+uses-sdk
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml
+INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/basemnasr/EasyMediaPicker/easy-media-picker-compose/src/androidMain/AndroidManifest.xml

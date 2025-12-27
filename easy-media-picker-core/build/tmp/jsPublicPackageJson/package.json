@@ -1,0 +1,13 @@
+{
+  "name": "EasyMediaPicker-easy-media-picker-core",
+  "version": "2.2.0",
+  "main": "EasyMediaPicker-easy-media-picker-core.js",
+  "types": "EasyMediaPicker-easy-media-picker-core.d.ts",
+  "devDependencies": {},
+  "dependencies": {
+    "format-util": "^1.0.5"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

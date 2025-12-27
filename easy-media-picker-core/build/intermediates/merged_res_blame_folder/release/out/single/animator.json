@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/animator/fragment_close_enter.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-fragment-1.6.2-5:/animator/fragment_close_enter.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/animator/fragment_fade_exit.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-fragment-1.6.2-5:/animator/fragment_fade_exit.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/animator/fragment_open_exit.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-fragment-1.6.2-5:/animator/fragment_open_exit.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/animator/fragment_open_enter.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-fragment-1.6.2-5:/animator/fragment_open_enter.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/animator/fragment_fade_enter.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-fragment-1.6.2-5:/animator/fragment_fade_enter.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/animator/fragment_close_exit.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-fragment-1.6.2-5:/animator/fragment_close_exit.xml"
+    }
+]

@@ -1,0 +1,120 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../easy-media-picker-core/2.2.0/easy-media-picker-core-2.2.0.module",
+    "group": "io.github.basemnasr-labs",
+    "module": "easy-media-picker-core",
+    "version": "2.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "jsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-dom-api-compat",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-core-js-2.2.0.klib",
+          "url": "easy-media-picker-core-js-2.2.0.klib",
+          "size": 27165,
+          "sha512": "55ab386675cbf96659d78478af2e692c94174e44691725e00abad8f2953bbdee53989eda170943ab53d190df5ee861a98b4bd0c11f2c64ee494cc0b0be252774",
+          "sha256": "81827a9a36e753ff93f920e99fd8e91ecd008495101da68827e6525507202eae",
+          "sha1": "f2db0791809999034d380ea05662cac8f38d801e",
+          "md5": "4b5377c3bdce1e6c1ee12f48e18e373c"
+        }
+      ]
+    },
+    {
+      "name": "jsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-dom-api-compat",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-core-js-2.2.0.klib",
+          "url": "easy-media-picker-core-js-2.2.0.klib",
+          "size": 27165,
+          "sha512": "55ab386675cbf96659d78478af2e692c94174e44691725e00abad8f2953bbdee53989eda170943ab53d190df5ee861a98b4bd0c11f2c64ee494cc0b0be252774",
+          "sha256": "81827a9a36e753ff93f920e99fd8e91ecd008495101da68827e6525507202eae",
+          "sha1": "f2db0791809999034d380ea05662cac8f38d801e",
+          "md5": "4b5377c3bdce1e6c1ee12f48e18e373c"
+        }
+      ]
+    },
+    {
+      "name": "jsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "files": [
+        {
+          "name": "easy-media-picker-core-js-2.2.0-sources.jar",
+          "url": "easy-media-picker-core-js-2.2.0-sources.jar",
+          "size": 7375,
+          "sha512": "d8d33c999e8f5f4ba7948e0c9d6da034d9a8e9dda5f5437096ee84307f34947d1664e16a756b846670b2c217a2f62a86262de4667cfbbb5d1b33c331c7be2295",
+          "sha256": "6734deb55018fb7af1c43be226dfbc19d8e6378b68b9e60a411f3dca41e46b8f",
+          "sha1": "0875c8480c2c5fcf7b7a65ed02a1418ee025f11f",
+          "md5": "805962fbbc2755210666a3708bc5573f"
+        }
+      ]
+    }
+  ]
+}

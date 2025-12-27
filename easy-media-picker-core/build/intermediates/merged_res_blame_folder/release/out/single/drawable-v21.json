@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-appcompat-1.6.1-18:/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/drawable-v21/abc_list_divider_material.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-appcompat-1.6.1-18:/drawable-v21/abc_list_divider_material.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/drawable-v21/abc_edit_text_material.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-appcompat-1.6.1-18:/drawable-v21/abc_edit_text_material.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/drawable-v21/abc_dialog_material_background.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-appcompat-1.6.1-18:/drawable-v21/abc_dialog_material_background.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/drawable-v21/abc_btn_colored_material.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-appcompat-1.6.1-18:/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/drawable-v21/notification_action_background.xml",
+        "source": "com.bn.easymediapicker.core.easy-media-picker-core-core-1.12.0-9:/drawable-v21/notification_action_background.xml"
+    }
+]

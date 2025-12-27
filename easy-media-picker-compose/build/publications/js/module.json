@@ -1,0 +1,148 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../easy-media-picker-compose/2.2.0/easy-media-picker-compose-2.2.0.module",
+    "group": "io.github.basemnasr-labs",
+    "module": "easy-media-picker-compose",
+    "version": "2.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "jsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-dom-api-compat",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose-js-2.2.0.klib",
+          "url": "easy-media-picker-compose-js-2.2.0.klib",
+          "size": 15917,
+          "sha512": "a7a9efe54604061b790882073edebf60527a3db98280bb19c0c521d17983c00c7600b4cd9eae7a0df2c99f3ea91f0804f6a5a3dd97dc7b218239bddfdbb6393b",
+          "sha256": "e714b4d6b3ea2acbb43efcb465204527116799e1b118f8b829a77444a9159f05",
+          "sha1": "18bb6690f7607636d6c8f181af07877a0ba0b6aa",
+          "md5": "57972840b4213377df361bfec137b8ff"
+        }
+      ]
+    },
+    {
+      "name": "jsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-dom-api-compat",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.html",
+          "module": "html-core",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "io.github.basemnasr-labs",
+          "module": "easy-media-picker-core",
+          "version": {
+            "requires": "2.2.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.5.11"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.7.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "easy-media-picker-compose-js-2.2.0.klib",
+          "url": "easy-media-picker-compose-js-2.2.0.klib",
+          "size": 15917,
+          "sha512": "a7a9efe54604061b790882073edebf60527a3db98280bb19c0c521d17983c00c7600b4cd9eae7a0df2c99f3ea91f0804f6a5a3dd97dc7b218239bddfdbb6393b",
+          "sha256": "e714b4d6b3ea2acbb43efcb465204527116799e1b118f8b829a77444a9159f05",
+          "sha1": "18bb6690f7607636d6c8f181af07877a0ba0b6aa",
+          "md5": "57972840b4213377df361bfec137b8ff"
+        }
+      ]
+    },
+    {
+      "name": "jsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "files": [
+        {
+          "name": "easy-media-picker-compose-js-2.2.0-sources.jar",
+          "url": "easy-media-picker-compose-js-2.2.0-sources.jar",
+          "size": 4072,
+          "sha512": "9481f2946411920600ddbe7a1587e9bac62dc9a6895984a4c30a67b5d5e1e14947c569b891df9053c6b02f00ef567ea86063e2f8f1aed7d3996cdb329059fc31",
+          "sha256": "6b79039c3cc9cde807f6800c67a3b29ca3891c5019aa0c5ec136b22d04391729",
+          "sha1": "0da9c0598ff6ba9d7b352680822e781ed1eae3ab",
+          "md5": "b56accf465a045de1a161d04a1574eb9"
+        }
+      ]
+    }
+  ]
+}

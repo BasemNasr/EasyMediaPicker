@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.2.0" type="conditional_incidents">
+
+    <incident
+        id="ScopedStorage"
+        severity="warning"
+        message="">
+        <location
+            file="${:easy-media-picker-core*debug*MAIN*sourceProvider*0*manifest*0}"
+            line="8"
+            column="36"
+            startOffset="324"
+            endLine="8"
+            endColumn="76"
+            endOffset="364"/>
+        <map>
+            <entry
+                name="maxSdkVersion"
+                int="32"/>
+            <entry
+                name="read"
+                boolean="true"/>
+        </map>
+    </incident>
+
+    <incident
+        id="ScopedStorage"
+        severity="warning"
+        message="">
+        <location
+            file="${:easy-media-picker-core*debug*MAIN*sourceProvider*0*manifest*0}"
+            line="10"
+            column="36"
+            startOffset="439"
+            endLine="10"
+            endColumn="77"
+            endOffset="480"/>
+        <map>
+            <entry
+                name="maxSdkVersion"
+                int="28"/>
+            <entry
+                name="read"
+                boolean="false"/>
+        </map>
+    </incident>
+
+</incidents>

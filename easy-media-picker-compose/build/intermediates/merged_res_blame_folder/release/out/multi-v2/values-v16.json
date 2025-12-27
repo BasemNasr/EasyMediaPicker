@@ -1,0 +1,72 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bn.easymediapicker.compose.easy-media-picker-compose-mergeReleaseResources-41:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/4fc876403d44b447ad6cbb96aae82527/transformed/core-1.12.0/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/c149ec3289039ac84b4f917d71ab03ab/transformed/appcompat-1.6.1/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.bn.easymediapicker.compose.easy-media-picker-compose-merged_res-43:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/4fc876403d44b447ad6cbb96aae82527/transformed/core-1.12.0/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/c149ec3289039ac84b4f917d71ab03ab/transformed/appcompat-1.6.1/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                }
+            ]
+        }
+    ]
+}

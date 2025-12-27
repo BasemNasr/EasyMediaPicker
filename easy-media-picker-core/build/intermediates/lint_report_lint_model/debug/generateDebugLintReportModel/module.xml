@@ -1,0 +1,19 @@
+<lint-module
+    format="1"
+    dir="/Users/basemnasr/EasyMediaPicker/easy-media-picker-core"
+    name=":easy-media-picker-core"
+    type="LIBRARY"
+    maven="io.github.basemnasr-labs:easy-media-picker-core:"
+    agpVersion="8.2.0"
+    buildFolder="build"
+    bootClassPath="/Users/basemnasr/Library/Android/sdk/platforms/android-34/android.jar:/Users/basemnasr/Library/Android/sdk/build-tools/34.0.0/core-lambda-stubs.jar"
+    javaSourceLevel="17"
+    compileTarget="android-34"
+    neverShrinking="true">
+  <lintOptions
+      abortOnError="true"
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="debug"/>
+</lint-module>

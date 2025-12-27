@@ -1,0 +1,31 @@
+<variant
+    name="release"
+    package="com.bn.easymediapicker.core"
+    minSdkVersion="24"
+    targetSdkVersion="24"
+    mergedManifest="build/intermediates/merged_manifest/release/AndroidManifest.xml"
+    manifestMergeReport="build/outputs/logs/manifest-merger-release-report.txt"
+    proguardFiles="build/intermediates/default_proguard_files/global/proguard-android.txt-8.2.0"
+    partialResultsDir="build/intermediates/lint_vital_partial_results/release/out">
+  <buildFeatures
+      namespacing="REQUIRED"/>
+  <sourceProviders>
+    <sourceProvider
+        manifests="src/androidMain/AndroidManifest.xml"
+        javaDirectories="src/main/java:src/release/java:src/androidMain/kotlin:src/main/kotlin:src/androidRelease/kotlin:src/release/kotlin"
+        resDirectories="src/main/res:src/androidMain/res:src/release/res:src/androidRelease/res"
+        assetsDirectories="src/main/assets:src/androidMain/assets:src/release/assets:src/androidRelease/assets"/>
+  </sourceProviders>
+  <testSourceProviders>
+  </testSourceProviders>
+  <testFixturesSourceProviders>
+  </testFixturesSourceProviders>
+  <artifact
+      classOutputs="build/intermediates/javac/release/classes:build/tmp/kotlin-classes/release:build/intermediates/compile_r_class_jar/release/R.jar"
+      type="MAIN"
+      applicationId="com.bn.easymediapicker.core"
+      generatedSourceFolders="build/generated/ap_generated_sources/release/out"
+      generatedResourceFolders="build/generated/res/resValues/release"
+      desugaredMethodsFiles="/Users/basemnasr/.gradle/caches/transforms-3/519058b39a240cab7db507eb032cab87/transformed/D8BackportedDesugaredMethods.txt">
+  </artifact>
+</variant>

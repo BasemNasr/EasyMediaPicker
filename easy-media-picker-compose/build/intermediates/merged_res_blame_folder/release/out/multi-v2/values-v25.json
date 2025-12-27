@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bn.easymediapicker.compose.easy-media-picker-compose-merged_res-43:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/c149ec3289039ac84b4f917d71ab03ab/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.bn.easymediapicker.compose.easy-media-picker-compose-mergeReleaseResources-41:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/c149ec3289039ac84b4f917d71ab03ab/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}

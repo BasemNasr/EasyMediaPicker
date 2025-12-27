@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bn.easymediapicker.core.easy-media-picker-core-mergeReleaseResources-26:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/c149ec3289039ac84b4f917d71ab03ab/transformed/appcompat-1.6.1/res/values-watch-v21/values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.bn.easymediapicker.core.easy-media-picker-core-merged_res-28:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "/Users/basemnasr/.gradle/caches/transforms-3/c149ec3289039ac84b4f917d71ab03ab/transformed/appcompat-1.6.1/res/values-watch-v21/values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        }
+    ]
+}
